@@ -88,7 +88,7 @@ class Window extends HTMLElement {
 	
 	static get observedAttributes() {
 	
-    return ['name', 'title']
+    return ['name', 'title', 'icon']
     
   }
   
@@ -126,6 +126,17 @@ class Window extends HTMLElement {
     
       this.removeAttribute('title')
     
+  }
+
+  get icon() {
+    return this.hasAttribute('icon') ? this.getAttribute('icon') : null
+  }
+  
+  set icon(val) {
+    if (val)
+      this.setAttribute('icon', val)
+    else
+      this.removeAttribute('icon')
   }
   
   attributeChangedCallback(name, oldValue, newValue) {
@@ -182,7 +193,6 @@ class Window extends HTMLElement {
 			#top{
 				flex: 0 1 auto;
 				width: 100%;
-				text-align: center;
 				background-color: #4C5844;
 				color: #fff;
 				cursor: move;
@@ -192,8 +202,14 @@ class Window extends HTMLElement {
 				height: 18px;
 			}
 			#winTitle{
+				margin-left: 5px;
 				line-height: 18px;
 				cursor: inherit;
+				display: inline-block;
+				background: rgb(0,255,0);
+			}
+			#winIcon {
+				background: rgb(255,0,0)
 			}
 			#content{
 				flex: 1 1 auto;
@@ -216,10 +232,20 @@ class Window extends HTMLElement {
   	top.addEventListener('mouseup', () => { this.mouseUp() } )
   	top.addEventListener('touchstart', () => { this.mouseDown()  } )
   	top.addEventListener('touchend', () => { this.mouseUp() } )
-  	  	
-  	const winTitle = document.createElement('div')
-  	winTitle.id = 'winTitle'
-  	winTitle.innerText = this.title
+  
+  	if (this.hasAttribute('icon')) {
+	  	const winIcon = document.createElement('img')
+	  	winIcon.id = 'winIcon'
+	  	winIcon.src = this.icon
+  		top.appendChild( winIcon )
+	}
+
+	if (this.hasAttribute('title')) {
+	  	const winTitle = document.createElement('div')
+	  	winTitle.id = 'winTitle'
+	  	winTitle.innerText = this.title
+	  	top.appendChild( winTitle )
+  	}
   	
   	const buttons = document.createElement('div')
   	buttons.id = 'buttons'
@@ -235,7 +261,6 @@ class Window extends HTMLElement {
   	buttons.appendChild( _max )
   	buttons.appendChild( close )
   	
-  	top.appendChild( winTitle )
   	top.appendChild( buttons )
   	
   	const content = document.createElement('div')

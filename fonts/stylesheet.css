@@ -1,4 +1,52 @@
 @font-face {
+    font-family: 'px sans nouveaux';
+    src: url('px_sans_nouveaux.woff2') format('woff2'),
+        url('px_sans_nouveaux.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HelvetiPixel';
+    src: url('HelvetiPixel.woff2') format('woff2'),
+        url('HelvetiPixel.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ChiKareGo2';
+    src: url('ChiKareGo2.woff2') format('woff2'),
+        url('ChiKareGo2.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verdana2';
+    src: url('Verdana2.woff2') format('woff2'),
+        url('Verdana2.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TimesNewPixel';
+    src: url('TimesNewPixel.woff2') format('woff2'),
+        url('TimesNewPixel.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WindyCity';
+    src: url('WindyCity.woff2') format('woff2'),
+        url('WindyCity.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'Pixel Arial 11';
     src: url('PixelArial11.woff2') format('woff2'),
         url('PixelArial11.woff') format('woff');
