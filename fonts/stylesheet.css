@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'Pixel Arial 11';
+    src: url('PixelArial11.woff2') format('woff2'),
+        url('PixelArial11.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pixel Arial 11';
+    src: url('PixelArial11Bold.woff2') format('woff2'),
+        url('PixelArial11Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+

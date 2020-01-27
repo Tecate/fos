@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title> FOS - Fake Operating System </title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<title> FOS </title>
+<style>
+
+@font-face {
+    font-family: 'Pixel Arial 11';
+    src: url('fonts/PixelArial11.woff2') format('woff2'),
+        url('fonts/PixelArial11.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pixel Arial 11';
+    src: url('fonts/PixelArial11Bold.woff2') format('woff2'),
+        url('fonts/PixelArial11Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-smooth: never !important;
+	font-family: 'Pixel Arial 11';
+	font-size: 8px;
+}
+
+fos-menu[name="Start"] {
+	background: #C0C0C0;
+	color: black;
+	border: solid 1px;
+	border-color: #DFDFDF #808080 #808080 #DFDFDF;
+	box-shadow: 1px 1px 0 0px #000; 
+	height: 19px;
+	line-height: 19px;
+	padding: 0px 10px;
+	text-align: center;
+
+}
+fos-icon{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+fos-icon > img {
+  -webkit-filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
+  filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
+  cursor: pointer;
+}
+</style>
+<script src="src/Bar.class.js"></script>
+<script src="src/Desktop.class.js"></script>
+<script src="src/Icon.class.js"></script>
+<script src="src/Menu.class.js"></script>
+<script src="src/MenuItem.class.js"></script>
+<script src="src/Panel.class.js"></script>
+<script src="src/Window.class.js"></script>
+</head>
+<body>
+
+
+<fos-desktop>
+
+	<fos-bar>
+		<fos-menu name="Start">
+			<fos-menu-item href="fonte">
+				Window 1
+			</fos-menu-item>
+			<fos-menu-item href="codigo">
+				Window 2
+			</fos-menu-item>
+			<fos-menu-item href="vr">
+				Window 3
+			</fos-menu-item>
+		</fos-menu>
+	</fos-bar>
+
+	<fos-icon href="fonte"><img src="img/coke32.gif">cola.exe</fos-icon>
+	<fos-icon href="codigo"><img src="img/spam32.png">spam.exe</fos-icon>
+	<fos-icon href="vr"><img src="img/postit32.png">justpost.exe</fos-icon>
+	
+	<fos-window name="fonte" title="Credits">
+		<p>goodtimes.exe</p>
+		<button onclick="alert(1)"> ok </button>
+	</fos-window>
+	
+	<fos-window name="codigo" title="Window Test">
+		<fos-bar position="top">
+			<fos-menu name="Files">
+				<fos-menu-item href="panel1">File 1</fos-menu-item>
+				<fos-menu-item href="panel2">File 2</fos-menu-item>
+			</fos-menu>
+		</fos-bar>
+		<br>
+		<fos-panel name="panel1" selected>
+			<h1>Test</h1>
+			<p>This panel is only a test.</p>
+		</fos-panel>
+		<fos-panel name="panel2">
+			<h1>Test 2</h1>
+			<p>This panel is also a test.</p>
+		</fos-panel>
+	</fos-window>
+
+	<fos-window name="vr" title="Victor Ribeiro">
+		<script type="text/javascript" src="https://news.24-7pressrelease.com/247pr-news-widget.js?
+		widgettitle=News&categories=349,350,351,352,353,354,355,356,357,358,359,360,361,490,143,144,
+		398,146,147,148,149,399,400,150,401,151,231,152,402,403,404,153,154,405,406,155,407,409,&
+		showRelease=1&width=400px&headlinebold=1&headlinesonly=0&headlinecolor=2d57a1&briefcolor=666666
+		&textcolor=333333&typeface=arial&fontsize=8&width=400px&headlinesepstyle=dotted&showimages=0&
+		numstories=5&bgcolor=ffffff&urldest=local"></script>
+	</fos-window>
+	
+</fos-desktop>
+
+<script src="js/aux.js"></script>
+</body>
+</html>
