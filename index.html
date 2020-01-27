@@ -37,6 +37,13 @@ html, body {
 	font-size: 8px;
 }
 
+button {
+  background: #bbbbbb;
+  border: 1px outset #dadada;
+  box-shadow: 1px 1px 0px black;
+  padding: 5px;
+}
+
 fos-menu[name="Start"] {
 	background: #C0C0C0;
 	color: black;
@@ -90,10 +97,12 @@ fos-icon > img {
 	<fos-icon href="fonte"><img src="img/coke32.gif">cola.exe</fos-icon>
 	<fos-icon href="codigo"><img src="img/spam32.png">spam.exe</fos-icon>
 	<fos-icon href="vr"><img src="img/postit32.png">justpost.exe</fos-icon>
+	<fos-icon href=""><img src="img/postit32.png">broken.exe</fos-icon>
 	
 	<fos-window name="fonte" title="Credits" icon="img/favicon.gif">
 		<p>goodtimes.exe</p>
 		<button onclick="alert(1)"> ok </button>
+		<p>this content should stretch to fill window. window stacking is broken if you don't click on the content</p>
 	</fos-window>
 	
 	<fos-window name="codigo" title="Window Test">

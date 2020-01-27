@@ -215,6 +215,8 @@ class Window extends HTMLElement {
 				flex: 1 1 auto;
 				overflow: auto;
 				position: relative;
+				height: 100%;
+				background: #DFDFDF;
 			}
 			#border{
 				height: 10px;
