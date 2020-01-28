@@ -1,0 +1,178 @@
+.char-0 {
+  transform: rotateY(0deg) translateZ(154px);
+}
+
+.char-1 {
+  transform: rotateY(12deg) translateZ(154px);
+}
+
+.char-2 {
+  transform: rotateY(24deg) translateZ(154px);
+}
+
+.char-3 {
+  transform: rotateY(36deg) translateZ(154px);
+}
+
+.char-4 {
+  transform: rotateY(48deg) translateZ(154px);
+}
+
+.char-5 {
+  transform: rotateY(60deg) translateZ(154px);
+}
+
+.char-6 {
+  transform: rotateY(72deg) translateZ(154px);
+}
+
+.char-7 {
+  transform: rotateY(84deg) translateZ(154px);
+}
+
+.char-8 {
+  transform: rotateY(96deg) translateZ(154px);
+}
+
+.char-9 {
+  transform: rotateY(108deg) translateZ(154px);
+}
+
+.char-10 {
+  transform: rotateY(120deg) translateZ(154px);
+}
+
+.char-11 {
+  transform: rotateY(132deg) translateZ(154px);
+}
+
+.char-12 {
+  transform: rotateY(144deg) translateZ(154px);
+}
+
+.char-13 {
+  transform: rotateY(156deg) translateZ(154px);
+}
+
+.char-14 {
+  transform: rotateY(168deg) translateZ(154px);
+}
+
+.char-15 {
+  transform: rotateY(180deg) translateZ(154px);
+}
+
+.char-16 {
+  transform: rotateY(192deg) translateZ(154px);
+}
+
+.char-17 {
+  transform: rotateY(204deg) translateZ(154px);
+}
+
+.char-18 {
+  transform: rotateY(216deg) translateZ(154px);
+}
+
+.char-19 {
+  transform: rotateY(228deg) translateZ(154px);
+}
+
+.char-20 {
+  transform: rotateY(240deg) translateZ(154px);
+}
+
+.char-21 {
+  transform: rotateY(252deg) translateZ(154px);
+}
+
+.char-22 {
+  transform: rotateY(264deg) translateZ(154px);
+}
+
+.char-23 {
+  transform: rotateY(276deg) translateZ(154px);
+}
+
+.char-24 {
+  transform: rotateY(288deg) translateZ(154px);
+}
+
+.char-25 {
+  transform: rotateY(300deg) translateZ(154px);
+}
+
+.char-26 {
+  transform: rotateY(312deg) translateZ(154px);
+}
+
+.char-27 {
+  transform: rotateY(324deg) translateZ(154px);
+}
+
+.char-28 {
+  transform: rotateY(336deg) translateZ(154px);
+}
+
+.char-29 {
+  transform: rotateY(348deg) translateZ(154px);
+}
+
+.char-30 {
+  transform: rotateY(360deg) translateZ(154px);
+}
+
+body {
+  margin: 0px;
+  background: url(https://raw.githubusercontent.com/Tecate/fancyindex-scum/master/sky.gif);
+  color: red;
+  font: 32px "led";
+}
+
+#container {
+  -webkit-perspective: 250;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#stage {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  /*   border: 1px solid blue; */
+  transform-style: preserve-3d;
+  animation: spin 5s infinite linear;
+}
+
+.faces div {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  box-sizing: border-box;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@-webkit-keyframes spin {
+  from {
+    transform: rotateX(0deg) rotateY(360deg) rotateZ(10deg) translate3d(0, 0, 0px);
+  }
+  to {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(10deg) translate3d(0, 0, 0px);
+  }
+}
+@font-face {
+  font-family: "led";
+  src: url("https://dev.scum.systems/public/the_led_display_st-webfont.woff2") format("woff2"), url("https://dev.scum.systems/public/the_led_display_st-webfont.woff") format("woff");
+}

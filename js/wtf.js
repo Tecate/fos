@@ -2,7 +2,7 @@ var windowCount = document.getElementsByTagName("fos-window").length;
 var openWindowCount = 0;
 
 
-let _w = document.querySelector(`fos-window[name=fonte]`);
+let _w = document.querySelector(`fos-window[name=cola]`);
 if( _w ){
 	_w.style.display = 'block'
 	_w.bringFront()

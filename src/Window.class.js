@@ -172,8 +172,8 @@ class Window extends HTMLElement {
 				height: ${this.height}px;
 				z-index: ${this.index};
 				min-width: 320px;
-				min-height: 240px;
-				background-color: white;
+				/*min-height: 240px;*/
+				background-color: red;
 				display: none;
 				border: solid 2px #666;
 				box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
@@ -185,42 +185,48 @@ class Window extends HTMLElement {
 				right: 0;
 				top: 0;
 			}
+			button {
+				background: #bbbbbb;
+				border: 1px outset #dadada;
+				box-shadow: 1px 1px 0px black;
+				padding: 5px;
+			}
 			#window{
 				display: flex;
 				flex-flow: column;
 				height: 100%;
+				background: #dadada;
 			}
 			#top{
-				flex: 0 1 auto;
+				display: flex;
+				align-items: center;
 				width: 100%;
+				min-height: 16px;
 				background-color: #4C5844;
 				color: #fff;
-				cursor: move;
+				cursor: cursor;
 				position: relative;
+				padding: 2px;
+				box-sizing: border-box;
 			}
 			#top > div > button {
 				height: 18px;
 			}
 			#winTitle{
 				margin-left: 5px;
-				line-height: 18px;
 				cursor: inherit;
 				display: inline-block;
-				background: rgb(0,255,0);
 			}
 			#winIcon {
-				background: rgb(255,0,0)
 			}
 			#content{
-				flex: 1 1 auto;
+				flex: 1;
 				overflow: auto;
 				position: relative;
-				height: 100%;
 				background: #DFDFDF;
 			}
 			#border{
-				height: 10px;
-				flex: 0 0 auto;
+				height: 16px;
 			}  	
   	`;
   

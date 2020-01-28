@@ -17,15 +17,20 @@ class Icon extends HTMLElement {
 		this.left = 8 + (64 + 8) * (howMany % x)
 		
 		this.dblClick = () => {
+
+			if(this.control != "") {
+
+				let _w = document.querySelector(`fos-window[name=${this.control}] `)
 			
-			let _w = document.querySelector(`fos-window[name=${this.control}] `)
-			
-			if( _w ){
-			
-				_w.style.display = 'block'
+				if( _w ){
 				
-				_w.bringFront()
-				
+					_w.style.display = 'block'
+					
+					_w.bringFront()
+					
+				}
+			} else {
+				alert("error: no fos-window for fos-icon")
 			}
 				
 		}
