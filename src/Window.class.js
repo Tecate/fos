@@ -184,12 +184,26 @@ class Window extends HTMLElement {
 				position: absolute;
 				right: 0;
 				top: 0;
+				height: 100%;
+				padding: 2px;
 			}
 			button {
+				width: 14px;
+				box-sizing: border-box;
 				background: #bbbbbb;
 				border: 1px outset #dadada;
 				box-shadow: 1px 1px 0px black;
-				padding: 5px;
+				padding: 0px;
+				margin-left: 2px;
+			}
+			button img {
+				position: relative;
+				top: 0px;
+				right: 0px;
+				bottom: 0px;
+				left: 0px;
+				margin: auto;
+
 			}
 			#window{
 				display: flex;
@@ -201,16 +215,16 @@ class Window extends HTMLElement {
 				display: flex;
 				align-items: center;
 				width: 100%;
-				min-height: 16px;
+				height: 18px;
 				background-color: #4C5844;
 				color: #fff;
 				cursor: cursor;
 				position: relative;
-				padding: 2px;
 				box-sizing: border-box;
 			}
 			#top > div > button {
-				height: 18px;
+				width: 16px;
+				height: 14px;
 			}
 			#winTitle{
 				margin-left: 5px;
@@ -258,14 +272,25 @@ class Window extends HTMLElement {
   	const buttons = document.createElement('div')
   	buttons.id = 'buttons'
   	
+  	const collapse = document.createElement('button')
+  	const collapseIcon = document.createElement('img')
+  	collapseIcon.src = "img/collapse-icon.png"
+  	collapse.appendChild(collapseIcon);
+  	// collapse.addEventListener('click', () => { this.close() } )
+
   	const _max = document.createElement('button')
-  	_max.innerText = "[]"
+  	const maxIcon = document.createElement('img')
+  	maxIcon.src = "img/max-icon.png"
+  	_max.appendChild(maxIcon);
   	_max.addEventListener('click', () => { this.maximize() } )
   	
   	const close = document.createElement('button')
-  	close.innerText = "x"
+  	const closeIcon = document.createElement('img')
+  	closeIcon.src = "img/close-icon.png"
+  	close.appendChild(closeIcon);
   	close.addEventListener('click', () => { this.close() } )
   	
+  	buttons.appendChild( collapse )
   	buttons.appendChild( _max )
   	buttons.appendChild( close )
   	
