@@ -35,6 +35,7 @@ html, body {
  	-moz-osx-font-smoothing: never !important;
 	font-family: 'Pixel Arial 11';
 	font-size: 8px;
+	image-rendering: pixelated;
 }
 
 button {
@@ -108,7 +109,10 @@ iframe {
 		<p>goodtimes.exe</p>
 		<button onclick="alert(1)"> ok </button>
 		<img src="https://image.shutterstock.com/image-vector/classic-pixel-art-dithering-background-260nw-1603159639.jpg">
-		<p>clicking on iframes doesn't raise windows</p>
+		<ul>
+			<li>change title attribute to something else. tooltips everywhere rn</li>
+			<li>clicking on iframes doesn't raise windows</li>
+		</ul>
 	</fos-window>
 	
 	<fos-window name="spam" title="Window Test">
@@ -129,8 +133,8 @@ iframe {
 		</fos-panel>
 	</fos-window>
 
-	<fos-window name="justpost" title="The internet made everyone stupid">
-		<iframe src="file:///C:/Users/VIP/Desktop/fos/apps/space-advertising/index.html"></iframe>
+	<fos-window name="justpost" title="The internet made everyone stupid" fixedsize>
+		<iframe src="apps/space-advertising/index.html"></iframe>
 <!-- 		<script type="text/javascript" src="https://news.24-7pressrelease.com/247pr-news-widget.js?
 		widgettitle=News&categories=349,350,351,352,353,354,355,356,357,358,359,360,361,490,143,144,
 		398,146,147,148,149,399,400,150,401,151,231,152,402,403,404,153,154,405,406,155,407,409,&

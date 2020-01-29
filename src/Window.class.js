@@ -138,6 +138,11 @@ class Window extends HTMLElement {
     else
       this.removeAttribute('icon')
   }
+
+  get fixedsize() {
+    return this.hasAttribute('fixedsize') ? "none" : "both"
+  }
+  
   
   attributeChangedCallback(name, oldValue, newValue) {
   
@@ -162,7 +167,7 @@ class Window extends HTMLElement {
   	this.shadow.innerHTML = ""
   
   	const style = document.createElement('style')
-  	
+
   	style.innerText = `
 			:host{
 				position: fixed;
@@ -172,12 +177,12 @@ class Window extends HTMLElement {
 				height: ${this.height}px;
 				z-index: ${this.index};
 				min-width: 320px;
-				/*min-height: 240px;*/
+				min-height: 34px;
 				background-color: red;
 				display: none;
 				border: solid 2px #666;
 				box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
-				resize: both;
+				resize: ${this.fixedsize};
 				overflow: auto;
 			}
 			#buttons{
@@ -221,6 +226,12 @@ class Window extends HTMLElement {
 				cursor: cursor;
 				position: relative;
 				box-sizing: border-box;
+				-webkit-touch-callout: none; /* iOS Safari */
+			    -webkit-user-select: none; /* Safari */
+			     -khtml-user-select: none; /* Konqueror HTML */
+			       -moz-user-select: none; /* Old versions of Firefox */
+			        -ms-user-select: none; /* Internet Explorer/Edge */
+			            user-select: none;
 			}
 			#top > div > button {
 				width: 16px;
@@ -241,13 +252,14 @@ class Window extends HTMLElement {
 			}
 			#border{
 				height: 16px;
+				display: ${this.fixedsize //lol it works for now};
 			}  	
   	`;
   
   	const _window = document.createElement('div')
   	_window.id = 'window'
   	_window.addEventListener('click', () => { this.bringFront() } )
-  	
+
   	const top = document.createElement('div')
   	top.id = 'top'
   	top.addEventListener('mousedown', () => { this.mouseDown()  } )
