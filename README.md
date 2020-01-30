@@ -8,7 +8,7 @@ Live example [here](https://victorribeiro.com/fos)
 
 ## About
 
-This is my first experiment writting webcomponents. I kind ran with the idea and made this project that can be used to create awesome / fun / creative web apps. Hope you like it.
+This is my first experiment writing webcomponents. I kind ran with the idea and made this project that can be used to create awesome / fun / creative web apps. Hope you like it.
 
 ## How to use
 
@@ -40,7 +40,7 @@ This is a icon. It's draggable by default. It moves on a grid of 8 x 8 pixels.
 This is a window application. You can write html directly inside of it. Or you can make something more complex and add a fos-bar -> fos-menu -> fos-menu-item and a fos-panel inside of it. Each fos-menu-item controls a fos-panel.
 
 **custom attributes**  
-*title* - String - Sets the title displayed on top of the window.
+*fostitle* - String - Sets the title displayed on top of the window.
 
 ### fos-bar
 
