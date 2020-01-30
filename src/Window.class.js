@@ -88,7 +88,7 @@ class Window extends HTMLElement {
 	
 	static get observedAttributes() {
 	
-    return ['name', 'title', 'icon']
+    return ['name', 'fostitle', 'icon', 'fixedsize']
     
   }
   
@@ -110,21 +110,21 @@ class Window extends HTMLElement {
     
   }
 
-  get title() {
+  get fostitle() {
   
-    return this.hasAttribute('title') ? this.getAttribute('title') : null
+    return this.hasAttribute('fostitle') ? this.getAttribute('fostitle') : null
     
   }
   
-  set title(val) {
+  set fostitle(val) {
   
     if (val)
     
-      this.setAttribute('title', val)
+      this.setAttribute('fostitle', val)
       
     else
     
-      this.removeAttribute('title')
+      this.removeAttribute('fostitle')
     
   }
 
@@ -237,7 +237,7 @@ class Window extends HTMLElement {
 				width: 16px;
 				height: 14px;
 			}
-			#winTitle{
+			#fosTitle{
 				margin-left: 5px;
 				cursor: inherit;
 				display: inline-block;
@@ -274,11 +274,11 @@ class Window extends HTMLElement {
   		top.appendChild( winIcon )
 	}
 
-	if (this.hasAttribute('title')) {
-	  	const winTitle = document.createElement('div')
-	  	winTitle.id = 'winTitle'
-	  	winTitle.innerText = this.title
-	  	top.appendChild( winTitle )
+	if (this.hasAttribute('fostitle')) {
+	  	const fosTitle = document.createElement('div')
+	  	fosTitle.id = 'fosTitle'
+	  	fosTitle.innerText = this.fostitle
+	  	top.appendChild( fosTitle )
   	}
   	
   	const buttons = document.createElement('div')

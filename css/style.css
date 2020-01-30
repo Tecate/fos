@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'Pixel Arial 11';
+    src: url('../fonts/PixelArial11.woff2') format('woff2'),
+        url('../fonts/PixelArial11.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pixel Arial 11';
+    src: url('../fonts/PixelArial11Bold.woff2') format('woff2'),
+        url('../fonts/PixelArial11Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-smooth: never !important;
+	-webkit-font-smoothing: none !important;
+ 	-moz-osx-font-smoothing: never !important;
+	font-family: 'Pixel Arial 11';
+	font-size: 8px;
+	image-rendering: pixelated;
+}
+
+button {
+  background: #bbbbbb;
+  border: 1px outset #dadada;
+  box-shadow: 1px 1px 0px black;
+  padding: 5px;
+}
+
+fos-menu[name="Start"] {
+	background: #C0C0C0;
+	color: black;
+	border: solid 1px;
+	border-color: #DFDFDF #808080 #808080 #DFDFDF;
+	box-shadow: 1px 1px 0 0px #000; 
+	height: 19px;
+	line-height: 19px;
+	padding: 0px 10px;
+	text-align: center;
+
+}
+fos-icon{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+fos-icon > img {
+  -webkit-filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
+  filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
+  cursor: pointer;
+}
+iframe {
+	width: 640px;
+	height: 480px;
+	box-sizing: border-box;
+	border: 0px solid black;
+}
