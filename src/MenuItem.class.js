@@ -19,10 +19,8 @@ class MenuItem extends HTMLElement {
 			let _w = elem.parentNode.querySelector(`*[name=${this.control}] `)
 			
 			if( _w ){
-			
-				_w.style.display = 'block'
-				
-				_w.bringFront()
+
+				_w.open()
 				
 			}
 		

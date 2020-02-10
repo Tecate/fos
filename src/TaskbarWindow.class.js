@@ -1,4 +1,4 @@
-class Icon extends HTMLElement {
+class TaskbarWindow extends HTMLElement {
 
 	constructor(){
 	
@@ -6,35 +6,27 @@ class Icon extends HTMLElement {
 			
 		this.shadow = this.attachShadow({mode: 'open'})
 		
-		const howMany = document.querySelectorAll('fos-icon').length
+		const howMany = document.querySelectorAll('fos-taskbarwindow').length
 		
-		const x = Math.floor( innerWidth / ( 64 + 8 ) )
 		
-		const offset = parseInt( document.querySelector('fos-desktop').iconOffset ) || 0
-		
-		this.top = ( 8 + Math.floor(howMany / x) * (64 + 8) ) + offset
-			
-		this.left = 8 + (64 + 8) * (howMany % x)
-		
-		this.dblClick = () => {
+		this.click = () => {
+			console.log("clicked");
 
-			if(this.control != "") {
-
-				let _w = document.querySelector(`fos-window[name=${this.control}] `)
+			let parent = document.querySelector(`fos-window[name=${this.control}] `)
 			
-				if( _w ){
-				
-					_w.open();
-										
-				}
+			// check if window is already mininized
+			if (parent.hasAttribute("minimized")) {
+				parent.open();
+			} else if (parent.style.zIndex != 999) {
+				parent.bringFront();
 			} else {
-				alert("error: no fos-window for fos-icon")
+				parent.minimize();
 			}
 				
 		}
 		
-		this.addEventListener('dblclick', this.dblClick )
-		
+		this.addEventListener('click', this.click )
+
 		this.tapedTwice = false
 		
 		this.addEventListener("touchstart", e=>{
@@ -50,7 +42,7 @@ class Icon extends HTMLElement {
 		  
 		  e.preventDefault()
 		  
-		  this.dblClick()
+		  this.click()
 		  
 		})
 		
@@ -97,20 +89,14 @@ class Icon extends HTMLElement {
 		this.shadow.innerHTML = `
 		<style>
 			:host{
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				position: fixed;
-				top: ${this.top}px;
-				left: ${this.left}px;
-				width: 64px;
-				height: 64px;
+				min-width: 10px;
+				min-height: 10px;
+				background: orange;
 				color: white;
 				font-smooth: never;
 				font-family: 'Pixel Arial 11';
 				font-size: 8px;
-				/*border: 1px solid rgb(0,255,0);*/
+				border: 1px solid rgb(0,255,0);
 				-webkit-touch-callout: none;
 					-webkit-user-select: none;
 					 -khtml-user-select: none;
@@ -126,4 +112,4 @@ class Icon extends HTMLElement {
 
 }
 
-customElements.define('fos-icon', Icon)
+customElements.define('fos-taskbarwindow', TaskbarWindow)

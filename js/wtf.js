@@ -4,8 +4,7 @@ var openWindowCount = 0;
 
 let _w = document.querySelector(`fos-window[name=cola]`);
 if( _w ){
-	_w.style.display = 'block'
-	_w.bringFront()
+	_w.open();
 }
 
 function openWindows() {

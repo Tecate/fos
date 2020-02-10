@@ -25,6 +25,35 @@ class Window extends HTMLElement {
 		this.isMoving = true
 		
 	}
+
+	open() {
+		this.style.display = 'block'
+		this.bringFront();
+
+
+		// create panel icon here
+		if (this.hasAttribute("minimized")) {
+			this.removeAttribute("minimized");
+		} else if (document.querySelector(`fos-taskbarwindow[href=${this.name}] `) == null) {
+			let _b = document.querySelector(`fos-bar`);
+		  	const windowButton = document.createElement('fos-taskbarwindow');
+		  	windowButton.setAttribute("href", this.name);
+		  	windowButton.textContent = this.fostitle;
+	  		_b.appendChild( windowButton )
+	  	}
+
+	  	// windowButton.textContent(this.control)
+	  	// windowButton.addEventListener('click', () => {
+		  // 	 alert(this.name);
+		  // 	 this.minimize();
+	  	// } )
+	  	
+	}
+
+	minimize() {
+		this.style.display = "none";
+		this.setAttribute("minimized", true);
+	}
 	
 	maximize(){
 
@@ -64,12 +93,11 @@ class Window extends HTMLElement {
 
 	}
 	
-	close(){
-
-		this.style.display = "none"
-	
+	close() {
+		this.style.display = "none";
+		document.querySelector(`fos-taskbarwindow[href=${this.name}] `).remove();
 	}
-	
+
 	bringFront(){
 		
 		const _windows = document.querySelectorAll("fos-window")
@@ -143,6 +171,16 @@ class Window extends HTMLElement {
     return this.hasAttribute('fixedsize') ? "none" : "both"
   }
   
+  get minimized() {
+    return this.hasAttribute('minimized') ? true : false
+  }
+
+  set minimized(val) {
+    if (val)
+      this.setAttribute('minimized', val)
+    else
+      this.removeAttribute('minimized')
+  }
   
   attributeChangedCallback(name, oldValue, newValue) {
   
@@ -151,7 +189,6 @@ class Window extends HTMLElement {
   }
   
   connectedCallback() {
-  
   	const howMany = document.querySelectorAll('fos-window').length || 1
   
   	this.top = innerHeight * 0.2 * howMany / 5 + 60
@@ -288,7 +325,7 @@ class Window extends HTMLElement {
   	const collapseIcon = document.createElement('img')
   	collapseIcon.src = "img/collapse-icon.png"
   	collapse.appendChild(collapseIcon);
-  	// collapse.addEventListener('click', () => { this.close() } )
+  	collapse.addEventListener('click', () => { this.minimize() } )
 
   	const _max = document.createElement('button')
   	const maxIcon = document.createElement('img')
