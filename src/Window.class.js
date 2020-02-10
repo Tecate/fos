@@ -27,10 +27,6 @@ class Window extends HTMLElement {
 	}
 
 	open() {
-		this.style.display = 'block'
-		this.bringFront();
-
-
 		// create panel icon here
 		if (this.hasAttribute("minimized")) {
 			this.removeAttribute("minimized");
@@ -38,7 +34,16 @@ class Window extends HTMLElement {
 			let _b = document.querySelector(`fos-bar`);
 		  	const windowButton = document.createElement('fos-taskbarwindow');
 		  	windowButton.setAttribute("href", this.name);
-		  	windowButton.textContent = this.fostitle;
+		  	if (this.hasAttribute('icon')) {
+			  	const winIcon = document.createElement('img')
+			  	// winIcon.id = 'winIcon'
+			  	winIcon.src = this.icon;
+			  	winIcon.classList.add("taskIcon");
+		  		windowButton.appendChild( winIcon );
+		  	}
+	  		var buttonTitle = document.createTextNode(this.fostitle);
+	  		windowButton.appendChild( buttonTitle );
+		  	// windowButton.textContent = this.fostitle;
 	  		_b.appendChild( windowButton )
 	  	}
 
@@ -48,11 +53,15 @@ class Window extends HTMLElement {
 		  // 	 this.minimize();
 	  	// } )
 	  	
+		this.style.display = 'block'
+		this.bringFront();
 	}
 
 	minimize() {
 		this.style.display = "none";
 		this.setAttribute("minimized", true);
+		document.querySelector(`fos-taskbarwindow[href=${this.name}] `).classList.remove("active")
+
 	}
 	
 	maximize(){
@@ -105,11 +114,15 @@ class Window extends HTMLElement {
 		for(const w of _windows){
 		
 			w.style.zIndex = 900
-			
+			console.log(w.getAttribute("name"));
+			if (document.querySelector(`fos-taskbarwindow[href=${w.getAttribute("name")}] `) != null) {
+				document.querySelector(`fos-taskbarwindow[href=${w.getAttribute("name")}] `).classList.remove("active")
+			}
 		}
 		
 		this.style.zIndex = 999
-		
+		console.log("this:" + this.name)
+		document.querySelector(`fos-taskbarwindow[href=${this.name}] `).classList.add("active");
 		this.render()
 		
 	}

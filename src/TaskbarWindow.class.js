@@ -89,14 +89,24 @@ class TaskbarWindow extends HTMLElement {
 		this.shadow.innerHTML = `
 		<style>
 			:host{
-				min-width: 10px;
-				min-height: 10px;
-				background: orange;
-				color: white;
+				display: flex;
+				align-items: center;
+				width: 140px;
+				height: 22px;
+				box-sizing: border-box;
+				padding: 2px;
+				margin-left: 3px;
+				background: #D4D0C8;
+				color: black;
 				font-smooth: never;
 				font-family: 'Pixel Arial 11';
 				font-size: 8px;
+				white-space: nowrap; /*overflow stuff gets ignored when displayed as flex*/
+				overflow: hidden;
+				text-overflow: ellipsis;
 				border: 1px solid rgb(0,255,0);
+				border-color: #E8E7E4 #808080 #808080 #E8E7E4;
+				box-shadow: 1px 1px 0px #404040;
 				-webkit-touch-callout: none;
 					-webkit-user-select: none;
 					 -khtml-user-select: none;

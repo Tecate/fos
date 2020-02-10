@@ -61,7 +61,6 @@ class Bar extends HTMLElement {
 					justify-content: flex-start;
 					box-shadow: 0 0 0 1px #fff, 0px 0px 0px 2px rgba(255,255,255,0.5);
 					box-sizing: border-box;
-					padding-left: 10px;
 				}
 			</style>
 			<slot></slot>

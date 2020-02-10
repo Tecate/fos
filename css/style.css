@@ -63,3 +63,14 @@ iframe {
 	border: 0px solid black;
 	display: block;
 }
+
+/*should be in TaskbarWindow.class.js but it doesn't work there*/
+.taskIcon {
+	padding-right: 2px;
+}
+
+fos-taskbarwindow.active {
+	background: #D6D2CE;
+	box-shadow: inset 1px 1px 0px #808080;
+	border: 1px solid #404040;
+}
