@@ -74,3 +74,7 @@ fos-taskbarwindow.active {
 	box-shadow: inset 1px 1px 0px #808080;
 	border: 1px solid #404040;
 }
+
+fos-window.active {
+	border: 1px solid red;
+}

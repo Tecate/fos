@@ -23,6 +23,10 @@ class Window extends HTMLElement {
 	mouseDown(){
 		
 		this.isMoving = true
+		// if(this.style.zIndex !== "999") {
+		// 	console.log(typeof this.style.zIndex)
+		// 	this.bringFront();
+		// }
 		
 	}
 
@@ -61,6 +65,7 @@ class Window extends HTMLElement {
 		this.style.display = "none";
 		this.setAttribute("minimized", true);
 		document.querySelector(`fos-taskbarwindow[href=${this.name}] `).classList.remove("active")
+		document.querySelector(`fos-window[name=${this.name}] `).classList.remove("active")
 
 	}
 	
@@ -114,24 +119,24 @@ class Window extends HTMLElement {
 		for(const w of _windows){
 		
 			w.style.zIndex = 900
-			console.log(w.getAttribute("name"));
 			if (document.querySelector(`fos-taskbarwindow[href=${w.getAttribute("name")}] `) != null) {
 				document.querySelector(`fos-taskbarwindow[href=${w.getAttribute("name")}] `).classList.remove("active")
+				document.querySelector(`fos-window[name=${w.getAttribute("name")}] `).classList.remove("active")
 			}
 		}
 		
 		this.style.zIndex = 999
-		console.log("this:" + this.name)
-		document.querySelector(`fos-taskbarwindow[href=${this.name}] `).classList.add("active");
+		document.querySelector(`fos-taskbarwindow[href=${this.name}] `).classList.add("active"); // TODO: check if exists
+		document.querySelector(`fos-window[name=${this.name}] `).classList.add("active");
 		this.render()
 		
 	}
 	
 	static get observedAttributes() {
 	
-    return ['name', 'fostitle', 'icon', 'fixedsize']
+    	return ['name', 'fostitle', 'icon', 'fixedsize']
     
-  }
+  	}
   
   get name() {
   
@@ -283,6 +288,7 @@ class Window extends HTMLElement {
 			        -ms-user-select: none; /* Internet Explorer/Edge */
 			            user-select: none;
 			}
+
 			#top > div > button {
 				width: 16px;
 				height: 14px;
@@ -339,21 +345,22 @@ class Window extends HTMLElement {
   	collapseIcon.src = "img/collapse-icon.png"
   	collapse.appendChild(collapseIcon);
   	collapse.addEventListener('click', () => { this.minimize() } )
+  	buttons.appendChild( collapse )
 
-  	const _max = document.createElement('button')
-  	const maxIcon = document.createElement('img')
-  	maxIcon.src = "img/max-icon.png"
-  	_max.appendChild(maxIcon);
-  	_max.addEventListener('click', () => { this.maximize() } )
+	if (!this.hasAttribute('fixedsize')) { // no maximize button for fixedsize windows
+	  	const _max = document.createElement('button')
+	  	const maxIcon = document.createElement('img')
+	  	maxIcon.src = "img/max-icon.png"
+	  	_max.appendChild(maxIcon);
+	  	_max.addEventListener('click', () => { this.maximize() } )
+  		buttons.appendChild( _max )
+	}
   	
   	const close = document.createElement('button')
   	const closeIcon = document.createElement('img')
   	closeIcon.src = "img/close-icon.png"
   	close.appendChild(closeIcon);
   	close.addEventListener('click', () => { this.close() } )
-  	
-  	buttons.appendChild( collapse )
-  	buttons.appendChild( _max )
   	buttons.appendChild( close )
   	
   	top.appendChild( buttons )
