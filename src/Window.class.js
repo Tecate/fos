@@ -309,7 +309,7 @@ class Window extends HTMLElement {
 			#border{
 				height: 16px;
 				display: ${this.fixedsize //lol it works for now};
-			}  	
+			}  
   	`;
   
   	const _window = document.createElement('div')

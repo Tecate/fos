@@ -142,8 +142,7 @@ class Desktop extends HTMLElement {
 					display: block;
 					width: 100%;
 					height: 100%;
-					/*background: url('img/os9bg.png');*/
-					background: #008080;
+					background: url('img/trees.png');
 				}
 			</style>
 			<slot></slot>
