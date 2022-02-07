@@ -11,6 +11,8 @@ class Window extends HTMLElement {
 		this.lastTop = this.lastLeft = this.lastWidth = this.lastHeight = null
 		
 		this.index = 900
+
+		this.isOpen = false;
 			
 	}
 	
@@ -57,11 +59,13 @@ class Window extends HTMLElement {
 		  // 	 this.minimize();
 	  	// } )
 	  	
+		this.isOpen = true;
 		this.style.display = 'block'
 		this.bringFront();
 	}
 
 	minimize() {
+		this.isOpen = false;
 		this.style.display = "none";
 		this.setAttribute("minimized", true);
 		document.querySelector(`fos-taskbarwindow[href=${this.name}] `).classList.remove("active")
@@ -108,13 +112,14 @@ class Window extends HTMLElement {
 	}
 	
 	close() {
+		this.isOpen = false;
 		this.style.display = "none";
 		document.querySelector(`fos-taskbarwindow[href=${this.name}] `).remove();
 	}
 
-	bringFront(){
+	bringFront(){ // z-index logic goes here
 		
-		const _windows = document.querySelectorAll("fos-window")
+		const _windows = document.querySelectorAll("fos-window");
 		
 		for(const w of _windows){
 		
@@ -206,13 +211,16 @@ class Window extends HTMLElement {
   
   }
   
-  connectedCallback() {
-  	const howMany = document.querySelectorAll('fos-window').length || 1
+  connectedCallback() { // SET SPAWN POSITION HERE
+  	const howMany = document.querySelectorAll('fos-window').length || 1; // calculate how many possible windows
   
-  	this.top = innerHeight * 0.2 * howMany / 5 + 60
-  	
-  	this.left = innerWidth * 0.1 * howMany / 5
-  	
+	this.top = 60;
+	this.left = 120;
+
+	// oirginal values
+  	// this.top = innerHeight * 0.2 * howMany / 5 + 60	
+  	// this.left = innerWidth * 0.1 * howMany / 5
+
   	this.render()
   	
   }

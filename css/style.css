@@ -55,7 +55,14 @@ fos-icon > img {
   -webkit-filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
   filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
   cursor: pointer;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 10px;
 }
+
+fos-window > img { display: block; }
+
+
 iframe {
 	width: 640px;
 	height: 480px;
