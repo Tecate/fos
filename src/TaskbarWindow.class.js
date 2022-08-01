@@ -1,92 +1,70 @@
 class TaskbarWindow extends HTMLElement {
+  constructor() {
+    super();
 
-	constructor(){
-	
-		super()
-			
-		this.shadow = this.attachShadow({mode: 'open'})
-		
-		const howMany = document.querySelectorAll('fos-taskbarwindow').length
-		
-		
-		this.click = () => {
-			console.log("clicked");
+    this.shadow = this.attachShadow({ mode: "open" });
 
-			let parent = document.querySelector(`fos-window[name=${this.control}] `)
-			
-			// check if window is already mininized
-			if (parent.hasAttribute("minimized")) {
-				parent.open();
-			} else if (parent.style.zIndex != 999) {
-				parent.bringFront();
-			} else {
-				parent.minimize();
-			}
-				
-		}
-		
-		this.addEventListener('click', this.click )
+    const howMany = document.querySelectorAll("fos-taskbarwindow").length;
 
-		this.tapedTwice = false
-		
-		this.addEventListener("touchstart", e=>{
-		
-			if(!this.tapedTwice) {
-			
-		      this.tapedTwice = true
-		      
-		      setTimeout( ()=>{ this.tapedTwice = false; }, 300 )
-		      
-		      return false
-		  }
-		  
-		  e.preventDefault()
-		  
-		  this.click()
-		  
-		})
-		
-	}
-	
-	attributeChangedCallback(name, oldValue, newValue) {
+    this.click = () => {
+      console.log("clicked");
 
-		this.render()
-  
+      let parent = document.querySelector(`fos-window[name=${this.control}] `);
+
+      // check if window is already mininized
+      if (parent.hasAttribute("minimized")) {
+        parent.open();
+      } else if (parent.style.zIndex != 999) {
+        parent.bringFront();
+      } else {
+        parent.minimize();
+      }
+    };
+
+    this.addEventListener("click", this.click);
+
+    this.tapedTwice = false;
+
+    this.addEventListener("touchstart", (e) => {
+      if (!this.tapedTwice) {
+        this.tapedTwice = true;
+
+        setTimeout(() => {
+          this.tapedTwice = false;
+        }, 300);
+
+        return false;
+      }
+
+      e.preventDefault();
+
+      this.click();
+    });
   }
-  
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this.render();
+  }
+
   connectedCallback() {
-  
-  	this.render()
-  	
+    this.render();
   }
-	
-	static get observedAttributes() {
-	
-    return ['href']
-    
+
+  static get observedAttributes() {
+    return ["href"];
   }
-  
+
   get control() {
-  
-    return this.hasAttribute('href') ? this.getAttribute('href') : null
-    
+    return this.hasAttribute("href") ? this.getAttribute("href") : null;
   }
-  
+
   set control(val) {
-  
-    if (val)
-    
-      this.setAttribute('href', val)
-      
-    else
-    
-      this.removeAttribute('href')
-      
+    if (val) this.setAttribute("href", val);
+    else this.removeAttribute("href");
   }
 
-	render(){
-
-		this.shadow.innerHTML = `
+  render() {
+    this.shadow.innerHTML = `
 		<style>
 			:host{
 				display: flex;
@@ -117,9 +95,7 @@ class TaskbarWindow extends HTMLElement {
 		</style>
 		<slot></slot>
 	`;
-		
-	}
-
+  }
 }
 
-customElements.define('fos-taskbarwindow', TaskbarWindow)
+customElements.define("fos-taskbarwindow", TaskbarWindow);

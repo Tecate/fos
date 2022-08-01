@@ -1,72 +1,47 @@
 class MenuItem extends HTMLElement {
+  constructor() {
+    super();
 
-	constructor(){
-	
-		super()
-	
-		this.shadow = this.attachShadow({mode: 'open'})
-		
-		this.addEventListener('click', e => {
-		
-			let elem = this.parentNode
-			
-			do{
-			
-				elem = elem.parentNode
-				
-			}while( elem.localName !== "fos-bar" )
-		
-			let _w = elem.parentNode.querySelector(`*[name=${this.control}] `)
-			
-			if( _w ){
+    this.shadow = this.attachShadow({ mode: "open" });
 
-				_w.open()
-				
-			}
-		
-		});
+    this.addEventListener("click", (e) => {
+      let elem = this.parentNode;
 
-	}
-	
-  
+      do {
+        elem = elem.parentNode;
+      } while (elem.localName !== "fos-bar");
+
+      let _w = elem.parentNode.querySelector(`*[name=${this.control}] `);
+
+      if (_w) {
+        _w.open();
+      }
+    });
+  }
+
   attributeChangedCallback(name, oldValue, newValue) {
-  
-		this.render()
-  
+    this.render();
   }
-  
+
   connectedCallback() {
-  
-  	this.render()
-  	
+    this.render();
   }
-  
-	static get observedAttributes() {
-	
-    return ['href']
-    
+
+  static get observedAttributes() {
+    return ["href"];
   }
-  
+
   get control() {
-  
-    return this.hasAttribute('href') ? this.getAttribute('href') : null
-    
+    return this.hasAttribute("href") ? this.getAttribute("href") : null;
   }
-  
+
   set control(val) {
-    if (val)
-    
-      this.setAttribute('href', val)
-      
-    else
-    
-      this.removeAttribute('href')
-
+    if (val) this.setAttribute("href", val);
+    else this.removeAttribute("href");
   }
 
-  render(){
-  
-  	this.shadow.innerHTML = `
+  render() {
+    this.shadow.innerHTML = `
 			<style>
 				:host{
 					display:block;
@@ -78,9 +53,7 @@ class MenuItem extends HTMLElement {
 			</style>
 			<div><slot></slot></div>
 		`;
-		
   }
-  
 }
 
-customElements.define('fos-menu-item', MenuItem)
+customElements.define("fos-menu-item", MenuItem);
