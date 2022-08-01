@@ -1,4 +1,4 @@
-fetch("https://api.are.na/v2/channels/783951?per=35")
+fetch("https://api.are.na/v2/channels/783951?per=76")
   .then((response) => {
     const contentType = response.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {

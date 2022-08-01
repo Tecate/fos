@@ -299,7 +299,7 @@ class Window extends HTMLElement {
 
     const _window = document.createElement("div");
     _window.id = "window";
-    _window.addEventListener("click", () => {
+    _window.addEventListener("mousedown", () => {
       this.bringFront();
     });
 
