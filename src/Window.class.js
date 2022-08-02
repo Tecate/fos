@@ -149,17 +149,18 @@ class Window extends HTMLElement {
       }
     }
 
-    // this.windowStack++;
-    // this.style.zIndex = this.windowStack;
-    // console.log(this.windowStack);
-    // this.style.zIndex = 999;
-
-    document
-      .querySelector(`fos-taskbarwindow[href=${this.name}] `)
-      .classList.add("active"); // TODO: check if exists
-    document
-      .querySelector(`fos-window[name=${this.name}] `)
-      .classList.add("active");
+    if (
+      document.querySelector(
+        `fos-taskbarwindow[href=${this.getAttribute("name")}] `
+      ) != null
+    ) {
+      document
+        .querySelector(`fos-taskbarwindow[href=${this.name}] `)
+        .classList.add("active"); // TODO: check if exists
+      document
+        .querySelector(`fos-window[name=${this.name}] `)
+        .classList.add("active");
+    }
     this.render();
   }
 
