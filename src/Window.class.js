@@ -11,6 +11,8 @@ class Window extends HTMLElement {
     this.index = 900;
 
     this.isOpen = false;
+
+    this.windowStack = 1000;
   }
 
   mouseUp() {
@@ -107,15 +109,32 @@ class Window extends HTMLElement {
     this.isOpen = false;
     this.style.display = "none";
     document.querySelector(`fos-taskbarwindow[href=${this.name}] `).remove();
+    // closed windows are still stored in windowStack but I guess it doesn't matter
   }
 
   bringFront() {
     // z-index logic goes here
 
+    // window stack is stored here:
+    var windowStack = document.getElementById("desktop").windowStack;
+
     const _windows = document.querySelectorAll("fos-window");
 
+    // update desktop window stack
+    if (windowStack.indexOf(this.name) !== -1) {
+      windowStack.unshift(windowStack.splice(windowStack.indexOf(this.name), 1)[0]);
+    } else {
+      windowStack.unshift(this.name);
+    }
+
+    // console.log(windowStack);
+
     for (const w of _windows) {
-      w.style.zIndex = 900;
+      // set z-index according to desktop window stack
+      if (windowStack.indexOf(w.name) !== -1) { 
+        w.style.zIndex = windowStack.length - windowStack.indexOf(w.name) + 100;
+      }
+
       if (
         document.querySelector(
           `fos-taskbarwindow[href=${w.getAttribute("name")}] `
@@ -130,7 +149,11 @@ class Window extends HTMLElement {
       }
     }
 
-    this.style.zIndex = 999;
+    // this.windowStack++;
+    // this.style.zIndex = this.windowStack;
+    // console.log(this.windowStack);
+    // this.style.zIndex = 999;
+
     document
       .querySelector(`fos-taskbarwindow[href=${this.name}] `)
       .classList.add("active"); // TODO: check if exists
@@ -299,7 +322,7 @@ class Window extends HTMLElement {
 
     const _window = document.createElement("div");
     _window.id = "window";
-    _window.addEventListener("mousedown", () => {
+    _window.addEventListener("click", () => {
       this.bringFront();
     });
 

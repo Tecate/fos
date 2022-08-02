@@ -21,6 +21,8 @@ class Desktop extends HTMLElement {
     this.addEventListener("touchmove", this.mouseMove);
 
     this.addEventListener("dragstart", (e) => e.preventDefault());
+
+    this.windowStack = [];
   }
 
   mouseUp() {
