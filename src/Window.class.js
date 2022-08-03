@@ -215,96 +215,6 @@ class Window extends HTMLElement {
 
     const style = document.createElement("style");
 
-    style.innerText = `
-			:host{
-				position: fixed;
-				top: ${this.top}px;
-				left: ${this.left}px;
-				width: ${this.width}px;
-				height: ${this.height}px;
-				z-index: ${this.index};
-				min-width: 320px;
-				min-height: 34px;
-				background-color: red;
-				display: none;
-				border: solid 2px #666;
-				box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
-				resize: ${this.fixedsize};
-				overflow: auto;
-			}
-			#buttons{
-				position: absolute;
-				right: 0;
-				top: 0;
-				height: 100%;
-				padding: 2px;
-			}
-			button {
-				width: 14px;
-				box-sizing: border-box;
-				background: #bbbbbb;
-				border: 1px outset #dadada;
-				box-shadow: 1px 1px 0px black;
-				padding: 0px;
-				margin-left: 2px;
-			}
-			button img {
-				position: relative;
-				top: 0px;
-				right: 0px;
-				bottom: 0px;
-				left: 0px;
-				margin: auto;
-
-			}
-			#window{
-				display: flex;
-				flex-flow: column;
-				height: 100%;
-				background: #dadada;
-			}
-			#top{
-				display: flex;
-				align-items: center;
-				width: 100%;
-				height: 18px;
-				background-color: #4C5844;
-				color: #fff;
-				cursor: cursor;
-				position: relative;
-				box-sizing: border-box;
-				-webkit-touch-callout: none; /* iOS Safari */
-			    -webkit-user-select: none; /* Safari */
-			     -khtml-user-select: none; /* Konqueror HTML */
-			       -moz-user-select: none; /* Old versions of Firefox */
-			        -ms-user-select: none; /* Internet Explorer/Edge */
-			            user-select: none;
-			}
-
-			#top > div > button {
-				width: 16px;
-				height: 14px;
-			}
-			#fosTitle{
-				margin-left: 5px;
-				cursor: inherit;
-				display: inline-block;
-			}
-			#winIcon {
-			}
-			#content{
-				flex: 1;
-				overflow: auto;
-				position: relative;
-				background: #DFDFDF;
-			}
-			#border{
-				height: 16px;
-				display: ${
-          this.fixedsize //lol it works for now};
-        }  
-  	`;
-
     const _window = document.createElement("div");
     _window.id = "window";
 
@@ -376,14 +286,11 @@ class Window extends HTMLElement {
     closeIcon.src = "img/close-icon.png";
     close.appendChild(closeIcon);
     buttons.appendChild(close);
-
     top.appendChild(buttons);
 
     const content = document.createElement("div");
     content.id = "content";
-
     const slot = document.createElement("slot");
-
     content.appendChild(slot);
 
     const border = document.createElement("div");
@@ -396,6 +303,97 @@ class Window extends HTMLElement {
     this.shadow.appendChild(style);
 
     this.shadow.appendChild(_window);
+
+    style.innerText = `
+			:host{
+				position: fixed;
+				top: ${this.top}px;
+				left: ${this.left}px;
+				width: ${this.width}px;
+				height: ${this.height}px;
+				z-index: ${this.index};
+				min-width: 320px;
+				min-height: 34px;
+				background-color: red;
+				display: none;
+				border: solid 2px #666;
+				box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+				resize: ${this.fixedsize};
+				overflow: auto;
+			}
+			#buttons{
+				position: absolute;
+				right: 0;
+				top: 0;
+				height: 100%;
+				padding: 2px;
+			}
+			button {
+				width: 14px;
+				box-sizing: border-box;
+				background: #bbbbbb;
+				border: 1px outset #dadada;
+				box-shadow: 1px 1px 0px black;
+				padding: 0px;
+				margin-left: 2px;
+			}
+			button img {
+				position: relative;
+				top: 0px;
+				right: 0px;
+				bottom: 0px;
+				left: 0px;
+				margin: auto;
+
+			}
+			#window{
+				display: flex;
+				flex-flow: column;
+				height: 100%;
+				background: #dadada;
+			}
+			#top{
+				display: flex;
+				align-items: center;
+				/*width: 100%;*/
+				height: 18px;
+				background-color: #4C5844;
+				color: #fff;
+				cursor: cursor;
+				position: relative;
+				box-sizing: border-box;
+				-webkit-touch-callout: none; /* iOS Safari */
+			    -webkit-user-select: none; /* Safari */
+			     -khtml-user-select: none; /* Konqueror HTML */
+			       -moz-user-select: none; /* Old versions of Firefox */
+			        -ms-user-select: none; /* Internet Explorer/Edge */
+			            user-select: none;
+			}
+
+			#top > div > button {
+				width: 16px;
+				height: 14px;
+			}
+			#fosTitle{
+				margin-left: 5px;
+				cursor: inherit;
+				display: inline-block;
+        text-overflow: ellipsis;
+			}
+			#winIcon {
+			}
+			#content{
+				flex: 1;
+				overflow: auto;
+				position: relative;
+				background: #DFDFDF;
+			}
+			#border{
+				height: 16px;
+				display: ${
+          this.fixedsize //lol it works for now};
+        }  
+  	`;
   }
 }
 
