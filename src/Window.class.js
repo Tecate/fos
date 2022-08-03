@@ -1,17 +1,11 @@
 class Window extends HTMLElement {
   constructor() {
     super();
-
     this.shadow = this.attachShadow({ mode: "open" });
-
     this.isMoving = false;
-
     this.lastTop = this.lastLeft = this.lastWidth = this.lastHeight = null;
-
     this.index = 900;
-
     this.isOpen = false;
-
     this.windowStack = 1000;
   }
 
@@ -21,10 +15,6 @@ class Window extends HTMLElement {
 
   mouseDown() {
     this.isMoving = true;
-    // if(this.style.zIndex !== "999") {
-    // 	console.log(typeof this.style.zIndex)
-    // 	this.bringFront();
-    // }
   }
 
   open() {
@@ -49,12 +39,6 @@ class Window extends HTMLElement {
       // windowButton.textContent = this.fostitle;
       _b.appendChild(windowButton);
     }
-
-    // windowButton.textContent(this.control)
-    // windowButton.addEventListener('click', () => {
-    // 	 alert(this.name);
-    // 	 this.minimize();
-    // } )
 
     this.isOpen = true;
     this.style.display = "block";
@@ -323,8 +307,18 @@ class Window extends HTMLElement {
 
     const _window = document.createElement("div");
     _window.id = "window";
-    _window.addEventListener("click", () => {
-      this.bringFront();
+
+    // click events go here
+    _window.addEventListener("mousedown", (e) => {
+      if (e.path[1].id == "close") {
+        this.close();
+      } else if (e.path[1].id == "collapse") {
+        this.minimize();
+      } else if (e.path[1].id == "maximize") {
+        this.maximize();
+      } else {
+        this.bringFront();
+      }
     });
 
     const top = document.createElement("div");
@@ -360,33 +354,27 @@ class Window extends HTMLElement {
     buttons.id = "buttons";
 
     const collapse = document.createElement("button");
+    collapse.id = "collapse";
     const collapseIcon = document.createElement("img");
     collapseIcon.src = "img/collapse-icon.png";
     collapse.appendChild(collapseIcon);
-    collapse.addEventListener("click", () => {
-      this.minimize();
-    });
     buttons.appendChild(collapse);
 
     if (!this.hasAttribute("fixedsize")) {
       // no maximize button for fixedsize windows
       const _max = document.createElement("button");
+      _max.id = "mazimize";
       const maxIcon = document.createElement("img");
       maxIcon.src = "img/max-icon.png";
       _max.appendChild(maxIcon);
-      _max.addEventListener("click", () => {
-        this.maximize();
-      });
       buttons.appendChild(_max);
     }
 
     const close = document.createElement("button");
+    close.id = "close";
     const closeIcon = document.createElement("img");
     closeIcon.src = "img/close-icon.png";
     close.appendChild(closeIcon);
-    close.addEventListener("click", () => {
-      this.close();
-    });
     buttons.appendChild(close);
 
     top.appendChild(buttons);
