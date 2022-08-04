@@ -220,11 +220,12 @@ class Window extends HTMLElement {
 
     // click events go here
     _window.addEventListener("mousedown", (e) => {
-      if (e.path[1].id == "close") {
+      var path = e.path || (e.composedPath && e.composedPath()); // fix for firefox
+      if (path[1].id == "close") {
         this.close();
-      } else if (e.path[1].id == "collapse") {
+      } else if (path[1].id == "collapse") {
         this.minimize();
-      } else if (e.path[1].id == "maximize") {
+      } else if (path[1].id == "maximize") {
         this.maximize();
       } else {
         this.bringFront();
@@ -321,13 +322,11 @@ class Window extends HTMLElement {
 				resize: ${this.fixedsize};
 				overflow: auto;
 			}
+
 			#buttons{
-				position: absolute;
-				right: 0;
-				top: 0;
-				height: 100%;
-				padding: 2px;
+				background-color: #4C5844;
 			}
+
 			button {
 				width: 14px;
 				box-sizing: border-box;
@@ -337,6 +336,7 @@ class Window extends HTMLElement {
 				padding: 0px;
 				margin-left: 2px;
 			}
+
 			button img {
 				position: relative;
 				top: 0px;
@@ -344,14 +344,16 @@ class Window extends HTMLElement {
 				bottom: 0px;
 				left: 0px;
 				margin: auto;
-
 			}
+
 			#window{
 				display: flex;
 				flex-flow: column;
 				height: 100%;
 				background: #dadada;
+        overflow: hidden;
 			}
+
 			#top{
 				display: flex;
 				align-items: center;
@@ -374,20 +376,26 @@ class Window extends HTMLElement {
 				width: 16px;
 				height: 14px;
 			}
-			#fosTitle{
+
+			#fosTitle {
 				margin-left: 5px;
 				cursor: inherit;
 				display: inline-block;
-        text-overflow: ellipsis;
+        flex-grow: 1;
+        white-space: nowrap; 
+        width: 0px;
 			}
+
 			#winIcon {
 			}
+
 			#content{
 				flex: 1;
 				overflow: auto;
 				position: relative;
 				background: #DFDFDF;
 			}
+
 			#border{
 				height: 16px;
 				display: ${
