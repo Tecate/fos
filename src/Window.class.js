@@ -60,31 +60,19 @@ class Window extends HTMLElement {
   maximize() {
     if (this.lastTop) {
       this.style.top = this.lastTop + "px";
-
       this.style.left = this.lastLeft + "px";
-
       this.style.width = this.lastWidth + "px";
-
       this.style.height = this.lastHeight + "px";
-
       this.lastTop = this.lastLeft = this.lastWidth = this.lastHeight = null;
     } else {
       let r = this.getBoundingClientRect();
-
       this.lastTop = r.top;
-
       this.lastLeft = r.left;
-
       this.lastWidth = r.width;
-
       this.lastHeight = r.height;
-
       this.style.top = 0;
-
       this.style.left = 0;
-
       this.style.width = innerWidth + "px";
-
       this.style.height = innerHeight + "px";
     }
   }
@@ -274,7 +262,7 @@ class Window extends HTMLElement {
     if (!this.hasAttribute("fixedsize")) {
       // no maximize button for fixedsize windows
       const _max = document.createElement("button");
-      _max.id = "mazimize";
+      _max.id = "maximize";
       const maxIcon = document.createElement("img");
       maxIcon.src = "img/max-icon.png";
       _max.appendChild(maxIcon);
@@ -315,7 +303,7 @@ class Window extends HTMLElement {
 				z-index: ${this.index};
 				min-width: 320px;
 				min-height: 34px;
-				background-color: red;
+        background: repeating-conic-gradient(#FF00FF 0% 25%, #000000 0% 50%) 50% / 20px 20px;
 				display: none;
 				border: solid 2px #666;
 				box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
@@ -351,7 +339,6 @@ class Window extends HTMLElement {
 				flex-flow: column;
 				height: 100%;
 				background: #dadada;
-        overflow: hidden;
 			}
 
 			#top{
@@ -364,6 +351,7 @@ class Window extends HTMLElement {
 				cursor: cursor;
 				position: relative;
 				box-sizing: border-box;
+        overflow: hidden;
 				-webkit-touch-callout: none; /* iOS Safari */
 			    -webkit-user-select: none; /* Safari */
 			     -khtml-user-select: none; /* Konqueror HTML */

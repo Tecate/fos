@@ -1,4 +1,6 @@
-fetch("https://api.are.na/v2/channels/783951?per=100")
+var channelURL = "https://api.are.na/v2/channels/783951?per=100"
+
+fetch(channelURL)
   .then((response) => {
     const contentType = response.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
@@ -10,7 +12,7 @@ fetch("https://api.are.na/v2/channels/783951?per=100")
     return response.json();
   })
   .then((data) => {
-    console.log(data);
+    // console.log(data);
     // document.getElementById("gotTitle").innerText = data.class + ": " + data.title;
     // document.getElementById("gotId").innerText = data.id;
 
@@ -48,3 +50,23 @@ fetch("https://api.are.na/v2/channels/783951?per=100")
     //     document.getElementById("gotImage").innerHTML = data.content_html;
     // }
   });
+
+
+var newIconContainer = document.createElement("fos-icon");
+newIconContainer.setAttribute("href", "settings");
+var newIcon = document.createElement("img");
+newIcon.src = "img/coke32.gif";
+newIconContainer.appendChild(newIcon);
+var newTitle = document.createTextNode("SETTINGS");
+newIconContainer.appendChild(newTitle);
+document.getElementById("desktop").appendChild(newIconContainer);
+
+var newFoswindow = document.createElement("fos-window");
+newFoswindow.name = "settings";
+newFoswindow.icon = "img/favicon.gif";
+newFoswindow.setAttribute("fixedsize", "");
+newFoswindow.setAttribute("fostitle", "settings fostitle");
+var newFoswindowContent = document.createElement("div");
+newFoswindowContent.innerText = "are.na channel: " + channelURL;
+newFoswindow.appendChild(newFoswindowContent);
+document.getElementById("desktop").appendChild(newFoswindow);
