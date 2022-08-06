@@ -96,3 +96,14 @@ delButton.addEventListener("click", (e) => {
     }
   }
 });
+
+var closeAll = document.createElement("button");
+newFoswindow.appendChild(closeAll);
+closeAll.innerText = "Close All Windows";
+closeAll.addEventListener("click", (e) => {
+  var windows = document.querySelectorAll("fos-window");
+  for (const w of windows) {
+    if (w.isOpen && w.name !== "settings")
+    w.close();
+  }
+});
