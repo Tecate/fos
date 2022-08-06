@@ -1,56 +1,60 @@
-var channelURL = "https://api.are.na/v2/channels/783951?per=100"
+var channelURL = "https://api.are.na/v2/channels/783951";
+var blockCount = 10;
+var urlParams = "per=" + blockCount;
+var combinedURL = channelURL;
 
-fetch(channelURL)
-  .then((response) => {
-    const contentType = response.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      throw new TypeError("Oops, we haven't got JSON!");
-    }
-    if (response.ok == false)
-      document.getElementById("error").innerText =
-        "private block: " + response.status;
-    return response.json();
-  })
-  .then((data) => {
-    // console.log(data);
-    // document.getElementById("gotTitle").innerText = data.class + ": " + data.title;
-    // document.getElementById("gotId").innerText = data.id;
-
-    for (var i = 0; i < data.contents.length; i++) {
-      if (data.contents[i].class == "Image") {
-        var newIconContainer = document.createElement("fos-icon");
-        newIconContainer.setAttribute("href", "arena-" + data.contents[i].id);
-        var newIcon = document.createElement("img");
-        newIcon.src = data.contents[i].image.square.url;
-        newIconContainer.appendChild(newIcon);
-        var newTitle = document.createTextNode(data.contents[i].id);
-        newIconContainer.appendChild(newTitle);
-        document.getElementById("desktop").appendChild(newIconContainer);
-
-        var newFoswindow = document.createElement("fos-window");
-        newFoswindow.name = "arena-" + data.contents[i].id;
-        newFoswindow.icon = "img/favicon.gif";
-        newFoswindow.setAttribute("fixedsize", "");
-        newFoswindow.setAttribute("fostitle", data.contents[i].title);
-        var newFoswindowContent = document.createElement("img");
-        newFoswindowContent.src = data.contents[i].image.square.url;
-        newFoswindow.appendChild(newFoswindowContent);
-        document.getElementById("desktop").appendChild(newFoswindow);
+function getArena() {
+  fetch(combinedURL)
+    .then((response) => {
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new TypeError("Oops, we haven't got JSON!");
       }
-    }
-    // if (data.class == "Image") {
-    //     document.getElementById("gotImage").src = data.image.original.url;
-    // }
-    // if (data.class == "Link") {
-    //     document.getElementById("gotLink").href = data.source.url;
-    //     document.getElementById("gotLink").innerText = data.source.url;
-    //     document.getElementById("gotImage").src = data.image.original.url;
-    // }
-    // if (data.class == "Text") {
-    //     document.getElementById("gotImage").innerHTML = data.content_html;
-    // }
-  });
+      if (response.ok == false)
+        document.getElementById("error").innerText =
+          "private block: " + response.status;
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
 
+      for (var i = 0; i < data.contents.length; i++) {
+        if (data.contents[i].class == "Image") {
+          var newIconContainer = document.createElement("fos-icon");
+          newIconContainer.setAttribute("href", "arena-" + data.contents[i].id);
+          var newIcon = document.createElement("img");
+          newIcon.src = data.contents[i].image.square.url;
+          newIconContainer.appendChild(newIcon);
+          var newTitle = document.createTextNode(data.contents[i].id);
+          newIconContainer.appendChild(newTitle);
+          document.getElementById("desktop").appendChild(newIconContainer);
+
+          var newFoswindow = document.createElement("fos-window");
+          newFoswindow.name = "arena-" + data.contents[i].id;
+          newFoswindow.icon = "img/favicon.gif";
+          newFoswindow.setAttribute("fixedsize", "");
+          newFoswindow.setAttribute("fostitle", data.contents[i].title);
+          var newFoswindowContent = document.createElement("img");
+          newFoswindowContent.src = data.contents[i].image.square.url;
+          newFoswindow.appendChild(newFoswindowContent);
+          document.getElementById("desktop").appendChild(newFoswindow);
+        }
+      }
+      // if (data.class == "Image") {
+      //     document.getElementById("gotImage").src = data.image.original.url;
+      // }
+      // if (data.class == "Link") {
+      //     document.getElementById("gotLink").href = data.source.url;
+      //     document.getElementById("gotLink").innerText = data.source.url;
+      //     document.getElementById("gotImage").src = data.image.original.url;
+      // }
+      // if (data.class == "Text") {
+      //     document.getElementById("gotImage").innerHTML = data.content_html;
+      // }
+    });
+}
+
+getArena();
 
 var newIconContainer = document.createElement("fos-icon");
 newIconContainer.setAttribute("href", "settings");
@@ -65,8 +69,30 @@ var newFoswindow = document.createElement("fos-window");
 newFoswindow.name = "settings";
 newFoswindow.icon = "img/favicon.gif";
 newFoswindow.setAttribute("fixedsize", "");
-newFoswindow.setAttribute("fostitle", "settings fostitle");
-var newFoswindowContent = document.createElement("div");
-newFoswindowContent.innerText = "are.na channel: " + channelURL;
-newFoswindow.appendChild(newFoswindowContent);
+newFoswindow.setAttribute("fostitle", "Settings");
 document.getElementById("desktop").appendChild(newFoswindow);
+
+var newFoswindowContent = document.createElement("div");
+newFoswindow.appendChild(newFoswindowContent);
+newFoswindowContent.innerText = "are.na channel: " + channelURL;
+
+// var newFoswindowContent = document.createElement("label");
+// newFoswindow.appendChild(newFoswindowContent);
+// newFoswindowContent.innerText = "Number of blocks: " + blockCount;
+
+var delButton = document.createElement("button");
+newFoswindow.appendChild(delButton);
+delButton.innerText = "remove icons";
+delButton.addEventListener("click", (e) => {
+  var windows = document.querySelectorAll("fos-window");
+  var icons = document.querySelectorAll("fos-icon");
+  for (const [i, w] of windows.entries()) {
+    if (w.name !== "settings") {
+      w.remove();
+    }
+    if (icons[i].getAttribute("href") !== "settings") {
+      console.log(icons[i].getAttribute("href"));
+      icons[i].remove();
+    }
+  }
+});
