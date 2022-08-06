@@ -41,13 +41,13 @@ class Window extends HTMLElement {
     }
 
     this.isOpen = true;
-    this.style.display = "block";
+    this.style.visibility = "visible";
     this.bringFront();
   }
 
   minimize() {
     this.isOpen = false;
-    this.style.display = "none";
+    this.style.visibility = "hidden";
     this.setAttribute("minimized", true);
     document
       .querySelector(`fos-taskbarwindow[href=${this.name}] `)
@@ -79,7 +79,7 @@ class Window extends HTMLElement {
 
   close() {
     this.isOpen = false;
-    this.style.display = "none";
+    this.style.visibility = "hidden";
     document.querySelector(`fos-taskbarwindow[href=${this.name}] `).remove();
     // closed windows are still stored in windowStack but I guess it doesn't matter
   }
@@ -188,8 +188,17 @@ class Window extends HTMLElement {
     // SET SPAWN POSITION HERE
     const howMany = document.querySelectorAll("fos-window").length || 1; // calculate how many possible windows
 
-    this.top = 60;
-    this.left = 120;
+    // this.top = 60;
+    // this.left = 120;
+
+    //spawn random but keep within screen
+    var xMax = window.innerHeight - document.querySelector("fos-bar").offsetHeight - this.offsetHeight;
+    var yMax = window.innerWidth - this.offsetWidth;
+    var xPos = Math.floor(Math.random() * (xMax - 0) + 0);
+    var yPos = Math.floor(Math.random() * (yMax - 0) + 0);
+    this.top = xPos;
+    this.left = yPos;
+    console.log(xPos, yPos);
 
     // oirginal values
     // this.top = innerHeight * 0.2 * howMany / 5 + 60
@@ -304,7 +313,7 @@ class Window extends HTMLElement {
 				min-width: 320px;
 				min-height: 34px;
         background: repeating-conic-gradient(#FF00FF 0% 25%, #000000 0% 50%) 50% / 20px 20px;
-				display: none;
+				visibility: hidden;
 				border: solid 2px #666;
 				box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
 				resize: ${this.fixedsize};
