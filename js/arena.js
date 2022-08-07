@@ -117,7 +117,7 @@ closeAll.addEventListener("click", (e) => {
   var windows = document.querySelectorAll("fos-window");
   for (const w of windows) {
     if (w.isOpen && w.name !== "settings")
-    w.close();
+      w.close();
   }
 });
 
@@ -129,15 +129,12 @@ openAll.addEventListener("click", (e) => {
   var windows = document.querySelectorAll("fos-window");
   for (const w of windows) {
     if (w.name !== "settings")
-    w.open();
+      w.open();
   }
 });
 
-// document.addEventListener('keydown', function(e){
-//   if(e.key === 'w')
-//   var windows = document.querySelectorAll("fos-window");
-//   for (const w of windows) {
-//     if (w.classList.contains("active"))
-//       w.close();
-//   }
-// })
+document.addEventListener('keydown', function(e){
+  if(e.key === 'w') {
+    document.querySelector(`fos-window[name=${document.getElementById("desktop").windowStack[0]}] `).close();
+  }
+})
