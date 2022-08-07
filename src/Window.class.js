@@ -43,6 +43,7 @@ class Window extends HTMLElement {
     this.isOpen = true;
     this.style.visibility = "visible";
     this.bringFront();
+    // console.log("open", document.getElementById("desktop").windowStack)
   }
 
   minimize() {
@@ -80,8 +81,12 @@ class Window extends HTMLElement {
   close() {
     this.isOpen = false;
     this.style.visibility = "hidden";
-    document.querySelector(`fos-taskbarwindow[href=${this.name}] `).remove();
-    // closed windows are still stored in windowStack but I guess it doesn't matter
+    var bar = document.querySelector(`fos-taskbarwindow[href=${this.name}] `);
+    if (bar !== null)
+      bar.remove();
+    var windowStack = document.getElementById("desktop").windowStack;
+    windowStack.splice(windowStack.indexOf(this.name), 1);
+    console.log("removed " + this.name, windowStack)
   }
 
   bringFront() {
@@ -93,13 +98,13 @@ class Window extends HTMLElement {
     const _windows = document.querySelectorAll("fos-window");
 
     // update desktop window stack
-    if (windowStack.indexOf(this.name) !== -1) {
-      windowStack.unshift(windowStack.splice(windowStack.indexOf(this.name), 1)[0]);
-    } else {
-      windowStack.unshift(this.name);
+    if (windowStack.indexOf(this.name) !== -1) { // if this is already open
+      windowStack.unshift(windowStack.splice(windowStack.indexOf(this.name), 1)[0]); // move this to beginning of windowstack
+      console.log("moved " + this.name + " to front", windowStack)
+    } else { // if this is being opened for the first time
+      windowStack.unshift(this.name); // add this to beginning of windowstack
+      console.log("unshift, new window " + this.name + " to front", windowStack)
     }
-
-    // console.log(windowStack);
 
     for (const w of _windows) {
       // set z-index according to desktop window stack
@@ -188,21 +193,21 @@ class Window extends HTMLElement {
     // SET SPAWN POSITION HERE
     const howMany = document.querySelectorAll("fos-window").length || 1; // calculate how many possible windows
 
-    // this.top = 60;
-    // this.left = 120;
-
-    //spawn random but keep within screen
+    // spawn random but keep within screen
+    // windows still spawn partially off screen FIX THIS
     var xMax = window.innerHeight - document.querySelector("fos-bar").offsetHeight - this.offsetHeight;
     var yMax = window.innerWidth - this.offsetWidth;
-    var xPos = Math.floor(Math.random() * (xMax - 0) + 0);
-    var yPos = Math.floor(Math.random() * (yMax - 0) + 0);
-    this.top = xPos;
-    this.left = yPos;
-    console.log(xPos, yPos);
+    this.top = Math.floor(Math.random() * (xMax - 0 + 1) + 0);
+    this.left = Math.floor(Math.random() * (yMax - 0 + 1) + 0);
+ 
 
     // oirginal values
     // this.top = innerHeight * 0.2 * howMany / 5 + 60
     // this.left = innerWidth * 0.1 * howMany / 5
+
+    // spawn all in same position
+    // this.top = 60;
+    // this.left = 120;
 
     this.render();
   }
