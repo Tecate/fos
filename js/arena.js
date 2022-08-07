@@ -1,10 +1,14 @@
 var channelURL = "https://api.are.na/v2/channels/783951";
+// var channelURL = "https://api.are.na/v2/channels/782953"; // random
+// var channelURL = "https://api.are.na/v2/channels/783913"; // random example with channels and blocks (no blocks with class == image so nothing renders)
 var blockCount = 10;
 var urlParams = "per=" + blockCount;
 var combinedURL = channelURL;
+var channelLength;
 
-function getArena() {
-  fetch(combinedURL)
+function getArena(url) {
+  console.log("getarena")
+  fetch(url)
     .then((response) => {
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
@@ -54,7 +58,7 @@ function getArena() {
     });
 }
 
-getArena();
+getArena(combinedURL);
 
 var newIconContainer = document.createElement("fos-icon");
 newIconContainer.setAttribute("href", "settings");
@@ -72,9 +76,16 @@ newFoswindow.setAttribute("fixedsize", "");
 newFoswindow.setAttribute("fostitle", "Settings");
 document.getElementById("desktop").appendChild(newFoswindow);
 
-var newFoswindowContent = document.createElement("div");
-newFoswindow.appendChild(newFoswindowContent);
-newFoswindowContent.innerText = "are.na channel: " + channelURL;
+var textareaChannel = document.createElement("textarea");
+newFoswindow.appendChild(textareaChannel);
+textareaChannel.innerText = channelURL;
+textareaChannel.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    console.log("enter");
+    getArena(textareaChannel.value);
+  }
+});
 
 // var newFoswindowContent = document.createElement("label");
 // newFoswindow.appendChild(newFoswindowContent);
@@ -88,10 +99,12 @@ delButton.addEventListener("click", (e) => {
   var icons = document.querySelectorAll("fos-icon");
   for (const [i, w] of windows.entries()) {
     if (w.name !== "settings") {
+      if (w.isOpen)
+        w.close();
       w.remove();
     }
     if (icons[i].getAttribute("href") !== "settings") {
-      console.log(icons[i].getAttribute("href"));
+      console.log("removed: " + icons[i].getAttribute("href"));
       icons[i].remove();
     }
   }
@@ -107,3 +120,24 @@ closeAll.addEventListener("click", (e) => {
     w.close();
   }
 });
+
+
+var openAll = document.createElement("button");
+newFoswindow.appendChild(openAll);
+openAll.innerText = "Open All Windows";
+openAll.addEventListener("click", (e) => {
+  var windows = document.querySelectorAll("fos-window");
+  for (const w of windows) {
+    if (w.name !== "settings")
+    w.open();
+  }
+});
+
+// document.addEventListener('keydown', function(e){
+//   if(e.key === 'w')
+//   var windows = document.querySelectorAll("fos-window");
+//   for (const w of windows) {
+//     if (w.classList.contains("active"))
+//       w.close();
+//   }
+// })
