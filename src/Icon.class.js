@@ -1,18 +1,12 @@
 class Icon extends HTMLElement {
   constructor() {
     super();
-
     this.shadow = this.attachShadow({ mode: "open" });
-
     const howMany = document.querySelectorAll("fos-icon").length;
-
     const x = Math.floor(innerWidth / (64 + 8));
-
     const offset =
       parseInt(document.querySelector("fos-desktop").iconOffset) || 0;
-
     this.top = 8 + Math.floor(howMany / x) * (64 + 8) + offset;
-
     this.left = 8 + (64 + 8) * (howMany % x);
 
     this.dblClick = () => {
@@ -28,9 +22,7 @@ class Icon extends HTMLElement {
     };
 
     this.addEventListener("dblclick", this.dblClick);
-
     this.tapedTwice = false;
-
     this.addEventListener("touchstart", (e) => {
       if (!this.tapedTwice) {
         this.tapedTwice = true;
@@ -43,7 +35,6 @@ class Icon extends HTMLElement {
       }
 
       e.preventDefault();
-
       this.dblClick();
     });
   }
