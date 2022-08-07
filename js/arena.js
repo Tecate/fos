@@ -5,6 +5,7 @@ var blockCount = 10;
 var urlParams = "per=" + blockCount;
 var combinedURL = channelURL;
 var channelLength;
+var perPage;
 
 function getArena(url) {
   console.log("getarena")
@@ -21,6 +22,10 @@ function getArena(url) {
     })
     .then((data) => {
       console.log(data);
+      // channelLength = data.length;
+      // perPage = Math.floor(channelLength/data.contents.length);
+      // console.log(perPage);
+
 
       for (var i = 0; i < data.contents.length; i++) {
         if (data.contents[i].class == "Image") {
@@ -40,6 +45,29 @@ function getArena(url) {
           newFoswindow.setAttribute("fostitle", data.contents[i].title);
           var newFoswindowContent = document.createElement("img");
           newFoswindowContent.src = data.contents[i].image.square.url;
+          newFoswindow.appendChild(newFoswindowContent);
+          document.getElementById("desktop").appendChild(newFoswindow);
+
+
+        } else if (data.class = "Channel") {
+          var newIconContainer = document.createElement("fos-icon");
+          newIconContainer.setAttribute("href", "arena-" + data.contents[i].id);
+          var newIcon = document.createElement("img");
+          newIcon.src = "img/postit32.png";
+          newIconContainer.appendChild(newIcon);
+          var newTitle = document.createTextNode(data.contents[i].id);
+          newIconContainer.appendChild(newTitle);
+          document.getElementById("desktop").appendChild(newIconContainer);
+
+          var newFoswindow = document.createElement("fos-window");
+          newFoswindow.name = "arena-" + data.contents[i].id;
+          newFoswindow.icon = "img/favicon.gif";
+          newFoswindow.setAttribute("fixedsize", "");
+          newFoswindow.setAttribute("fostitle", data.contents[i].title);
+          var newFoswindowContent = document.createElement("button");
+          newFoswindowContent.innerText = "load channel " + data.contents[i].title;
+          var channelURL = "https://api.are.na/v2/channels/" + data.contents[i].id;
+          newFoswindowContent.onclick = function() {getArena(channelURL)}
           newFoswindow.appendChild(newFoswindowContent);
           document.getElementById("desktop").appendChild(newFoswindow);
         }
@@ -133,6 +161,7 @@ openAll.addEventListener("click", (e) => {
   }
 });
 
+// close top window with w key
 document.addEventListener('keydown', function(e){
   if(e.key === 'w') {
     document.querySelector(`fos-window[name=${document.getElementById("desktop").windowStack[0]}] `).close();
