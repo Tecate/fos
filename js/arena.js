@@ -1,14 +1,15 @@
-var channelURL = "https://api.are.na/v2/channels/783951";
+// var channelURL = "https://api.are.na/v2/channels/783951"; // floats-my-boat
+var channelURL = "https://api.are.na/v2/channels/1691884"; // 1 of each block type
 // var channelURL = "https://api.are.na/v2/channels/782953"; // random
 // var channelURL = "https://api.are.na/v2/channels/783913"; // random example with channels and blocks (no blocks with class == image so nothing renders)
-var blockCount = 10;
-var urlParams = "per=" + blockCount;
-var combinedURL = channelURL;
+var blockCount = 20;
+var urlParams = "?per=" + blockCount;
+var combinedURL = channelURL + urlParams;
 var channelLength;
-var perPage;
+// var perPage;
 
-function getArena(url) {
-  console.log("getarena")
+function buildDesktop(url) {
+  console.log("buildDesktop")
   fetch(url)
     .then((response) => {
       const contentType = response.headers.get("content-type");
@@ -26,76 +27,123 @@ function getArena(url) {
       // perPage = Math.floor(channelLength/data.contents.length);
       // console.log(perPage);
 
+      if (data.base_class == "Channel") { // make sure that the request is for a channel
+        for (var i = 0; i < data.contents.length; i++) {
+          if (data.contents[i].class == "Image") {
+            buildImage(data, i)
+          } else if (data.contents[i].class == "Channel") {
+            buildChannel(data, i)
+          } else if (data.contents[i].class == "Text") {
+            console.log("Text")
+          } else if (data.contents[i].class == "Link") {
+            console.log("Link")
+          } else if (data.contents[i].class == "Media") {
+            console.log("Media")
+          }
 
-      for (var i = 0; i < data.contents.length; i++) {
-        if (data.contents[i].class == "Image") {
-          var newIconContainer = document.createElement("fos-icon");
-          newIconContainer.setAttribute("href", "arena-" + data.contents[i].id);
-          var newIcon = document.createElement("img");
-          newIcon.src = data.contents[i].image.square.url;
-          newIconContainer.appendChild(newIcon);
-          var newTitle = document.createTextNode(data.contents[i].id);
-          newIconContainer.appendChild(newTitle);
-          document.getElementById("desktop").appendChild(newIconContainer);
-
-          var newFoswindow = document.createElement("fos-window");
-          newFoswindow.name = "arena-" + data.contents[i].id;
-          newFoswindow.icon = "img/favicon.gif";
-          newFoswindow.setAttribute("fixedsize", "");
-          newFoswindow.setAttribute("fostitle", data.contents[i].title);
-          var newFoswindowContent = document.createElement("img");
-          newFoswindowContent.src = data.contents[i].image.square.url;
-          newFoswindow.appendChild(newFoswindowContent);
-          document.getElementById("desktop").appendChild(newFoswindow);
-
-
-        } else if (data.class = "Channel") {
-          var newIconContainer = document.createElement("fos-icon");
-          newIconContainer.setAttribute("href", "arena-" + data.contents[i].id);
-          var newIcon = document.createElement("img");
-          newIcon.src = "img/postit32.png";
-          newIconContainer.appendChild(newIcon);
-          var newTitle = document.createTextNode(data.contents[i].id);
-          newIconContainer.appendChild(newTitle);
-          document.getElementById("desktop").appendChild(newIconContainer);
-
-          var newFoswindow = document.createElement("fos-window");
-          newFoswindow.name = "arena-" + data.contents[i].id;
-          newFoswindow.icon = "img/favicon.gif";
-          newFoswindow.setAttribute("fixedsize", "");
-          newFoswindow.setAttribute("fostitle", data.contents[i].title);
-          var newFoswindowContent = document.createElement("button");
-          newFoswindowContent.innerText = "load channel " + data.contents[i].title;
-          var channelURL = "https://api.are.na/v2/channels/" + data.contents[i].id;
-          newFoswindowContent.onclick = function() {getArena(channelURL)}
-          newFoswindow.appendChild(newFoswindowContent);
-          document.getElementById("desktop").appendChild(newFoswindow);
         }
-      }
-      // if (data.class == "Image") {
-      //     document.getElementById("gotImage").src = data.image.original.url;
-      // }
-      // if (data.class == "Link") {
-      //     document.getElementById("gotLink").href = data.source.url;
-      //     document.getElementById("gotLink").innerText = data.source.url;
-      //     document.getElementById("gotImage").src = data.image.original.url;
-      // }
-      // if (data.class == "Text") {
-      //     document.getElementById("gotImage").innerHTML = data.content_html;
-      // }
+        // if (data.class == "Image") {
+        //     document.getElementById("gotImage").src = data.image.original.url;
+        // }
+        // if (data.class == "Link") {
+        //     document.getElementById("gotLink").href = data.source.url;
+        //     document.getElementById("gotLink").innerText = data.source.url;
+        //     document.getElementById("gotImage").src = data.image.original.url;
+        // }
+        // if (data.class == "Text") {
+        //     document.getElementById("gotImage").innerHTML = data.content_html;
+        // }
+    } else {
+      console.log("you are not requesting a channel")
+    }
     });
 }
 
-getArena(combinedURL);
+buildDesktop(combinedURL);
 
-var newIconContainer = document.createElement("fos-icon");
-newIconContainer.setAttribute("href", "settings");
+function buildImage(data, i) {
+  var iconContainer = document.createElement("fos-icon");
+  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
+  var newIcon = document.createElement("img");
+  newIcon.src = data.contents[i].image.square.url;
+  iconContainer.appendChild(newIcon);
+  var newTitle = document.createTextNode(data.contents[i].id);
+  iconContainer.appendChild(newTitle);
+  document.getElementById("desktop").appendChild(iconContainer);
+
+  var newFoswindow = document.createElement("fos-window");
+  newFoswindow.name = "arena-" + data.contents[i].id;
+  newFoswindow.icon = "img/favicon.gif";
+  newFoswindow.setAttribute("fixedsize", "");
+  newFoswindow.setAttribute("fostitle", data.contents[i].title);
+  var newFoswindowContent = document.createElement("img");
+  newFoswindowContent.src = data.contents[i].image.square.url;
+  newFoswindow.appendChild(newFoswindowContent);
+  document.getElementById("desktop").appendChild(newFoswindow);
+}
+
+function buildChannel(data, i) {
+  var pageCount = Math.ceil(data.contents[i].length / blockCount);
+
+  var iconContainer = document.createElement("fos-icon");
+  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
+
+  var newIcon = document.createElement("img");
+  newIcon.src = "img/postit32.png";
+  iconContainer.appendChild(newIcon);
+
+  var newTitle = document.createTextNode(data.contents[i].title);
+  iconContainer.appendChild(newTitle);
+  document.getElementById("desktop").appendChild(iconContainer);
+
+  var newFoswindow = document.createElement("fos-window");
+  newFoswindow.name = "arena-" + data.contents[i].id;
+  newFoswindow.icon = "img/favicon.gif";
+  newFoswindow.setAttribute("fixedsize", "");
+  newFoswindow.setAttribute("fostitle", `Channel: ${data.contents[i].title} ${pageCount} pages`);
+
+  var loadButton = document.createElement("button");
+  var page = 1;
+  loadButton.innerText = `${page}/${pageCount}` +"load more from " + data.contents[i].title;
+  var channelURL = "https://api.are.na/v2/channels/" + data.contents[i].id;
+  newFoswindow.appendChild(loadButton);
+
+  loadButton.onclick = function() {
+    buildDesktop(channelURL + "?page=" + page);
+    if (page < pageCount) {
+      page += 1;
+      loadButton.innerText = `${page}/${pageCount}` +"load more from " + data.contents[i].title;
+    } else {
+      loadButton.innerText = "nothing more to load";
+      loadButton.onclick = function() {}
+    }
+  }
+
+  var arenaLink = `https://are.na/${data.contents[i].owner_slug}/${data.contents[i].slug}`
+  var arenaLinkEl = document.createElement("a");
+  arenaLinkEl.href = arenaLink;
+  arenaLinkEl.innerText = arenaLink;
+  arenaLinkEl.target = "_blank";
+  arenaLinkEl.style.display = "block";
+  newFoswindow.appendChild(arenaLinkEl)
+
+  var newChannel = document.createElement("fos-channel");
+  newChannel.title = data.contents[i].title;
+  newFoswindow.appendChild(newChannel)
+
+
+
+  document.getElementById("desktop").appendChild(newFoswindow);
+}
+
+var iconContainer = document.createElement("fos-icon");
+iconContainer.setAttribute("href", "settings");
 var newIcon = document.createElement("img");
 newIcon.src = "img/coke32.gif";
-newIconContainer.appendChild(newIcon);
+iconContainer.appendChild(newIcon);
 var newTitle = document.createTextNode("SETTINGS");
-newIconContainer.appendChild(newTitle);
-document.getElementById("desktop").appendChild(newIconContainer);
+iconContainer.appendChild(newTitle);
+document.getElementById("desktop").appendChild(iconContainer);
 
 var newFoswindow = document.createElement("fos-window");
 newFoswindow.name = "settings";
@@ -111,7 +159,7 @@ textareaChannel.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
     console.log("enter");
-    getArena(textareaChannel.value);
+    buildDesktop(textareaChannel.value);
   }
 });
 
