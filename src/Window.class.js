@@ -223,11 +223,11 @@ class Window extends HTMLElement {
     // click events go here
     _window.addEventListener("mousedown", (e) => {
       var path = e.path || (e.composedPath && e.composedPath()); // fix for firefox
-      if (path[1].id == "close") {
+      if (path[0].id == "close") {
         this.close();
-      } else if (path[1].id == "collapse") {
+      } else if (path[0].id == "collapse") {
         this.minimize();
-      } else if (path[1].id == "maximize") {
+      } else if (path[0].id == "maximize") {
         this.maximize();
       } else {
         this.bringFront();
@@ -268,26 +268,17 @@ class Window extends HTMLElement {
 
     const collapse = document.createElement("button");
     collapse.id = "collapse";
-    const collapseIcon = document.createElement("img");
-    collapseIcon.src = "img/collapse-icon.png";
-    collapse.appendChild(collapseIcon);
     buttons.appendChild(collapse);
 
     if (!this.hasAttribute("fixedsize")) {
       // no maximize button for fixedsize windows
       const _max = document.createElement("button");
       _max.id = "maximize";
-      const maxIcon = document.createElement("img");
-      maxIcon.src = "img/max-icon.png";
-      _max.appendChild(maxIcon);
       buttons.appendChild(_max);
     }
 
     const close = document.createElement("button");
     close.id = "close";
-    const closeIcon = document.createElement("img");
-    closeIcon.src = "img/close-icon.png";
-    close.appendChild(closeIcon);
     buttons.appendChild(close);
     top.appendChild(buttons);
 
@@ -327,10 +318,13 @@ class Window extends HTMLElement {
 
 			#buttons{
 				background-color: #4C5844;
+        display: flex;
+        margin-right: 2px;
 			}
 
 			button {
-				width: 14px;
+				width: 16px;
+        height: 14px;
 				box-sizing: border-box;
 				background: #bbbbbb;
 				border: 1px outset #dadada;
@@ -339,14 +333,17 @@ class Window extends HTMLElement {
 				margin-left: 2px;
 			}
 
-			button img {
-				position: relative;
-				top: 0px;
-				right: 0px;
-				bottom: 0px;
-				left: 0px;
-				margin: auto;
-			}
+      #close {
+        background: url('img/close-icon.png') center center no-repeat #bbb;
+      }
+
+      #collapse {
+        background: url('img/collapse-icon.png') center center no-repeat #bbb;
+      }
+
+      #maximize {
+        background: url('img/max-icon.png') center center no-repeat #bbb;
+      }
 
 			#window{
 				display: flex;
@@ -372,11 +369,6 @@ class Window extends HTMLElement {
 			       -moz-user-select: none; /* Old versions of Firefox */
 			        -ms-user-select: none; /* Internet Explorer/Edge */
 			            user-select: none;
-			}
-
-			#top > div > button {
-				width: 16px;
-				height: 14px;
 			}
 
 			#fosTitle {
