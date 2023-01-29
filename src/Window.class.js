@@ -100,10 +100,10 @@ class Window extends HTMLElement {
     // update desktop window stack
     if (windowStack.indexOf(this.name) !== -1) { // if this is already open
       windowStack.unshift(windowStack.splice(windowStack.indexOf(this.name), 1)[0]); // move this to beginning of windowstack
-      console.log("moved " + this.name + " to front", windowStack)
+      // console.log("moved " + this.name + " to front", windowStack)
     } else { // if this is being opened for the first time
       windowStack.unshift(this.name); // add this to beginning of windowstack
-      console.log("unshift, new window " + this.name + " to front", windowStack)
+      // console.log("unshift, new window " + this.name + " to front", windowStack)
     }
 
     for (const w of _windows) {
@@ -319,7 +319,7 @@ class Window extends HTMLElement {
 			#buttons{
 				background-color: #4C5844;
         display: flex;
-        margin-right: 2px;
+        padding-right: 2px;
 			}
 
 			button {
