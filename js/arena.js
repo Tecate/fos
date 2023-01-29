@@ -102,9 +102,24 @@ function buildChannel(data, i) {
   newFoswindow.setAttribute("fixedsize", "");
   newFoswindow.setAttribute("fostitle", `Channel: ${data.contents[i].title} ${pageCount} pages`);
 
+
+
+  // var arenaLink = `https://are.na/${data.contents[i].owner_slug}/${data.contents[i].slug}`
+  // var arenaLinkEl = document.createElement("a");
+  // arenaLinkEl.href = arenaLink;
+  // arenaLinkEl.innerText = arenaLink;
+  // arenaLinkEl.target = "_blank";
+  // arenaLinkEl.style.display = "block";
+  // newFoswindow.appendChild(arenaLinkEl)
+
+  var newChannel = document.createElement("fos-channel");
+  newChannel._data = data.contents[i];
+  console.log(newChannel._data);
+  newFoswindow.appendChild(newChannel)
+
   var loadButton = document.createElement("button");
   var page = 1;
-  loadButton.innerText = `${page}/${pageCount}` +"load more from " + data.contents[i].title;
+  loadButton.innerText = `Load page ${page}/${pageCount} to desktop`;
   var channelURL = "https://api.are.na/v2/channels/" + data.contents[i].id;
   newFoswindow.appendChild(loadButton);
 
@@ -112,26 +127,12 @@ function buildChannel(data, i) {
     buildDesktop(channelURL + "?page=" + page);
     if (page < pageCount) {
       page += 1;
-      loadButton.innerText = `${page}/${pageCount}` +"load more from " + data.contents[i].title;
+      loadButton.innerText = `Load page ${page}/${pageCount} to desktop`;
     } else {
       loadButton.innerText = "nothing more to load";
       loadButton.onclick = function() {}
     }
   }
-
-  var arenaLink = `https://are.na/${data.contents[i].owner_slug}/${data.contents[i].slug}`
-  var arenaLinkEl = document.createElement("a");
-  arenaLinkEl.href = arenaLink;
-  arenaLinkEl.innerText = arenaLink;
-  arenaLinkEl.target = "_blank";
-  arenaLinkEl.style.display = "block";
-  newFoswindow.appendChild(arenaLinkEl)
-
-  var newChannel = document.createElement("fos-channel");
-  newChannel.title = data.contents[i].title;
-  newFoswindow.appendChild(newChannel)
-
-
 
   document.getElementById("desktop").appendChild(newFoswindow);
 }
