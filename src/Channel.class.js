@@ -24,20 +24,24 @@ class Channel extends HTMLElement {
             for (var i = 0; i < data.contents.length; i++) {
                 var row = document.createElement("div");
                 row.classList.add("channel-row")
+                row._data = data.contents[i];
                 if (data.contents[i].class == "Image"){
                     row.innerHTML += '<img src="img/channel-row-image.png" alt="Image">'
+                    console.log("runs", row._data.title)
+
                     row.onclick = function() {
-                        console.log("runs", data.title, i)
+                        console.log("runs", this._data.title)
                         var newFoswindow = document.createElement("fos-window");
-                        newFoswindow.name = "arena-" + data.contents[i].id;
+                        newFoswindow.name = "arena-" + this._data.id;
                         newFoswindow.icon = "img/favicon.gif";
                         newFoswindow.setAttribute("fixedsize", "");
-                        newFoswindow.setAttribute("fostitle", data.contents[i].title);
+                        newFoswindow.setAttribute("fostitle", this._data.title);
                         var newImage = document.createElement("arena-image");
-                        newImage._data = data.contents[i];
+                        newImage._data = this._data;
                         console.log("arena-image _data:", newImage._data);
                         newFoswindow.appendChild(newImage)
                         document.getElementById("desktop").appendChild(newFoswindow);
+                        newFoswindow.open();
                     }
                 }
                 else if (data.contents[i].class == "Channel"){

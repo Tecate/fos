@@ -74,7 +74,7 @@ function buildImage(data, i) {
   var newFoswindow = document.createElement("fos-window");
   newFoswindow.name = "arena-" + data.contents[i].id;
   newFoswindow.icon = "img/favicon.gif";
-  // newFoswindow.setAttribute("fixedsize", "");
+  newFoswindow.setAttribute("fixedsize", "");
   newFoswindow.setAttribute("fostitle", data.contents[i].title);
   // display using image element
   // var newFoswindowContent = document.createElement("img");

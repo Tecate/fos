@@ -7,6 +7,13 @@ class Window extends HTMLElement {
     this.index = 900;
     this.isOpen = false;
     this.windowStack = 1000;
+    function guidGenerator() {
+      var S4 = function() {
+         return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+      };
+      return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    }
+    this.guid = guidGenerator();
   }
 
   mouseUp() {
@@ -142,8 +149,17 @@ class Window extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["name", "fostitle", "icon", "fixedsize"];
+    return ["name", "fostitle", "icon", "fixedsize", "guid"];
   }
+
+  get name() {
+    return this.hasAttribute("guid") ? this.getAttribute("guid") : this.guid;
+  }
+
+  // set name(val) {
+  //   if (val) this.setAttribute("name", val);
+  //   else this.removeAttribute("name");
+  // }
 
   get name() {
     return this.hasAttribute("name") ? this.getAttribute("name") : null;
