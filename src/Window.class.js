@@ -86,7 +86,7 @@ class Window extends HTMLElement {
       bar.remove();
     var windowStack = document.getElementById("desktop").windowStack;
     windowStack.splice(windowStack.indexOf(this.name), 1);
-    console.log("removed " + this.name, windowStack)
+    // console.log("removed " + this.name, windowStack)
   }
 
   bringFront() {

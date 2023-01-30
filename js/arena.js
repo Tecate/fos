@@ -22,7 +22,7 @@ function buildDesktop(url) {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
+      console.log("got data from api", data);
       // channelLength = data.length;
       // perPage = Math.floor(channelLength/data.contents.length);
       // console.log(perPage);
@@ -76,9 +76,17 @@ function buildImage(data, i) {
   newFoswindow.icon = "img/favicon.gif";
   newFoswindow.setAttribute("fixedsize", "");
   newFoswindow.setAttribute("fostitle", data.contents[i].title);
-  var newFoswindowContent = document.createElement("img");
-  newFoswindowContent.src = data.contents[i].image.square.url;
-  newFoswindow.appendChild(newFoswindowContent);
+  // display using image element
+  // var newFoswindowContent = document.createElement("img");
+  // newFoswindowContent.src = data.contents[i].image.square.url;
+  // newFoswindow.appendChild(newFoswindowContent);
+
+  // display using custom arena-image element
+  var newImage = document.createElement("arena-image");
+  newImage._data = data.contents[i];
+  // console.log("arena-image _data:", newImage._data);
+  newFoswindow.appendChild(newImage)
+
   document.getElementById("desktop").appendChild(newFoswindow);
 }
 
@@ -114,7 +122,7 @@ function buildChannel(data, i) {
 
   var newChannel = document.createElement("fos-channel");
   newChannel._data = data.contents[i];
-  console.log(newChannel._data);
+  // console.log(newChannel._data);
   newFoswindow.appendChild(newChannel)
 
   var loadButton = document.createElement("button");
