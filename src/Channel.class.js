@@ -22,7 +22,32 @@ class Channel extends HTMLElement {
             this._data = data;
             for (var i = 0; i < data.contents.length; i++) {
                 var row = document.createElement("div");
-                row.innerHTML = data.contents[i].id;
+                row.classList.add("channel-row")
+                if (data.contents[i].class == "Image"){
+                    row.innerHTML += '<img src="img/channel-row-image.png" alt="Image">'
+                    row.onclick = function() {
+                        console.log("runs", data.title, i)
+                        var newFoswindow = document.createElement("fos-window");
+                        newFoswindow.name = "arena-" + data.contents[i].id;
+                        newFoswindow.icon = "img/favicon.gif";
+                        newFoswindow.setAttribute("fixedsize", "");
+                        newFoswindow.setAttribute("fostitle", data.contents[i].title);
+                        var newImage = document.createElement("arena-image");
+                        newImage._data = data.contents[i];
+                        console.log("arena-image _data:", newImage._data);
+                        newFoswindow.appendChild(newImage)
+                        document.getElementById("desktop").appendChild(newFoswindow);
+                    }
+                }
+                else if (data.contents[i].class == "Channel"){
+                    row.innerHTML += '<img src="img/arena-small.png" alt="Channel">'
+                }
+                else {
+                    row.innerHTML += `<span class="class">${data.contents[i].class}</span>`;
+                }
+                row.innerHTML += ` <span class="id">${data.contents[i].id}</span>`;
+                row.innerHTML += ` <span class="title">${data.contents[i].title}</span>`;
+
                 element.appendChild(row);
             }
             console.log(this._data)
@@ -91,6 +116,16 @@ class Channel extends HTMLElement {
                 font-family: serif;
                 font-size: 20px;
               }
+              #channel-contents {
+                margin: 2px;
+                padding: 4px;
+                max-height: 400px;
+                overflow-y: scroll;
+                box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset, rgb(223, 223, 223) -2px -2px 0px 0px inset, rgb(10, 10, 10) 2px 2px 0px 0px inset;
+              }
+
+              .channel-row {
+              }
           </style>
           <div id="channel-header">${this._data.title} <a href="https://are.na/${this._data.owner_slug}/${this._data.slug}"><img src="img/arena-small.png"></a></div>
           <slot></slot>
@@ -99,7 +134,8 @@ class Channel extends HTMLElement {
       var pageCount = Math.ceil(this._data.length / blockCount);
       var loadButton = document.createElement("button");
       var contents = document.createElement("div");
-      this.appendChild(contents);
+      contents.id = "channel-contents";
+      this.shadow.appendChild(contents);
 
       var page = 1;
       loadButton.innerText = `Load page ${page}/${pageCount}`;
