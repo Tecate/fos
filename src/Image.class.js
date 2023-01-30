@@ -57,6 +57,10 @@ class Image extends HTMLElement {
                 height: 100%;
               }
 
+              img {
+                object-fit: scale-down;
+              }
+
               #status-bar {
                 display: flex;
                 width: 100%;
@@ -75,7 +79,7 @@ class Image extends HTMLElement {
                 order: 2;
               }
 
-              #status-bar-originalurl {
+              .button {
                 box-shadow: inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
               }
           </style>`;
@@ -92,13 +96,24 @@ class Image extends HTMLElement {
 
       var statusBarOriginalUrl = document.createElement("div");
       statusBarOriginalUrl.classList.add("status-bar-item");
-      statusBarOriginalUrl.id = "status-bar-originalurl"
+      statusBarOriginalUrl.id = "status-bar-originalurl";
+      statusBarOriginalUrl.classList.add("button");
       statusBarOriginalUrl.innerHTML = "Original size";
       var url = this._data.image.original.url;
       statusBarOriginalUrl.onclick = function() {
         window.open(url, '_blank')
       };
       statusBar.appendChild(statusBarOriginalUrl);
+
+      var statusBarSave = document.createElement("div");
+      statusBarSave.classList.add("status-bar-item");
+      statusBarSave.id = "status-bar-save";
+      statusBarSave.classList.add("button");
+      statusBarSave.innerHTML = "Save to desktop";
+      statusBarSave.onclick = function() {
+        // todo
+      };
+      statusBar.appendChild(statusBarSave);
 
       var statusBarFilesize = document.createElement("div");
       statusBarFilesize.id = "status-bar-filesize";
