@@ -3,6 +3,7 @@ class Channel extends HTMLElement {
       super();
       this.shadow = this.attachShadow({ mode: "open" });
       this._data = [];
+      this.firstRun = true;
     }
   
     loadChannel(url, element) {
@@ -124,22 +125,29 @@ class Channel extends HTMLElement {
                 box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset, rgb(223, 223, 223) -2px -2px 0px 0px inset, rgb(10, 10, 10) 2px 2px 0px 0px inset;
               }
 
-              .channel-row {
+              .channel-row:hover {
+                background: lightgrey;
               }
           </style>
           <div id="channel-header">${this._data.title} <a href="https://are.na/${this._data.owner_slug}/${this._data.slug}"><img src="img/arena-small.png"></a></div>
           <slot></slot>
       `;
       var blockCount = 20;
+      var page = 1;
+      var channelURL = "https://api.are.na/v2/channels/" + this._data.id;
       var pageCount = Math.ceil(this._data.length / blockCount);
       var loadButton = document.createElement("button");
       var contents = document.createElement("div");
       contents.id = "channel-contents";
       this.shadow.appendChild(contents);
 
-      var page = 1;
+      if (this.firstRun) {
+        this.loadChannel(channelURL + "?page=" + page, contents);
+        page += 1;
+        this.firstRun = false;
+      }
+
       loadButton.innerText = `Load page ${page}/${pageCount}`;
-      var channelURL = "https://api.are.na/v2/channels/" + this._data.id;
       this.appendChild(loadButton);
     
       loadButton.onclick = function() {

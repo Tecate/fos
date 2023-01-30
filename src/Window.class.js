@@ -292,7 +292,7 @@ class Window extends HTMLElement {
 
     _window.appendChild(top);
     _window.appendChild(content);
-    _window.appendChild(border);
+    // _window.appendChild(border);
 
     this.shadow.appendChild(style);
 
