@@ -93,6 +93,11 @@ class Image extends HTMLElement {
       var image = document.createElement("img");
       image.src = this._data.image.square.url;
       this.shadow.appendChild(image);
+      
+      var parentWindow = this.parentElement;
+      image.onload = function() {
+        parentWindow.bringInbounds(); 
+      }
 
       var statusBarOriginalUrl = document.createElement("div");
       statusBarOriginalUrl.classList.add("status-bar-item");

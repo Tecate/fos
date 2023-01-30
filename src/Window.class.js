@@ -24,6 +24,21 @@ class Window extends HTMLElement {
     this.isMoving = true;
   }
 
+  bringInbounds() {
+    // make sure that window is fully inside of screen area
+    var iconOffset = parseInt(document.querySelector("fos-bar").offsetHeight);
+    let r = this.getBoundingClientRect();
+
+    if (r.left + r.width > window.innerWidth ) // window is off screen horizontally right
+      this.style.left = window.innerWidth - r.width + "px";
+    if (r.x < 0) // window is off screen horizontally left
+      this.style.left = "0px";
+    if (r.y < 0) // window is off screen vertically top
+      this.style.top = "0px";
+    if (r.top + r.height > window.innerHeight - iconOffset) // window is off screen vertically bottom
+      this.style.top = window.innerHeight - iconOffset - r.height + "px";
+  }
+  
   open() {
     // create panel icon here
     if (this.hasAttribute("minimized")) {
@@ -47,18 +62,7 @@ class Window extends HTMLElement {
       _b.appendChild(windowButton);
     }
 
-    // make sure that windows open fully inside of screen area
-    var iconOffset = parseInt(document.querySelector("fos-bar").offsetHeight);
-    let r = this.getBoundingClientRect();
-
-    if (r.left + r.width > window.innerWidth ) // window is off screen horizontally right
-      this.style.left = window.innerWidth - r.width + "px";
-    if (r.x < 0) // window is off screen horizontally left
-      this.style.left = "0px";
-    if (r.y < 0) // window is off screen vertically top
-      this.style.top = "0px";
-    if (r.top + r.height > window.innerHeight - iconOffset) // window is off screen vertically bottom
-      this.style.top = window.innerHeight - iconOffset - r.height + "px";
+    // this.bringInbounds();
 
     this.isOpen = true;
     this.style.visibility = "visible";
