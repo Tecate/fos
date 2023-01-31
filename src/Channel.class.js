@@ -28,7 +28,7 @@ class Channel extends HTMLElement {
                 row.classList.add("channel-row")
                 row._data = data.contents[i];
                 if (data.contents[i].class == "Image"){
-                    row.innerHTML += '<img src="img/channel-row-image.png" alt="Image">'
+                    row.innerHTML += '<span><img src="img/channel-row-image.png" alt="Image"></span>'
                     row.ondblclick = function() {
                       if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined) {
                         var newFoswindow = document.createElement("fos-window");
@@ -47,7 +47,7 @@ class Channel extends HTMLElement {
                     }
                 }
                 else if (data.contents[i].class == "Channel"){
-                    row.innerHTML += '<img src="img/arena-small.png" alt="Channel">'
+                    row.innerHTML += '<span><img src="img/arena-small.png" alt="Channel"></span>'
                     row.ondblclick = function() {
                       if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined) {
 
@@ -74,6 +74,7 @@ class Channel extends HTMLElement {
                 }
                 row.innerHTML += ` <span class="id">${data.contents[i].id}</span>`;
                 row.innerHTML += ` <span class="title">${data.contents[i].title}</span>`;
+                row.innerHTML += ` <button class="button-save"><img src="img/16x16/briefcase-1.png"></span>`;
 
                 element.appendChild(row);
             }
@@ -153,19 +154,41 @@ class Channel extends HTMLElement {
                 box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset, rgb(223, 223, 223) -2px -2px 0px 0px inset, rgb(10, 10, 10) 2px 2px 0px 0px inset;
               }
 
+              .channel-row {
+                display: flex;
+              }
+
+              .channel-row span {
+                margin-right: 5px;
+              }
+
               .channel-row:hover {
                 background: lightgrey;
               }
+
+              .button-save {
+                order: 2;
+                padding: 0px;
+                margin-left: auto;
+                border: 0px solid black;
+                background: none;
+              }
           </style>
-          <div id="channel-header">${this._data.title} <a href="https://are.na/${this._data.owner_slug}/${this._data.slug}"><img src="img/arena-small.png"></a></div>
           <slot></slot>
       `;
 
+      var channelElement = this;
       var page = 1;
       var channelURL = "https://api.are.na/v2/channels/" + this._data.id;
       var pageCount = Math.ceil(this._data.length / this.blockCount);
+      var header = document.createElement("div");
       var loadButton = document.createElement("button");
       var contents = document.createElement("div");
+
+      header.innerHTML = `${this._data.title} <a href="https://are.na/${this._data.owner_slug}/${this._data.slug}"><img src="img/arena-small.png"></a>`
+      header.id = "channel-header";
+      this.shadow.appendChild(header);
+      
       contents.id = "channel-contents";
       this.shadow.appendChild(contents);
 
@@ -176,11 +199,10 @@ class Channel extends HTMLElement {
       }
 
       loadButton.innerText = `Load page ${page}/${pageCount}`;
-      this.appendChild(loadButton);
-      // this.shadow.appendChild(loadButton);
+      this.shadow.appendChild(loadButton);
     
       loadButton.onclick = function() {
-        this.parentElement.loadChannel(channelURL + "?page=" + page, contents);
+        channelElement.loadChannel(channelURL + "?page=" + page, contents);
         if (page < pageCount) {
           page += 1;
           loadButton.innerText = `Load page ${page}/${pageCount}`;
