@@ -151,6 +151,7 @@ class Channel extends HTMLElement {
                 max-height: 400px;
                 max-width: 350px;
                 overflow-y: scroll;
+                word-wrap: break-word;
                 box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset, rgb(223, 223, 223) -2px -2px 0px 0px inset, rgb(10, 10, 10) 2px 2px 0px 0px inset;
               }
 

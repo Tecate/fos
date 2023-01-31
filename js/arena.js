@@ -34,7 +34,7 @@ function buildDesktop(url) {
           } else if (data.contents[i].class == "Channel") {
             buildChannel(data, i)
           } else if (data.contents[i].class == "Text") {
-            console.log("Text")
+            buildText(data, i)
           } else if (data.contents[i].class == "Link") {
             console.log("Link")
           } else if (data.contents[i].class == "Media") {
@@ -90,6 +90,31 @@ function buildImage(data, i) {
   document.getElementById("desktop").appendChild(newFoswindow);
 }
 
+function buildText(data, i) {
+  var iconContainer = document.createElement("fos-icon");
+  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
+  var newIcon = document.createElement("img");
+  newIcon.src = "img/textblock.png";
+  iconContainer.appendChild(newIcon);
+  var newTitle = document.createTextNode(data.contents[i].id);
+  iconContainer.appendChild(newTitle);
+  document.getElementById("desktop").appendChild(iconContainer);
+
+  var newFoswindow = document.createElement("fos-window");
+  newFoswindow.name = "arena-" + data.contents[i].id;
+  newFoswindow.icon = "img/favicon.gif";
+  newFoswindow.setAttribute("fixedsize", "");
+  newFoswindow.setAttribute("fostitle", data.contents[i].title);
+
+  // display using custom arena-image element
+  var newText = document.createElement("arena-text");
+  newText._data = data.contents[i];
+  // console.log("arena-image _data:", newText._data);
+  newFoswindow.appendChild(newText)
+
+  document.getElementById("desktop").appendChild(newFoswindow);
+}
+
 function buildChannel(data, i) {
   var pageCount = Math.ceil(data.contents[i].length / blockCount);
 
@@ -125,22 +150,22 @@ function buildChannel(data, i) {
   // console.log(newChannel._data);
   newFoswindow.appendChild(newChannel)
 
-  var loadButton = document.createElement("button");
-  var page = 1;
-  loadButton.innerText = `Load page ${page}/${pageCount} to desktop`;
-  var channelURL = "https://api.are.na/v2/channels/" + data.contents[i].id;
-  newFoswindow.appendChild(loadButton);
+  // var loadButton = document.createElement("button");
+  // var page = 1;
+  // loadButton.innerText = `Load page ${page}/${pageCount} to desktop`;
+  // var channelURL = "https://api.are.na/v2/channels/" + data.contents[i].id;
+  // newFoswindow.appendChild(loadButton);
 
-  loadButton.onclick = function() {
-    buildDesktop(channelURL + "?page=" + page);
-    if (page < pageCount) {
-      page += 1;
-      loadButton.innerText = `Load page ${page}/${pageCount} to desktop`;
-    } else {
-      loadButton.innerText = "nothing more to load";
-      loadButton.onclick = function() {}
-    }
-  }
+  // loadButton.onclick = function() {
+  //   buildDesktop(channelURL + "?page=" + page);
+  //   if (page < pageCount) {
+  //     page += 1;
+  //     loadButton.innerText = `Load page ${page}/${pageCount} to desktop`;
+  //   } else {
+  //     loadButton.innerText = "nothing more to load";
+  //     loadButton.onclick = function() {}
+  //   }
+  // }
 
   document.getElementById("desktop").appendChild(newFoswindow);
 }
