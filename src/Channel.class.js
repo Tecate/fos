@@ -22,6 +22,7 @@ class Channel extends HTMLElement {
         })
         .then((data) => {
             this._data = data;
+            var blockCount = this.blockCount;
             for (var i = 0; i < data.contents.length; i++) {
                 var row = document.createElement("div");
                 row.classList.add("channel-row")
@@ -54,7 +55,7 @@ class Channel extends HTMLElement {
                       newFoswindow.name = "arena-" + this._data.id;
                       newFoswindow.icon = "img/favicon.gif";
                       newFoswindow.setAttribute("fixedsize", "");
-                      newFoswindow.setAttribute("fostitle", `Channel: ${row._data.title} ${Math.ceil(row._data.length / this.blockCount)} pages`);
+                      newFoswindow.setAttribute("fostitle", `Channel: ${this._data.title}, ${Math.ceil(this._data.length / blockCount)} pages`);
 
                       var newChannel = document.createElement("fos-channel");
                       newChannel._data = this._data;
@@ -76,6 +77,7 @@ class Channel extends HTMLElement {
 
                 element.appendChild(row);
             }
+            this.parentElement.bringInbounds();
             console.log("API call:", this._data)
         });
 
@@ -146,6 +148,7 @@ class Channel extends HTMLElement {
                 margin: 2px;
                 padding: 4px;
                 max-height: 400px;
+                max-width: 350px;
                 overflow-y: scroll;
                 box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset, rgb(223, 223, 223) -2px -2px 0px 0px inset, rgb(10, 10, 10) 2px 2px 0px 0px inset;
               }
@@ -174,6 +177,7 @@ class Channel extends HTMLElement {
 
       loadButton.innerText = `Load page ${page}/${pageCount}`;
       this.appendChild(loadButton);
+      // this.shadow.appendChild(loadButton);
     
       loadButton.onclick = function() {
         this.parentElement.loadChannel(channelURL + "?page=" + page, contents);

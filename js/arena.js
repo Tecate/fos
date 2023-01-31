@@ -108,7 +108,7 @@ function buildChannel(data, i) {
   newFoswindow.name = "arena-" + data.contents[i].id;
   newFoswindow.icon = "img/favicon.gif";
   newFoswindow.setAttribute("fixedsize", "");
-  newFoswindow.setAttribute("fostitle", `Channel: ${data.contents[i].title} ${pageCount} pages`);
+  newFoswindow.setAttribute("fostitle", `Channel: ${data.contents[i].title}, ${pageCount} pages`);
 
 
 
