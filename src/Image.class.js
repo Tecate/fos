@@ -85,6 +85,7 @@ class Image extends HTMLElement {
           </style>`;
 
 
+      var data = this._data;
 
       var statusBar = document.createElement("div");
       statusBar.id = "status-bar";
@@ -116,7 +117,16 @@ class Image extends HTMLElement {
       statusBarSave.classList.add("button");
       statusBarSave.innerHTML = "Save to desktop";
       statusBarSave.onclick = function() {
-        // todo
+        if (document.querySelector(`fos-icon[href="arena-${data.id}"]`) == undefined) {
+          var iconContainer = document.createElement("fos-icon");
+          iconContainer.setAttribute("href", "arena-" + data.id);
+          var newIcon = document.createElement("img");
+          newIcon.src = data.image.square.url;
+          iconContainer.appendChild(newIcon);
+          var newTitle = document.createTextNode(data.id);
+          iconContainer.appendChild(newTitle);
+          document.getElementById("desktop").appendChild(iconContainer);
+        }
       };
       statusBar.appendChild(statusBarSave);
 
