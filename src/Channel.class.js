@@ -4,6 +4,7 @@ class Channel extends HTMLElement {
       this.shadow = this.attachShadow({ mode: "open" });
       this._data = [];
       this.firstRun = true;
+      this.blockCount = 20;
     }
   
     loadChannel(url, element) {
@@ -27,10 +28,8 @@ class Channel extends HTMLElement {
                 row._data = data.contents[i];
                 if (data.contents[i].class == "Image"){
                     row.innerHTML += '<img src="img/channel-row-image.png" alt="Image">'
-                    console.log("runs", row._data.title)
-
-                    row.onclick = function() {
-                        console.log("runs", this._data.title)
+                    row.ondblclick = function() {
+                      if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined) {
                         var newFoswindow = document.createElement("fos-window");
                         newFoswindow.name = "arena-" + this._data.id;
                         newFoswindow.icon = "img/favicon.gif";
@@ -38,14 +37,36 @@ class Channel extends HTMLElement {
                         newFoswindow.setAttribute("fostitle", this._data.title);
                         var newImage = document.createElement("arena-image");
                         newImage._data = this._data;
-                        console.log("arena-image _data:", newImage._data);
                         newFoswindow.appendChild(newImage)
                         document.getElementById("desktop").appendChild(newFoswindow);
                         newFoswindow.open();
+                      } else {
+                        document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
+                      }
                     }
                 }
                 else if (data.contents[i].class == "Channel"){
                     row.innerHTML += '<img src="img/arena-small.png" alt="Channel">'
+                    row.ondblclick = function() {
+                      if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined) {
+
+                      var newFoswindow = document.createElement("fos-window");
+                      newFoswindow.name = "arena-" + this._data.id;
+                      newFoswindow.icon = "img/favicon.gif";
+                      newFoswindow.setAttribute("fixedsize", "");
+                      newFoswindow.setAttribute("fostitle", `Channel: ${row._data.title} ${Math.ceil(row._data.length / this.blockCount)} pages`);
+
+                      var newChannel = document.createElement("fos-channel");
+                      newChannel._data = this._data;
+                      // console.log(newChannel._data);
+                      newFoswindow.appendChild(newChannel)
+                    
+                      document.getElementById("desktop").appendChild(newFoswindow);
+                      newFoswindow.open();
+                      } else {
+                        document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
+                      }
+                  }
                 }
                 else {
                     row.innerHTML += `<span class="class">${data.contents[i].class}</span>`;
@@ -55,7 +76,7 @@ class Channel extends HTMLElement {
 
                 element.appendChild(row);
             }
-            console.log(this._data)
+            console.log("API call:", this._data)
         });
 
     }
@@ -136,10 +157,10 @@ class Channel extends HTMLElement {
           <div id="channel-header">${this._data.title} <a href="https://are.na/${this._data.owner_slug}/${this._data.slug}"><img src="img/arena-small.png"></a></div>
           <slot></slot>
       `;
-      var blockCount = 20;
+
       var page = 1;
       var channelURL = "https://api.are.na/v2/channels/" + this._data.id;
-      var pageCount = Math.ceil(this._data.length / blockCount);
+      var pageCount = Math.ceil(this._data.length / this.blockCount);
       var loadButton = document.createElement("button");
       var contents = document.createElement("div");
       contents.id = "channel-contents";

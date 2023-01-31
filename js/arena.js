@@ -22,7 +22,7 @@ function buildDesktop(url) {
       return response.json();
     })
     .then((data) => {
-      console.log("got data from api", data);
+      console.log("API call:", data);
       // channelLength = data.length;
       // perPage = Math.floor(channelLength/data.contents.length);
       // console.log(perPage);

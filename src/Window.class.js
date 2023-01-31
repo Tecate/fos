@@ -62,7 +62,7 @@ class Window extends HTMLElement {
       _b.appendChild(windowButton);
     }
 
-    // this.bringInbounds();
+    this.bringInbounds();
 
     this.isOpen = true;
     this.style.visibility = "visible";
@@ -162,7 +162,7 @@ class Window extends HTMLElement {
         .querySelector(`fos-window[name=${this.name}] `)
         .classList.add("active");
     }
-    this.render();
+    // this.render();
   }
 
   static get observedAttributes() {
