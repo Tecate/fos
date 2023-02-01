@@ -1,13 +1,10 @@
-class Text extends HTMLElement {
+class Link extends HTMLElement {
     constructor() {
       super();
       this.shadow = this.attachShadow({ mode: "open" });
       this._data = [];
     }
   
-    loadChannel(url, element) {
- 
-    }
     
     attributeChangedCallback(name, oldValue, newValue) {
       this.render();
@@ -56,18 +53,35 @@ class Text extends HTMLElement {
                 width: 100%;
                 height: 100%;
               }
+
+              iframe {
+                width: 640px;
+                height: 480px;
+              }
           </style>`;
 
 
       var data = this._data;
+      var windowParent = this;
 
-      var text = document.createElement("div")
-      text.textContent = data.content;
-      this.shadow.appendChild(text)
-    //   this.shadow.textContent = data.content;
+      // disabling this for now because it shits up the console
+    //   console.log(data.source.url)
+    //   var frame = document.createElement("iframe");
+    //   frame.src = data.source.url;
+    //   this.shadow.appendChild(frame);
+
+    //   // detect click on iframe to raise window
+    //   window.addEventListener("blur", () => {
+    //     setTimeout(() => {
+    //       if (document.activeElement.tagName === "IFRAME") {
+    //         windowParent.bringFront();
+    //         console.log("clicked");
+    //       }
+    //     });
+    //   });
 
     }
   }
   
-  customElements.define("arena-text", Text);
+  customElements.define("arena-link", Link);
   

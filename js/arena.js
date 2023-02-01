@@ -36,11 +36,12 @@ function buildDesktop(url) {
           } else if (data.contents[i].class == "Text") {
             buildText(data, i)
           } else if (data.contents[i].class == "Link") {
-            console.log("Link")
+            buildLink(data, i)
           } else if (data.contents[i].class == "Media") {
-            console.log("Media")
+            buildMedia(data, i)
+          } else if (data.contents[i].class == "Attachment") {
+            buildAttachment(data, i)
           }
-
         }
         // if (data.class == "Image") {
         //     document.getElementById("gotImage").src = data.image.original.url;
@@ -111,6 +112,81 @@ function buildText(data, i) {
   newText._data = data.contents[i];
   // console.log("arena-image _data:", newText._data);
   newFoswindow.appendChild(newText)
+
+  document.getElementById("desktop").appendChild(newFoswindow);
+}
+
+function buildLink(data, i) {
+  var iconContainer = document.createElement("fos-icon");
+  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
+  var newIcon = document.createElement("img");
+  newIcon.src = "img/linkblock.png";
+  iconContainer.appendChild(newIcon);
+  var newTitle = document.createTextNode(data.contents[i].generated_title);
+  iconContainer.appendChild(newTitle);
+  document.getElementById("desktop").appendChild(iconContainer);
+
+  var newFoswindow = document.createElement("fos-window");
+  newFoswindow.name = "arena-" + data.contents[i].id;
+  newFoswindow.icon = "img/favicon.gif";
+  newFoswindow.setAttribute("fixedsize", "");
+  newFoswindow.setAttribute("fostitle", data.contents[i].title);
+
+  // display using custom arena-image element
+  var newLink = document.createElement("arena-link");
+  newLink._data = data.contents[i];
+  // console.log("arena-image _data:", newLink._data);
+  newFoswindow.appendChild(newLink)
+
+  document.getElementById("desktop").appendChild(newFoswindow);
+}
+
+function buildMedia(data, i) {
+  var iconContainer = document.createElement("fos-icon");
+  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
+  var newIcon = document.createElement("img");
+  newIcon.src = "img/mediablock.png";
+  iconContainer.appendChild(newIcon);
+  var newTitle = document.createTextNode(data.contents[i].generated_title);
+  iconContainer.appendChild(newTitle);
+  document.getElementById("desktop").appendChild(iconContainer);
+
+  var newFoswindow = document.createElement("fos-window");
+  newFoswindow.name = "arena-" + data.contents[i].id;
+  newFoswindow.icon = "img/favicon.gif";
+  newFoswindow.setAttribute("fixedsize", "");
+  newFoswindow.setAttribute("fostitle", data.contents[i].title);
+
+  // display using custom arena-image element
+  var newMedia = document.createElement("arena-media");
+  newMedia._data = data.contents[i];
+  // console.log("arena-image _data:", newMedia._data);
+  newFoswindow.appendChild(newMedia)
+
+  document.getElementById("desktop").appendChild(newFoswindow);
+}
+
+function buildAttachment(data, i) {
+  var iconContainer = document.createElement("fos-icon");
+  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
+  var newIcon = document.createElement("img");
+  newIcon.src = "img/attachmentblock.png";
+  iconContainer.appendChild(newIcon);
+  var newTitle = document.createTextNode(data.contents[i].generated_title);
+  iconContainer.appendChild(newTitle);
+  document.getElementById("desktop").appendChild(iconContainer);
+
+  var newFoswindow = document.createElement("fos-window");
+  newFoswindow.name = "arena-" + data.contents[i].id;
+  newFoswindow.icon = "img/favicon.gif";
+  newFoswindow.setAttribute("fixedsize", "");
+  newFoswindow.setAttribute("fostitle", data.contents[i].title);
+
+  // display using custom arena-image element
+  var newAttachment = document.createElement("arena-attachment");
+  newAttachment._data = data.contents[i];
+  // console.log("arena-image _data:", newAttachment._data);
+  newFoswindow.appendChild(newAttachment)
 
   document.getElementById("desktop").appendChild(newFoswindow);
 }

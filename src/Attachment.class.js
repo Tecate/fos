@@ -1,13 +1,10 @@
-class Text extends HTMLElement {
+class Attachment extends HTMLElement {
     constructor() {
       super();
       this.shadow = this.attachShadow({ mode: "open" });
       this._data = [];
     }
   
-    loadChannel(url, element) {
- 
-    }
     
     attributeChangedCallback(name, oldValue, newValue) {
       this.render();
@@ -61,13 +58,14 @@ class Text extends HTMLElement {
 
       var data = this._data;
 
-      var text = document.createElement("div")
-      text.textContent = data.content;
-      this.shadow.appendChild(text)
-    //   this.shadow.textContent = data.content;
+    //   var link = document.createElement("a")
+    //   link.href = data.attachment.url;
+    //   link.innerHTML = data.title;
+    //   this.shadow.appendChild(link)
+      this.shadow.innerHTML += `<a href="${data.attachment.url}">${data.title}</a> ${data.attachment.file_size_display}`
 
     }
   }
   
-  customElements.define("arena-text", Text);
+  customElements.define("arena-attachment", Attachment);
   

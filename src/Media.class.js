@@ -1,13 +1,10 @@
-class Text extends HTMLElement {
+class Media extends HTMLElement {
     constructor() {
       super();
       this.shadow = this.attachShadow({ mode: "open" });
       this._data = [];
     }
   
-    loadChannel(url, element) {
- 
-    }
     
     attributeChangedCallback(name, oldValue, newValue) {
       this.render();
@@ -56,18 +53,21 @@ class Text extends HTMLElement {
                 width: 100%;
                 height: 100%;
               }
+
+              iframe {
+                width: 640px;
+                height: 480px;
+              }
           </style>`;
 
 
       var data = this._data;
+      //disabling this for now because it shits up the console
+    //   this.shadow.innerHTML += data.embed.html;
 
-      var text = document.createElement("div")
-      text.textContent = data.content;
-      this.shadow.appendChild(text)
-    //   this.shadow.textContent = data.content;
 
     }
   }
   
-  customElements.define("arena-text", Text);
+  customElements.define("arena-media", Media);
   
