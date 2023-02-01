@@ -6,7 +6,6 @@ var combinedURL = channelURL + urlParams;
 var channelLength;
 
 function buildDesktop(url) {
-  console.log("buildDesktop");
   fetch(url)
     .then((response) => {
       const contentType = response.headers.get("content-type");
@@ -14,8 +13,7 @@ function buildDesktop(url) {
         throw new TypeError("Oops, we haven't got JSON!");
       }
       if (response.ok == false)
-        document.getElementById("error").innerText =
-          "private block: " + response.status;
+        console.log("private block: " + response.status);
       return response.json();
     })
     .then((data) => {
