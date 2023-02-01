@@ -1,12 +1,9 @@
 // var channelURL = "https://api.are.na/v2/channels/783951"; // floats-my-boat
 var channelURL = "https://api.are.na/v2/channels/1691884"; // 1 of each block type
-// var channelURL = "https://api.are.na/v2/channels/782953"; // random
-// var channelURL = "https://api.are.na/v2/channels/783913"; // random example with channels and blocks (no blocks with class == image so nothing renders)
 var blockCount = 20;
 var urlParams = "?per=" + blockCount;
 var combinedURL = channelURL + urlParams;
 var channelLength;
-// var perPage;
 
 function buildDesktop(url) {
   console.log("buildDesktop")
@@ -23,9 +20,6 @@ function buildDesktop(url) {
     })
     .then((data) => {
       console.log("API call:", data);
-      // channelLength = data.length;
-      // perPage = Math.floor(channelLength/data.contents.length);
-      // console.log(perPage);
 
       if (data.base_class == "Channel") { // make sure that the request is for a channel
         for (var i = 0; i < data.contents.length; i++) {
@@ -43,17 +37,6 @@ function buildDesktop(url) {
             buildAttachment(data, i)
           }
         }
-        // if (data.class == "Image") {
-        //     document.getElementById("gotImage").src = data.image.original.url;
-        // }
-        // if (data.class == "Link") {
-        //     document.getElementById("gotLink").href = data.source.url;
-        //     document.getElementById("gotLink").innerText = data.source.url;
-        //     document.getElementById("gotImage").src = data.image.original.url;
-        // }
-        // if (data.class == "Text") {
-        //     document.getElementById("gotImage").innerHTML = data.content_html;
-        // }
     } else {
       console.log("you are not requesting a channel")
     }
@@ -75,98 +58,106 @@ function buildIcon(id, image, title) {
   document.getElementById("desktop").appendChild(icon);  
 }
 
+function buildWindow(obj) {
+  /* parameters
+  {
+    id: mandatory, must be unique,
+    title: optional,
+    favicon: optional,
+    fixedsize: optional
+  }
+  */
+
+  // defaults
+  if (obj.fixedsize == undefined)
+    obj.fixedsize = false;
+  if (obj.favicon == undefined)
+    obj.favicon = "img/favicon.gif"
+  
+  var fosWindow = document.createElement("fos-window");
+  fosWindow.name = "arena-" + obj.id;
+  fosWindow.icon = obj.favicon;
+  if (obj.fixedsize)
+    fosWindow.setAttribute("fixedsize", "");
+  fosWindow.setAttribute("fostitle", obj.title);
+
+  document.getElementById("desktop").appendChild(fosWindow);
+  return fosWindow;
+}
+
 function buildImage(data, i) {
   buildIcon(data.contents[i].id, data.contents[i].image.square.url)
 
-  var newFoswindow = document.createElement("fos-window");
-  newFoswindow.name = "arena-" + data.contents[i].id;
-  newFoswindow.icon = "img/favicon.gif";
-  newFoswindow.setAttribute("fixedsize", "");
-  newFoswindow.setAttribute("fostitle", data.contents[i].title);
-  // display using image element
-  // var newFoswindowContent = document.createElement("img");
-  // newFoswindowContent.src = data.contents[i].image.square.url;
-  // newFoswindow.appendChild(newFoswindowContent);
+  var fosWindow = buildWindow({
+    id: data.contents[i].id,
+    title: data.contents[i].title,
+    fixedsize: true
+  });
 
   // display using custom arena-image element
   var newImage = document.createElement("arena-image");
   newImage._data = data.contents[i];
-  // console.log("arena-image _data:", newImage._data);
-  newFoswindow.appendChild(newImage)
-
-  document.getElementById("desktop").appendChild(newFoswindow);
+  fosWindow.appendChild(newImage);
 }
 
 function buildText(data, i) {
   buildIcon(data.contents[i].id, "img/textblock.png");
 
-  var newFoswindow = document.createElement("fos-window");
-  newFoswindow.name = "arena-" + data.contents[i].id;
-  newFoswindow.icon = "img/favicon.gif";
-  newFoswindow.setAttribute("fixedsize", "");
-  newFoswindow.setAttribute("fostitle", data.contents[i].title);
+  var fosWindow = buildWindow({
+    id: data.contents[i].id,
+    title: data.contents[i].title,
+    fixedsize: true
+  });
 
   // display using custom arena-image element
   var newText = document.createElement("arena-text");
   newText._data = data.contents[i];
-  // console.log("arena-image _data:", newText._data);
-  newFoswindow.appendChild(newText)
-
-  document.getElementById("desktop").appendChild(newFoswindow);
+  fosWindow.appendChild(newText)
 }
 
 function buildLink(data, i) {
   buildIcon(data.contents[i].id, "img/linkblock.png", data.contents[i].generated_title);
 
-  var newFoswindow = document.createElement("fos-window");
-  newFoswindow.name = "arena-" + data.contents[i].id;
-  newFoswindow.icon = "img/favicon.gif";
-  newFoswindow.setAttribute("fixedsize", "");
-  newFoswindow.setAttribute("fostitle", data.contents[i].title);
+  var fosWindow = buildWindow({
+    id: data.contents[i].id,
+    title: data.contents[i].title,
+    fixedsize: true
+  });
 
   // display using custom arena-image element
   var newLink = document.createElement("arena-link");
   newLink._data = data.contents[i];
-  // console.log("arena-image _data:", newLink._data);
-  newFoswindow.appendChild(newLink)
-
-  document.getElementById("desktop").appendChild(newFoswindow);
+  fosWindow.appendChild(newLink)
 }
 
 function buildMedia(data, i) {
   buildIcon(data.contents[i].id, "img/mediablock.png", data.contents[i].generated_title);
 
-  var newFoswindow = document.createElement("fos-window");
-  newFoswindow.name = "arena-" + data.contents[i].id;
-  newFoswindow.icon = "img/favicon.gif";
-  newFoswindow.setAttribute("fixedsize", "");
-  newFoswindow.setAttribute("fostitle", data.contents[i].title);
+  var fosWindow = buildWindow({
+    id: data.contents[i].id,
+    title: data.contents[i].title,
+    fixedsize: true
+  });
 
   // display using custom arena-image element
   var newMedia = document.createElement("arena-media");
   newMedia._data = data.contents[i];
-  // console.log("arena-image _data:", newMedia._data);
-  newFoswindow.appendChild(newMedia)
-
-  document.getElementById("desktop").appendChild(newFoswindow);
+  fosWindow.appendChild(newMedia)
 }
 
 function buildAttachment(data, i) {
   buildIcon(data.contents[i].id, "img/attachmentblock.png", data.contents[i].generated_title);
 
-  var newFoswindow = document.createElement("fos-window");
-  newFoswindow.name = "arena-" + data.contents[i].id;
-  newFoswindow.icon = "img/favicon.gif";
-  newFoswindow.setAttribute("fixedsize", "");
-  newFoswindow.setAttribute("fostitle", data.contents[i].title);
+  var fosWindow = buildWindow({
+    id: data.contents[i].id,
+    title: data.contents[i].title,
+    fixedsize: true
+  });
 
   // display using custom arena-image element
   var newAttachment = document.createElement("arena-attachment");
   newAttachment._data = data.contents[i];
-  // console.log("arena-image _data:", newAttachment._data);
-  newFoswindow.appendChild(newAttachment)
-
-  document.getElementById("desktop").appendChild(newFoswindow);
+  fosWindow.appendChild(newAttachment);
 }
 
 function buildChannel(data, i) {
@@ -174,65 +165,26 @@ function buildChannel(data, i) {
 
   buildIcon(data.contents[i].id, "img/postit32.png", data.contents[i].title);
 
-  var newFoswindow = document.createElement("fos-window");
-  newFoswindow.name = "arena-" + data.contents[i].id;
-  newFoswindow.icon = "img/favicon.gif";
-  newFoswindow.setAttribute("fixedsize", "");
-  newFoswindow.setAttribute("fostitle", `Channel: ${data.contents[i].title}, ${pageCount} pages`);
-
-
-
-  // var arenaLink = `https://are.na/${data.contents[i].owner_slug}/${data.contents[i].slug}`
-  // var arenaLinkEl = document.createElement("a");
-  // arenaLinkEl.href = arenaLink;
-  // arenaLinkEl.innerText = arenaLink;
-  // arenaLinkEl.target = "_blank";
-  // arenaLinkEl.style.display = "block";
-  // newFoswindow.appendChild(arenaLinkEl)
+  var fosWindow = buildWindow({
+    id: data.contents[i].id,
+    title: `Channel: ${data.contents[i].title}, ${pageCount} pages`,
+    fixedsize: true
+  });
 
   var newChannel = document.createElement("fos-channel");
   newChannel._data = data.contents[i];
-  // console.log(newChannel._data);
-  newFoswindow.appendChild(newChannel)
-
-  // var loadButton = document.createElement("button");
-  // var page = 1;
-  // loadButton.innerText = `Load page ${page}/${pageCount} to desktop`;
-  // var channelURL = "https://api.are.na/v2/channels/" + data.contents[i].id;
-  // newFoswindow.appendChild(loadButton);
-
-  // loadButton.onclick = function() {
-  //   buildDesktop(channelURL + "?page=" + page);
-  //   if (page < pageCount) {
-  //     page += 1;
-  //     loadButton.innerText = `Load page ${page}/${pageCount} to desktop`;
-  //   } else {
-  //     loadButton.innerText = "nothing more to load";
-  //     loadButton.onclick = function() {}
-  //   }
-  // }
-
-  document.getElementById("desktop").appendChild(newFoswindow);
+  fosWindow.appendChild(newChannel)
 }
 
-var iconContainer = document.createElement("fos-icon");
-iconContainer.setAttribute("href", "settings");
-var newIcon = document.createElement("img");
-newIcon.src = "img/coke32.gif";
-iconContainer.appendChild(newIcon);
-var newTitle = document.createTextNode("SETTINGS");
-iconContainer.appendChild(newTitle);
-document.getElementById("desktop").appendChild(iconContainer);
-
-var newFoswindow = document.createElement("fos-window");
-newFoswindow.name = "settings";
-newFoswindow.icon = "img/favicon.gif";
-newFoswindow.setAttribute("fixedsize", "");
-newFoswindow.setAttribute("fostitle", "Settings");
-document.getElementById("desktop").appendChild(newFoswindow);
+// create settings window
+buildIcon("settings", "img/coke32.gif", "SETTINGS");
+var fosWindow = buildWindow({
+  id: "settings",
+  title: "Settings"
+});
 
 var textareaChannel = document.createElement("textarea");
-newFoswindow.appendChild(textareaChannel);
+fosWindow.appendChild(textareaChannel);
 textareaChannel.innerText = channelURL;
 textareaChannel.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
@@ -242,12 +194,8 @@ textareaChannel.addEventListener("keypress", function(event) {
   }
 });
 
-// var newFoswindowContent = document.createElement("label");
-// newFoswindow.appendChild(newFoswindowContent);
-// newFoswindowContent.innerText = "Number of blocks: " + blockCount;
-
 var delButton = document.createElement("button");
-newFoswindow.appendChild(delButton);
+fosWindow.appendChild(delButton);
 delButton.innerText = "remove icons";
 delButton.addEventListener("click", (e) => {
   var windows = document.querySelectorAll("fos-window");
@@ -266,7 +214,7 @@ delButton.addEventListener("click", (e) => {
 });
 
 var closeAll = document.createElement("button");
-newFoswindow.appendChild(closeAll);
+fosWindow.appendChild(closeAll);
 closeAll.innerText = "Close All Windows";
 closeAll.addEventListener("click", (e) => {
   var windows = document.querySelectorAll("fos-window");
@@ -278,7 +226,7 @@ closeAll.addEventListener("click", (e) => {
 
 
 var openAll = document.createElement("button");
-newFoswindow.appendChild(openAll);
+fosWindow.appendChild(openAll);
 openAll.innerText = "Open All Windows";
 openAll.addEventListener("click", (e) => {
   var windows = document.querySelectorAll("fos-window");
