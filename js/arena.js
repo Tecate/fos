@@ -6,7 +6,7 @@ var combinedURL = channelURL + urlParams;
 var channelLength;
 
 function buildDesktop(url) {
-  console.log("buildDesktop")
+  console.log("buildDesktop");
   fetch(url)
     .then((response) => {
       const contentType = response.headers.get("content-type");
@@ -21,25 +21,26 @@ function buildDesktop(url) {
     .then((data) => {
       console.log("API call:", data);
 
-      if (data.base_class == "Channel") { // make sure that the request is for a channel
+      if (data.base_class == "Channel") {
+        // make sure that the request is for a channel
         for (var i = 0; i < data.contents.length; i++) {
           if (data.contents[i].class == "Image") {
-            buildImage(data, i)
+            buildImage(data, i);
           } else if (data.contents[i].class == "Channel") {
-            buildChannel(data, i)
+            buildChannel(data, i);
           } else if (data.contents[i].class == "Text") {
-            buildText(data, i)
+            buildText(data, i);
           } else if (data.contents[i].class == "Link") {
-            buildLink(data, i)
+            buildLink(data, i);
           } else if (data.contents[i].class == "Media") {
-            buildMedia(data, i)
+            buildMedia(data, i);
           } else if (data.contents[i].class == "Attachment") {
-            buildAttachment(data, i)
+            buildAttachment(data, i);
           }
         }
-    } else {
-      console.log("you are not requesting a channel")
-    }
+      } else {
+        console.log("you are not requesting a channel");
+      }
     });
 }
 
@@ -51,11 +52,10 @@ function buildIcon(id, image, title) {
   var iconImage = document.createElement("img");
   iconImage.src = image;
   icon.appendChild(iconImage);
-  if (title == undefined)
-    title = id;
+  if (title == undefined) title = id;
   var iconTitle = document.createTextNode(title);
   icon.appendChild(iconTitle);
-  document.getElementById("desktop").appendChild(icon);  
+  document.getElementById("desktop").appendChild(icon);
 }
 
 function buildWindow(obj) {
@@ -69,16 +69,19 @@ function buildWindow(obj) {
   */
 
   // defaults
-  if (obj.fixedsize == undefined)
-    obj.fixedsize = false;
-  if (obj.favicon == undefined)
-    obj.favicon = "img/favicon.gif"
-  
+  if (obj.title == undefined) obj.title = "";
+  if (obj.fixedsize == undefined) obj.fixedsize = false;
+  if (obj.favicon == undefined) obj.favicon = "img/favicon.gif";
+
+  if (obj.id == undefined) {
+    alert("you must specify an id when creating a window");
+    return;
+  }
+
   var fosWindow = document.createElement("fos-window");
   fosWindow.name = "arena-" + obj.id;
   fosWindow.icon = obj.favicon;
-  if (obj.fixedsize)
-    fosWindow.setAttribute("fixedsize", "");
+  if (obj.fixedsize) fosWindow.setAttribute("fixedsize", "");
   fosWindow.setAttribute("fostitle", obj.title);
 
   document.getElementById("desktop").appendChild(fosWindow);
@@ -86,12 +89,12 @@ function buildWindow(obj) {
 }
 
 function buildImage(data, i) {
-  buildIcon(data.contents[i].id, data.contents[i].image.square.url)
+  buildIcon(data.contents[i].id, data.contents[i].image.square.url);
 
   var fosWindow = buildWindow({
     id: data.contents[i].id,
     title: data.contents[i].title,
-    fixedsize: true
+    fixedsize: true,
   });
 
   // display using custom arena-image element
@@ -106,52 +109,64 @@ function buildText(data, i) {
   var fosWindow = buildWindow({
     id: data.contents[i].id,
     title: data.contents[i].title,
-    fixedsize: true
+    fixedsize: true,
   });
 
-  // display using custom arena-image element
+  // display using custom arena-text element
   var newText = document.createElement("arena-text");
   newText._data = data.contents[i];
-  fosWindow.appendChild(newText)
+  fosWindow.appendChild(newText);
 }
 
 function buildLink(data, i) {
-  buildIcon(data.contents[i].id, "img/linkblock.png", data.contents[i].generated_title);
+  buildIcon(
+    data.contents[i].id,
+    "img/linkblock.png",
+    data.contents[i].generated_title
+  );
 
   var fosWindow = buildWindow({
     id: data.contents[i].id,
     title: data.contents[i].title,
-    fixedsize: true
+    fixedsize: true,
   });
 
-  // display using custom arena-image element
+  // display using custom arena-link element
   var newLink = document.createElement("arena-link");
   newLink._data = data.contents[i];
-  fosWindow.appendChild(newLink)
+  fosWindow.appendChild(newLink);
 }
 
 function buildMedia(data, i) {
-  buildIcon(data.contents[i].id, "img/mediablock.png", data.contents[i].generated_title);
+  buildIcon(
+    data.contents[i].id,
+    "img/mediablock.png",
+    data.contents[i].generated_title
+  );
 
   var fosWindow = buildWindow({
     id: data.contents[i].id,
     title: data.contents[i].title,
-    fixedsize: true
+    fixedsize: true,
   });
 
-  // display using custom arena-image element
+  // display using custom arena-media element
   var newMedia = document.createElement("arena-media");
   newMedia._data = data.contents[i];
-  fosWindow.appendChild(newMedia)
+  fosWindow.appendChild(newMedia);
 }
 
 function buildAttachment(data, i) {
-  buildIcon(data.contents[i].id, "img/attachmentblock.png", data.contents[i].generated_title);
+  buildIcon(
+    data.contents[i].id,
+    "img/attachmentblock.png",
+    data.contents[i].generated_title
+  );
 
   var fosWindow = buildWindow({
     id: data.contents[i].id,
     title: data.contents[i].title,
-    fixedsize: true
+    fixedsize: true,
   });
 
   // display using custom arena-image element
@@ -168,25 +183,26 @@ function buildChannel(data, i) {
   var fosWindow = buildWindow({
     id: data.contents[i].id,
     title: `Channel: ${data.contents[i].title}, ${pageCount} pages`,
-    fixedsize: true
+    fixedsize: true,
   });
 
+  // display using custom arena-channel element
   var newChannel = document.createElement("fos-channel");
   newChannel._data = data.contents[i];
-  fosWindow.appendChild(newChannel)
+  fosWindow.appendChild(newChannel);
 }
 
 // create settings window
 buildIcon("settings", "img/coke32.gif", "SETTINGS");
 var fosWindow = buildWindow({
   id: "settings",
-  title: "Settings"
+  title: "Settings",
 });
 
 var textareaChannel = document.createElement("textarea");
 fosWindow.appendChild(textareaChannel);
 textareaChannel.innerText = channelURL;
-textareaChannel.addEventListener("keypress", function(event) {
+textareaChannel.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
     console.log("enter");
@@ -202,8 +218,7 @@ delButton.addEventListener("click", (e) => {
   var icons = document.querySelectorAll("fos-icon");
   for (const [i, w] of windows.entries()) {
     if (w.name !== "settings") {
-      if (w.isOpen)
-        w.close();
+      if (w.isOpen) w.close();
       w.remove();
     }
     if (icons[i].getAttribute("href") !== "settings") {
@@ -219,11 +234,9 @@ closeAll.innerText = "Close All Windows";
 closeAll.addEventListener("click", (e) => {
   var windows = document.querySelectorAll("fos-window");
   for (const w of windows) {
-    if (w.isOpen && w.name !== "settings")
-      w.close();
+    if (w.isOpen && w.name !== "settings") w.close();
   }
 });
-
 
 var openAll = document.createElement("button");
 fosWindow.appendChild(openAll);
@@ -231,14 +244,17 @@ openAll.innerText = "Open All Windows";
 openAll.addEventListener("click", (e) => {
   var windows = document.querySelectorAll("fos-window");
   for (const w of windows) {
-    if (w.name !== "settings")
-      w.open();
+    if (w.name !== "settings") w.open();
   }
 });
 
 // close top window with w key
-document.addEventListener('keydown', function(e){
-  if(e.key === 'w') {
-    document.querySelector(`fos-window[name=${document.getElementById("desktop").windowStack[0]}] `).close();
+document.addEventListener("keydown", function (e) {
+  if (e.key === "w") {
+    document
+      .querySelector(
+        `fos-window[name=${document.getElementById("desktop").windowStack[0]}] `
+      )
+      .close();
   }
-})
+});
