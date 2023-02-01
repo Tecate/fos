@@ -62,15 +62,21 @@ function buildDesktop(url) {
 
 buildDesktop(combinedURL);
 
+function buildIcon(id, image, title) {
+  var icon = document.createElement("fos-icon");
+  icon.setAttribute("href", "arena-" + id);
+  var iconImage = document.createElement("img");
+  iconImage.src = image;
+  icon.appendChild(iconImage);
+  if (title == undefined)
+    title = id;
+  var iconTitle = document.createTextNode(title);
+  icon.appendChild(iconTitle);
+  document.getElementById("desktop").appendChild(icon);  
+}
+
 function buildImage(data, i) {
-  var iconContainer = document.createElement("fos-icon");
-  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
-  var newIcon = document.createElement("img");
-  newIcon.src = data.contents[i].image.square.url;
-  iconContainer.appendChild(newIcon);
-  var newTitle = document.createTextNode(data.contents[i].id);
-  iconContainer.appendChild(newTitle);
-  document.getElementById("desktop").appendChild(iconContainer);
+  buildIcon(data.contents[i].id, data.contents[i].image.square.url)
 
   var newFoswindow = document.createElement("fos-window");
   newFoswindow.name = "arena-" + data.contents[i].id;
@@ -92,14 +98,7 @@ function buildImage(data, i) {
 }
 
 function buildText(data, i) {
-  var iconContainer = document.createElement("fos-icon");
-  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
-  var newIcon = document.createElement("img");
-  newIcon.src = "img/textblock.png";
-  iconContainer.appendChild(newIcon);
-  var newTitle = document.createTextNode(data.contents[i].id);
-  iconContainer.appendChild(newTitle);
-  document.getElementById("desktop").appendChild(iconContainer);
+  buildIcon(data.contents[i].id, "img/textblock.png");
 
   var newFoswindow = document.createElement("fos-window");
   newFoswindow.name = "arena-" + data.contents[i].id;
@@ -117,14 +116,7 @@ function buildText(data, i) {
 }
 
 function buildLink(data, i) {
-  var iconContainer = document.createElement("fos-icon");
-  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
-  var newIcon = document.createElement("img");
-  newIcon.src = "img/linkblock.png";
-  iconContainer.appendChild(newIcon);
-  var newTitle = document.createTextNode(data.contents[i].generated_title);
-  iconContainer.appendChild(newTitle);
-  document.getElementById("desktop").appendChild(iconContainer);
+  buildIcon(data.contents[i].id, "img/linkblock.png", data.contents[i].generated_title);
 
   var newFoswindow = document.createElement("fos-window");
   newFoswindow.name = "arena-" + data.contents[i].id;
@@ -142,14 +134,7 @@ function buildLink(data, i) {
 }
 
 function buildMedia(data, i) {
-  var iconContainer = document.createElement("fos-icon");
-  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
-  var newIcon = document.createElement("img");
-  newIcon.src = "img/mediablock.png";
-  iconContainer.appendChild(newIcon);
-  var newTitle = document.createTextNode(data.contents[i].generated_title);
-  iconContainer.appendChild(newTitle);
-  document.getElementById("desktop").appendChild(iconContainer);
+  buildIcon(data.contents[i].id, "img/mediablock.png", data.contents[i].generated_title);
 
   var newFoswindow = document.createElement("fos-window");
   newFoswindow.name = "arena-" + data.contents[i].id;
@@ -167,14 +152,7 @@ function buildMedia(data, i) {
 }
 
 function buildAttachment(data, i) {
-  var iconContainer = document.createElement("fos-icon");
-  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
-  var newIcon = document.createElement("img");
-  newIcon.src = "img/attachmentblock.png";
-  iconContainer.appendChild(newIcon);
-  var newTitle = document.createTextNode(data.contents[i].generated_title);
-  iconContainer.appendChild(newTitle);
-  document.getElementById("desktop").appendChild(iconContainer);
+  buildIcon(data.contents[i].id, "img/attachmentblock.png", data.contents[i].generated_title);
 
   var newFoswindow = document.createElement("fos-window");
   newFoswindow.name = "arena-" + data.contents[i].id;
@@ -194,16 +172,7 @@ function buildAttachment(data, i) {
 function buildChannel(data, i) {
   var pageCount = Math.ceil(data.contents[i].length / blockCount);
 
-  var iconContainer = document.createElement("fos-icon");
-  iconContainer.setAttribute("href", "arena-" + data.contents[i].id);
-
-  var newIcon = document.createElement("img");
-  newIcon.src = "img/postit32.png";
-  iconContainer.appendChild(newIcon);
-
-  var newTitle = document.createTextNode(data.contents[i].title);
-  iconContainer.appendChild(newTitle);
-  document.getElementById("desktop").appendChild(iconContainer);
+  buildIcon(data.contents[i].id, "img/postit32.png", data.contents[i].title);
 
   var newFoswindow = document.createElement("fos-window");
   newFoswindow.name = "arena-" + data.contents[i].id;
