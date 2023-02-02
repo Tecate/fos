@@ -1,3 +1,5 @@
+import { buildIcon, buildWindow } from "./helpers.js";
+
 // var channelURL = "https://api.are.na/v2/channels/783951"; // floats-my-boat
 var channelURL = "https://api.are.na/v2/channels/1691884"; // 1 of each block type
 var blockCount = 20;
@@ -43,48 +45,6 @@ function buildDesktop(url) {
 }
 
 buildDesktop(combinedURL);
-
-function buildIcon(id, image, title) {
-  var icon = document.createElement("fos-icon");
-  icon.setAttribute("href", "arena-" + id);
-  var iconImage = document.createElement("img");
-  iconImage.src = image;
-  icon.appendChild(iconImage);
-  if (title == undefined) title = id;
-  var iconTitle = document.createTextNode(title);
-  icon.appendChild(iconTitle);
-  document.getElementById("desktop").appendChild(icon);
-}
-
-function buildWindow(obj) {
-  /* parameters
-  {
-    id: mandatory, must be unique,
-    title: optional,
-    favicon: optional,
-    fixedsize: optional
-  }
-  */
-
-  // defaults
-  if (obj.title == undefined) obj.title = "";
-  if (obj.fixedsize == undefined) obj.fixedsize = false;
-  if (obj.favicon == undefined) obj.favicon = "img/favicon.gif";
-
-  if (obj.id == undefined) {
-    alert("you must specify an id when creating a window");
-    return;
-  }
-
-  var fosWindow = document.createElement("fos-window");
-  fosWindow.name = "arena-" + obj.id;
-  fosWindow.icon = obj.favicon;
-  if (obj.fixedsize) fosWindow.setAttribute("fixedsize", "");
-  fosWindow.setAttribute("fostitle", obj.title);
-
-  document.getElementById("desktop").appendChild(fosWindow);
-  return fosWindow;
-}
 
 function buildImage(data) {
   buildIcon(data.id, data.image.square.url);
@@ -188,6 +148,7 @@ function buildChannel(data) {
   var newChannel = document.createElement("fos-channel");
   newChannel._data = data;
   fosWindow.appendChild(newChannel);
+  fosWindow.open(); // auto open for testing
 }
 
 // create settings window
