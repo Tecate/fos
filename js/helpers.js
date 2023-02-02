@@ -39,3 +39,110 @@ export function buildWindow(obj) {
   document.getElementById("desktop").appendChild(fosWindow);
   return fosWindow;
 }
+
+export function buildImage(data, makeIcon) {
+    if (makeIcon == undefined)
+        makeIcon = false;
+    if (makeIcon)
+        buildIcon(data.id, data.image.square.url);
+  
+    var fosWindow = buildWindow({
+      id: data.id,
+      title: data.title,
+      fixedsize: true,
+    });
+  
+    // display using custom arena-image element
+    var newImage = document.createElement("arena-image");
+    newImage._data = data;
+    fosWindow.appendChild(newImage);
+    return fosWindow;
+  }
+
+  
+export function buildText(data, makeIcon) {
+    if (makeIcon == undefined)
+    makeIcon = false;
+    if (makeIcon)
+        buildIcon(data.id, "img/textblock.png");
+  
+    var fosWindow = buildWindow({
+      id: data.id,
+      title: data.title,
+      fixedsize: true,
+    });
+  
+    // display using custom arena-text element
+    var newText = document.createElement("arena-text");
+    newText._data = data;
+    fosWindow.appendChild(newText);
+  }
+  
+  export function buildLink(data, makeIcon) {
+    if (makeIcon == undefined)
+    makeIcon = false;
+    if (makeIcon) {
+        buildIcon(
+        data.id,
+        "img/linkblock.png",
+        data.generated_title
+        );
+    }
+  
+    var fosWindow = buildWindow({
+      id: data.id,
+      title: data.title,
+      fixedsize: true,
+    });
+  
+    // display using custom arena-link element
+    var newLink = document.createElement("arena-link");
+    newLink._data = data;
+    fosWindow.appendChild(newLink);
+  }
+  
+  export function buildMedia(data, makeIcon) {
+    if (makeIcon == undefined)
+    makeIcon = false;
+    if (makeIcon) {
+        buildIcon(
+        data.id,
+        "img/mediablock.png",
+        data.generated_title
+        );
+    }
+  
+    var fosWindow = buildWindow({
+      id: data.id,
+      title: data.title,
+      fixedsize: true,
+    });
+  
+    // display using custom arena-media element
+    var newMedia = document.createElement("arena-media");
+    newMedia._data = data;
+    fosWindow.appendChild(newMedia);
+  }
+  
+  export function buildAttachment(data, makeIcon) {
+    if (makeIcon == undefined)
+    makeIcon = false;
+    if (makeIcon) {
+        buildIcon(
+        data.id,
+        "img/attachmentblock.png",
+        data.generated_title
+        );
+    }
+  
+    var fosWindow = buildWindow({
+      id: data.id,
+      title: data.title,
+      fixedsize: true,
+    });
+  
+    // display using custom arena-image element
+    var newAttachment = document.createElement("arena-attachment");
+    newAttachment._data = data;
+    fosWindow.appendChild(newAttachment);
+  }

@@ -1,4 +1,4 @@
-import { buildIcon, buildWindow } from "./helpers.js";
+import { buildIcon, buildWindow, buildImage, buildText, buildLink, buildMedia, buildAttachment } from "./helpers.js";
 
 // var channelURL = "https://api.are.na/v2/channels/783951"; // floats-my-boat
 var channelURL = "https://api.are.na/v2/channels/1691884"; // 1 of each block type
@@ -25,17 +25,17 @@ function buildDesktop(url) {
         // make sure that the request is for a channel
         for (var i = 0; i < data.contents.length; i++) {
           if (data.contents[i].class == "Image") {
-            buildImage(data.contents[i]);
+            buildImage(data.contents[i], true);
           } else if (data.contents[i].class == "Channel") {
-            buildChannel(data.contents[i]);
+            buildChannel(data.contents[i], true);
           } else if (data.contents[i].class == "Text") {
-            buildText(data.contents[i]);
+            buildText(data.contents[i], true);
           } else if (data.contents[i].class == "Link") {
-            buildLink(data.contents[i]);
+            buildLink(data.contents[i], true);
           } else if (data.contents[i].class == "Media") {
-            buildMedia(data.contents[i]);
+            buildMedia(data.contents[i], true);
           } else if (data.contents[i].class == "Attachment") {
-            buildAttachment(data.contents[i]);
+            buildAttachment(data.contents[i], true);
           }
         }
       } else {
@@ -46,92 +46,6 @@ function buildDesktop(url) {
 
 buildDesktop(combinedURL);
 
-function buildImage(data) {
-  buildIcon(data.id, data.image.square.url);
-
-  var fosWindow = buildWindow({
-    id: data.id,
-    title: data.title,
-    fixedsize: true,
-  });
-
-  // display using custom arena-image element
-  var newImage = document.createElement("arena-image");
-  newImage._data = data;
-  fosWindow.appendChild(newImage);
-}
-
-function buildText(data) {
-  buildIcon(data.id, "img/textblock.png");
-
-  var fosWindow = buildWindow({
-    id: data.id,
-    title: data.title,
-    fixedsize: true,
-  });
-
-  // display using custom arena-text element
-  var newText = document.createElement("arena-text");
-  newText._data = data;
-  fosWindow.appendChild(newText);
-}
-
-function buildLink(data) {
-  buildIcon(
-    data.id,
-    "img/linkblock.png",
-    data.generated_title
-  );
-
-  var fosWindow = buildWindow({
-    id: data.id,
-    title: data.title,
-    fixedsize: true,
-  });
-
-  // display using custom arena-link element
-  var newLink = document.createElement("arena-link");
-  newLink._data = data;
-  fosWindow.appendChild(newLink);
-}
-
-function buildMedia(data) {
-  buildIcon(
-    data.id,
-    "img/mediablock.png",
-    data.generated_title
-  );
-
-  var fosWindow = buildWindow({
-    id: data.id,
-    title: data.title,
-    fixedsize: true,
-  });
-
-  // display using custom arena-media element
-  var newMedia = document.createElement("arena-media");
-  newMedia._data = data;
-  fosWindow.appendChild(newMedia);
-}
-
-function buildAttachment(data) {
-  buildIcon(
-    data.id,
-    "img/attachmentblock.png",
-    data.generated_title
-  );
-
-  var fosWindow = buildWindow({
-    id: data.id,
-    title: data.title,
-    fixedsize: true,
-  });
-
-  // display using custom arena-image element
-  var newAttachment = document.createElement("arena-attachment");
-  newAttachment._data = data;
-  fosWindow.appendChild(newAttachment);
-}
 
 function buildChannel(data) {
   var pageCount = Math.ceil(data.length / blockCount);
