@@ -1,3 +1,5 @@
+import { buildImage } from "../js/helpers.js";
+
 class Channel extends HTMLElement {
     constructor() {
       super();
@@ -8,7 +10,6 @@ class Channel extends HTMLElement {
     }
   
     loadChannel(url, element) {
-        //only run this when window is opened and data == []
         fetch(url)
         .then((response) => {
             const contentType = response.headers.get("content-type");
@@ -31,16 +32,18 @@ class Channel extends HTMLElement {
                     row.innerHTML += '<span><img src="img/channel-row-image.png" alt="Image"></span>'
                     row.ondblclick = function() {
                       if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined) {
-                        var newFoswindow = document.createElement("fos-window");
-                        newFoswindow.name = "arena-" + this._data.id;
-                        newFoswindow.icon = "img/favicon.gif";
-                        newFoswindow.setAttribute("fixedsize", "");
-                        newFoswindow.setAttribute("fostitle", this._data.title);
-                        var newImage = document.createElement("arena-image");
-                        newImage._data = this._data;
-                        newFoswindow.appendChild(newImage)
-                        document.getElementById("desktop").appendChild(newFoswindow);
-                        newFoswindow.open();
+                        var fosWindow = buildImage(this._data, false);
+                        fosWindow.open();
+                        // var newFoswindow = document.createElement("fos-window");
+                        // newFoswindow.name = "arena-" + this._data.id;
+                        // newFoswindow.icon = "img/favicon.gif";
+                        // newFoswindow.setAttribute("fixedsize", "");
+                        // newFoswindow.setAttribute("fostitle", this._data.title);
+                        // var newImage = document.createElement("arena-image");
+                        // newImage._data = this._data;
+                        // newFoswindow.appendChild(newImage)
+                        // document.getElementById("desktop").appendChild(newFoswindow);
+                        // newFoswindow.open();
                       } else {
                         document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
                       }
