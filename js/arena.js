@@ -23,17 +23,17 @@ function buildDesktop(url) {
         // make sure that the request is for a channel
         for (var i = 0; i < data.contents.length; i++) {
           if (data.contents[i].class == "Image") {
-            buildImage(data, i);
+            buildImage(data.contents[i]);
           } else if (data.contents[i].class == "Channel") {
-            buildChannel(data, i);
+            buildChannel(data.contents[i]);
           } else if (data.contents[i].class == "Text") {
-            buildText(data, i);
+            buildText(data.contents[i]);
           } else if (data.contents[i].class == "Link") {
-            buildLink(data, i);
+            buildLink(data.contents[i]);
           } else if (data.contents[i].class == "Media") {
-            buildMedia(data, i);
+            buildMedia(data.contents[i]);
           } else if (data.contents[i].class == "Attachment") {
-            buildAttachment(data, i);
+            buildAttachment(data.contents[i]);
           }
         }
       } else {
@@ -86,107 +86,107 @@ function buildWindow(obj) {
   return fosWindow;
 }
 
-function buildImage(data, i) {
-  buildIcon(data.contents[i].id, data.contents[i].image.square.url);
+function buildImage(data) {
+  buildIcon(data.id, data.image.square.url);
 
   var fosWindow = buildWindow({
-    id: data.contents[i].id,
-    title: data.contents[i].title,
+    id: data.id,
+    title: data.title,
     fixedsize: true,
   });
 
   // display using custom arena-image element
   var newImage = document.createElement("arena-image");
-  newImage._data = data.contents[i];
+  newImage._data = data;
   fosWindow.appendChild(newImage);
 }
 
-function buildText(data, i) {
-  buildIcon(data.contents[i].id, "img/textblock.png");
+function buildText(data) {
+  buildIcon(data.id, "img/textblock.png");
 
   var fosWindow = buildWindow({
-    id: data.contents[i].id,
-    title: data.contents[i].title,
+    id: data.id,
+    title: data.title,
     fixedsize: true,
   });
 
   // display using custom arena-text element
   var newText = document.createElement("arena-text");
-  newText._data = data.contents[i];
+  newText._data = data;
   fosWindow.appendChild(newText);
 }
 
-function buildLink(data, i) {
+function buildLink(data) {
   buildIcon(
-    data.contents[i].id,
+    data.id,
     "img/linkblock.png",
-    data.contents[i].generated_title
+    data.generated_title
   );
 
   var fosWindow = buildWindow({
-    id: data.contents[i].id,
-    title: data.contents[i].title,
+    id: data.id,
+    title: data.title,
     fixedsize: true,
   });
 
   // display using custom arena-link element
   var newLink = document.createElement("arena-link");
-  newLink._data = data.contents[i];
+  newLink._data = data;
   fosWindow.appendChild(newLink);
 }
 
-function buildMedia(data, i) {
+function buildMedia(data) {
   buildIcon(
-    data.contents[i].id,
+    data.id,
     "img/mediablock.png",
-    data.contents[i].generated_title
+    data.generated_title
   );
 
   var fosWindow = buildWindow({
-    id: data.contents[i].id,
-    title: data.contents[i].title,
+    id: data.id,
+    title: data.title,
     fixedsize: true,
   });
 
   // display using custom arena-media element
   var newMedia = document.createElement("arena-media");
-  newMedia._data = data.contents[i];
+  newMedia._data = data;
   fosWindow.appendChild(newMedia);
 }
 
-function buildAttachment(data, i) {
+function buildAttachment(data) {
   buildIcon(
-    data.contents[i].id,
+    data.id,
     "img/attachmentblock.png",
-    data.contents[i].generated_title
+    data.generated_title
   );
 
   var fosWindow = buildWindow({
-    id: data.contents[i].id,
-    title: data.contents[i].title,
+    id: data.id,
+    title: data.title,
     fixedsize: true,
   });
 
   // display using custom arena-image element
   var newAttachment = document.createElement("arena-attachment");
-  newAttachment._data = data.contents[i];
+  newAttachment._data = data;
   fosWindow.appendChild(newAttachment);
 }
 
-function buildChannel(data, i) {
-  var pageCount = Math.ceil(data.contents[i].length / blockCount);
+function buildChannel(data) {
+  var pageCount = Math.ceil(data.length / blockCount);
 
-  buildIcon(data.contents[i].id, "img/postit32.png", data.contents[i].title);
+  buildIcon(data.id, "img/postit32.png", data.title);
 
   var fosWindow = buildWindow({
-    id: data.contents[i].id,
-    title: `Channel: ${data.contents[i].title}, ${pageCount} pages`,
+    id: data.id,
+    title: `Channel: ${data.title}, ${pageCount} pages`,
     fixedsize: true,
   });
 
   // display using custom arena-channel element
   var newChannel = document.createElement("fos-channel");
-  newChannel._data = data.contents[i];
+  newChannel._data = data;
   fosWindow.appendChild(newChannel);
 }
 
