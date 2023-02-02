@@ -126,25 +126,65 @@ class Channel extends HTMLElement {
       this.shadow.innerHTML = `
           <style>
               :host{
-                  /*display: flex;
-                  flex-flow: row wrap;
-                  align-items: center;
-                  justify-content: center;*/
                   display: block;
                   width: 100%;
                   height: 100%;
-                  color: black;
-                  font-smooth: never;
-                  font-family: 'Pixel Arial 11';
-                  font-size: 8px;
                   border: 1px solid grey;
                   box-sizing: border-box;
+                  /*color: black;
+                  font-smooth: never;
+                  font-family: 'Pixel Arial 11';
+                  font-size: 8px;*/
+              }
+
+              .inset {
+                box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset;
+                margin: 2px;
+                padding: 2px;
+              }
+
+              select {
+                padding: 3px 4px;
+                border: none;
+                box-shadow: inset -1px -1px #ffffff,
+                  inset 1px 1px #808080, inset -2px -2px #DFDFDF,
+                  inset 2px 2px #0A0A0A;
+                background-color: #ffffff;
+                box-sizing: border-box;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                position: relative;
+                padding-right: 32px;
+                background-image: url("img/16x16/button-down.svg");
+                background-position: top 2px right 2px;
+                background-repeat: no-repeat;
+                border-radius: 0;
+                }
+
+              select:focus {
+                outline: none;
               }
 
               #channel-header {
-                font-family: serif;
-                font-size: 20px;
+                display: flex;
               }
+
+              #footer {
+                display: flex;
+                align-items: center;
+                height: 19px;
+              }
+
+              #footer span {flex-grow: 1}
+
+              .button {
+                display: inline-block;
+                box-shadow: inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
+                border: 0px solid black;
+                padding: 2px;
+              }
+
               #channel-contents {
                 margin: 2px;
                 padding: 4px;
@@ -179,17 +219,34 @@ class Channel extends HTMLElement {
       `;
 
       var channelElement = this;
+      var data = this._data;
       var page = 1;
       var channelURL = "https://api.are.na/v2/channels/" + this._data.id;
       var pageCount = Math.ceil(this._data.length / this.blockCount);
       var header = document.createElement("div");
-      var loadButton = document.createElement("button");
+      var viewSelector = document.createElement("select");
+      var buttonArenaLink = document.createElement("div");
+      var loadButton = document.createElement("div");
       var contents = document.createElement("div");
+      var footer = document.createElement("div");
 
-      header.innerHTML = `${this._data.title} <a href="https://are.na/${this._data.owner_slug}/${this._data.slug}"><img src="img/arena-small.png"></a>`
+      // header.innerHTML = `${this._data.title} <a href="https://are.na/${this._data.owner_slug}/${this._data.slug}"><img src="img/arena-small.png"></a>`
       header.id = "channel-header";
       this.shadow.appendChild(header);
       
+      viewSelector.innerHTML = 
+      `<option value="both">Both</option>
+      <option value="channels">Channels</option>
+      <option value="blocks">Blocks</option>`;
+      header.appendChild(viewSelector);
+
+      buttonArenaLink.classList.add("button");
+      buttonArenaLink.innerHTML = '<img src="img/arena-small.png">';
+      buttonArenaLink.onclick = function() {
+        window.open("https://are.na/" + data.owner_slug + "/" + data.slug, '_blank')
+      }
+      header.appendChild(buttonArenaLink);
+
       contents.id = "channel-contents";
       this.shadow.appendChild(contents);
 
@@ -199,8 +256,9 @@ class Channel extends HTMLElement {
         this.firstRun = false;
       }
 
+      loadButton.classList.add("button");
       loadButton.innerText = `Load page ${page}/${pageCount}`;
-      this.shadow.appendChild(loadButton);
+      header.appendChild(loadButton);
     
       loadButton.onclick = function() {
         channelElement.loadChannel(channelURL + "?page=" + page, contents);
@@ -212,6 +270,11 @@ class Channel extends HTMLElement {
           loadButton.onclick = function() {}
         }
       }
+
+      footer.id = "footer";
+      footer.innerHTML = `<span class="inset">${data.length} object(s)</span>
+      <span class="inset">owner: ${data.owner_slug}</span>`
+      this.shadow.appendChild(footer);
     }
   }
   
