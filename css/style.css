@@ -25,6 +25,7 @@ html, body {
 	font-family: 'Pixel Arial 11';
 	font-size: 8px;
 	image-rendering: pixelated;
+	user-select: none;
 }
 
 button {
