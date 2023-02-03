@@ -76,6 +76,7 @@ export function buildText(data, makeIcon) {
     var newText = document.createElement("arena-text");
     newText._data = data;
     fosWindow.appendChild(newText);
+    return fosWindow;
   }
   
   export function buildLink(data, makeIcon) {
@@ -99,6 +100,7 @@ export function buildText(data, makeIcon) {
     var newLink = document.createElement("arena-link");
     newLink._data = data;
     fosWindow.appendChild(newLink);
+    return fosWindow;
   }
   
   export function buildMedia(data, makeIcon) {
@@ -122,6 +124,7 @@ export function buildText(data, makeIcon) {
     var newMedia = document.createElement("arena-media");
     newMedia._data = data;
     fosWindow.appendChild(newMedia);
+    return fosWindow;
   }
   
   export function buildAttachment(data, makeIcon) {
@@ -145,4 +148,31 @@ export function buildText(data, makeIcon) {
     var newAttachment = document.createElement("arena-attachment");
     newAttachment._data = data;
     fosWindow.appendChild(newAttachment);
+    return fosWindow;
+  }
+
+  export function buildChannel(data, makeIcon, blockCount) {
+    var pageCount = Math.ceil(data.length / blockCount);
+
+    if (makeIcon == undefined)
+    makeIcon = false;
+    if (makeIcon) {
+        buildIcon(
+        data.id,
+        "img/postit32.png",
+        data.title
+        );
+    }
+  
+    var fosWindow = buildWindow({
+      id: data.id,
+      title: `Channel: ${data.title}, ${pageCount} pages`,
+      fixedsize: true,
+    });
+  
+    // display using custom arena-channel element
+    var newChannel = document.createElement("fos-channel");
+    newChannel._data = data;
+    fosWindow.appendChild(newChannel);
+    return fosWindow;
   }

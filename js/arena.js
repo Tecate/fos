@@ -1,4 +1,4 @@
-import { buildIcon, buildWindow, buildImage, buildText, buildLink, buildMedia, buildAttachment } from "./helpers.js";
+import { buildIcon, buildWindow, buildImage, buildChannel, buildText, buildLink, buildMedia, buildAttachment } from "./helpers.js";
 
 // var channelURL = "https://api.are.na/v2/channels/783951"; // floats-my-boat
 var channelURL = "https://api.are.na/v2/channels/1691884"; // 1 of each block type
@@ -27,7 +27,7 @@ function buildDesktop(url) {
           if (data.contents[i].class == "Image") {
             buildImage(data.contents[i], true);
           } else if (data.contents[i].class == "Channel") {
-            buildChannel(data.contents[i], true);
+            buildChannel(data.contents[i], true, blockCount);
           } else if (data.contents[i].class == "Text") {
             buildText(data.contents[i], true);
           } else if (data.contents[i].class == "Link") {
@@ -47,23 +47,7 @@ function buildDesktop(url) {
 buildDesktop(combinedURL);
 
 
-function buildChannel(data) {
-  var pageCount = Math.ceil(data.length / blockCount);
 
-  buildIcon(data.id, "img/postit32.png", data.title);
-
-  var fosWindow = buildWindow({
-    id: data.id,
-    title: `Channel: ${data.title}, ${pageCount} pages`,
-    fixedsize: true,
-  });
-
-  // display using custom arena-channel element
-  var newChannel = document.createElement("fos-channel");
-  newChannel._data = data;
-  fosWindow.appendChild(newChannel);
-  fosWindow.open(); // auto open for testing
-}
 
 // create settings window
 buildIcon("settings", "img/coke32.gif", "SETTINGS");
