@@ -56,16 +56,23 @@ class Text extends HTMLElement {
                 width: 100%;
                 height: 100%;
               }
+
+              #content {
+                background: #fff;
+                max-width: 640px;
+                box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset;
+                margin: 2px;
+                padding: 20px;
+              }
           </style>`;
 
 
       var data = this._data;
 
       var text = document.createElement("div")
-      text.textContent = data.content;
+      text.id = "content";
+      text.innerHTML = data.content_html;
       this.shadow.appendChild(text)
-    //   this.shadow.textContent = data.content;
-
     }
   }
   
