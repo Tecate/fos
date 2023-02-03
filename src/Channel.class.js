@@ -38,7 +38,7 @@ class Channel extends HTMLElement {
 
           if (data.contents[i].class == "Image") {
             row.innerHTML +=
-              '<span><img src="img/channel-row-image.png" alt="Image"></span>';
+              '<span><img src="img/16x16/camera.png" alt="Image"></span>';
             row.ondblclick = function () {
               if (
                 document.querySelector(
@@ -55,7 +55,7 @@ class Channel extends HTMLElement {
             };
           } else if (data.contents[i].class == "Channel") {
             row.innerHTML +=
-              '<span><img src="img/arena-small.png" alt="Channel"></span>';
+              '<span><img src="img/16x16/folder.png" alt="Channel"></span>';
             row.ondblclick = function () {
               if (
                 document.querySelector(
@@ -141,9 +141,12 @@ class Channel extends HTMLElement {
           } else {
             row.innerHTML += `<span class="class">${data.contents[i].class}</span>`;
           }
-          row.innerHTML += ` <span class="id">${data.contents[i].id}</span>`;
-          row.innerHTML += ` <span class="title">${data.contents[i].title}</span>`;
-          row.innerHTML += ` <button class="button-save"><img src="img/16x16/briefcase-1.png"></span>`;
+          // row.innerHTML += ` <span class="id">${data.contents[i].id}</span>`;
+          if (data.contents[i].title == "")
+            row.innerHTML += ` <span class="title">Untitled</span>`;
+          else
+            row.innerHTML += ` <span class="title">${data.contents[i].title}</span>`;
+          // row.innerHTML += ` <button class="button-save"><img src="img/16x16/briefcase-1.png"></span>`;
 
           element.appendChild(row);
         }
