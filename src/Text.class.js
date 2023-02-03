@@ -59,7 +59,7 @@ class Text extends HTMLElement {
 
               #content {
                 background: #fff;
-                max-width: 640px;
+                width: 640px;
                 box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset;
                 margin: 2px;
                 padding: 20px;
