@@ -1,4 +1,4 @@
-import { buildImage, buildChannel } from "../js/helpers.js";
+import { buildImage, buildChannel, buildText, buildLink, buildMedia, buildAttachment } from "../js/helpers.js";
 
 class Channel extends HTMLElement {
     constructor() {
@@ -28,10 +28,14 @@ class Channel extends HTMLElement {
                 var row = document.createElement("div");
                 row.classList.add("channel-row")
                 row._data = data.contents[i];
+                var windowExists = true;
+                if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined)
+                  windowExists = false;
+
                 if (data.contents[i].class == "Image"){
                     row.innerHTML += '<span><img src="img/channel-row-image.png" alt="Image"></span>'
                     row.ondblclick = function() {
-                      if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined) {
+                      if (windowExists) {
                         var fosWindow = buildImage(this._data, false);
                         fosWindow.open();
                       } else {
@@ -42,14 +46,54 @@ class Channel extends HTMLElement {
                 else if (data.contents[i].class == "Channel"){
                     row.innerHTML += '<span><img src="img/arena-small.png" alt="Channel"></span>'
                     row.ondblclick = function() {
-                      if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined) {
+                      if (windowExists) {
                         var fosWindow = buildChannel(this._data, false, blockCount);
                         fosWindow.open();
                       } else {
                         document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
                       }
                   }
+                } else if (data.contents[i].class == "Text"){
+                  row.innerHTML += '<span><img src="img/16x16/text.png" alt="Text"></span>'
+                  row.ondblclick = function() {
+                    if (windowExists) {
+                      var fosWindow = buildText(this._data, false);
+                      fosWindow.open();
+                    } else {
+                      document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
+                    }
                 }
+              } else if (data.contents[i].class == "Link"){
+                row.innerHTML += '<span><img src="img/16x16/link.png" alt="Link"></span>'
+                row.ondblclick = function() {
+                  if (windowExists) {
+                    var fosWindow = buildLink(this._data, false);
+                    fosWindow.open();
+                  } else {
+                    document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
+                  }
+              }
+            } else if (data.contents[i].class == "Media"){
+              row.innerHTML += '<span><img src="img/16x16/media2.png" alt="Media"></span>'
+              row.ondblclick = function() {
+                if (windowExists) {
+                  var fosWindow = buildMedia(this._data, false);
+                  fosWindow.open();
+                } else {
+                  document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
+                }
+            }
+          }else if (data.contents[i].class == "Attachment"){
+            row.innerHTML += '<span><img src="img/16x16/attachment.png" alt="Attachment"></span>'
+            row.ondblclick = function() {
+              if (windowExists) {
+                var fosWindow = buildAttachment(this._data, false);
+                fosWindow.open();
+              } else {
+                document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
+              }
+          }
+        }
                 else {
                     row.innerHTML += `<span class="class">${data.contents[i].class}</span>`;
                 }
