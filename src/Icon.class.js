@@ -71,8 +71,7 @@ class Icon extends HTMLElement {
 				position: fixed;
 				top: ${this.top}px;
 				left: ${this.left}px;
-				width: 64px;
-				height: 64px;
+        width: 64px;
 				color: white;
 				font-smooth: never;
 				font-family: 'Pixel Arial 11';
