@@ -1,4 +1,4 @@
-import { buildImage } from "../js/helpers.js";
+import { buildImage, buildChannel } from "../js/helpers.js";
 
 class Channel extends HTMLElement {
     constructor() {
@@ -34,16 +34,6 @@ class Channel extends HTMLElement {
                       if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined) {
                         var fosWindow = buildImage(this._data, false);
                         fosWindow.open();
-                        // var newFoswindow = document.createElement("fos-window");
-                        // newFoswindow.name = "arena-" + this._data.id;
-                        // newFoswindow.icon = "img/favicon.gif";
-                        // newFoswindow.setAttribute("fixedsize", "");
-                        // newFoswindow.setAttribute("fostitle", this._data.title);
-                        // var newImage = document.createElement("arena-image");
-                        // newImage._data = this._data;
-                        // newFoswindow.appendChild(newImage)
-                        // document.getElementById("desktop").appendChild(newFoswindow);
-                        // newFoswindow.open();
                       } else {
                         document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
                       }
@@ -53,20 +43,8 @@ class Channel extends HTMLElement {
                     row.innerHTML += '<span><img src="img/arena-small.png" alt="Channel"></span>'
                     row.ondblclick = function() {
                       if (document.querySelector(`fos-window[name="arena-${this._data.id}"]`) == undefined) {
-
-                      var newFoswindow = document.createElement("fos-window");
-                      newFoswindow.name = "arena-" + this._data.id;
-                      newFoswindow.icon = "img/favicon.gif";
-                      newFoswindow.setAttribute("fixedsize", "");
-                      newFoswindow.setAttribute("fostitle", `Channel: ${this._data.title}, ${Math.ceil(this._data.length / blockCount)} pages`);
-
-                      var newChannel = document.createElement("fos-channel");
-                      newChannel._data = this._data;
-                      // console.log(newChannel._data);
-                      newFoswindow.appendChild(newChannel)
-                    
-                      document.getElementById("desktop").appendChild(newFoswindow);
-                      newFoswindow.open();
+                        var fosWindow = buildChannel(this._data, false, blockCount);
+                        fosWindow.open();
                       } else {
                         document.querySelector(`fos-window[name="arena-${this._data.id}"]`).open();
                       }

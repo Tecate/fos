@@ -5,7 +5,6 @@ var channelURL = "https://api.are.na/v2/channels/1691884"; // 1 of each block ty
 var blockCount = 20;
 var urlParams = "?per=" + blockCount;
 var combinedURL = channelURL + urlParams;
-var channelLength;
 
 function buildDesktop(url) {
   fetch(url)
