@@ -4,7 +4,8 @@ import { buildIcon, buildWindow, buildImage, buildChannel, buildText, buildLink,
 var channelURL = "https://api.are.na/v2/channels/1691884"; // 1 of each block type
 var blockCount = 20;
 var urlParams = "?per=" + blockCount;
-var combinedURL = channelURL + urlParams;
+var urlSort = "&sort=position&direction=desc"
+var combinedURL = channelURL + urlParams + urlSort;
 
 function buildDesktop(url) {
   fetch(url)

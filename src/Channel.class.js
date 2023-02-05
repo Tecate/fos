@@ -29,6 +29,7 @@ class Channel extends HTMLElement {
         return response.json();
       })
       .then((data) => {
+        element.innerHTML = ""; // clear previous page
         this._data = data;
         var blockCount = this.blockCount;
         for (var i = 0; i < data.contents.length; i++) {
@@ -259,11 +260,14 @@ class Channel extends HTMLElement {
               #channel-contents {
                 margin: 2px;
                 padding: 4px;
-                max-height: 400px;
-                max-width: 350px;
+                width: 350px;
                 overflow-y: scroll;
-                word-wrap: break-word;
                 box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset, rgb(223, 223, 223) -2px -2px 0px 0px inset, rgb(10, 10, 10) 2px 2px 0px 0px inset;
+              }
+
+              .channel-row .title {
+                overflow-wrap: break-word;
+                word-break: break-all;
               }
 
               .channel-row {
@@ -285,6 +289,17 @@ class Channel extends HTMLElement {
                 border: 0px solid black;
                 background: none;
               }
+
+              #loading {
+                width: 80px;
+                height: 50px;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                bottom: 0px;
+                left: 0px;
+                margin: auto;
+              }
           </style>
           <slot></slot>
       `;
@@ -296,10 +311,12 @@ class Channel extends HTMLElement {
     var pageCount = Math.ceil(this._data.length / this.blockCount);
     var header = document.createElement("div");
     var viewSelector = document.createElement("select");
+    var sortSelector = document.createElement("select");
     var buttonArenaLink = document.createElement("div");
-    var loadButton = document.createElement("div");
+    var pageView = document.createElement("div");
     var contents = document.createElement("div");
     var footer = document.createElement("div");
+
 
     // header.innerHTML = `${this._data.title} <a href="https://are.na/${this._data.owner_slug}/${this._data.slug}"><img src="img/arena-small.png"></a>`
     header.id = "channel-header";
@@ -310,44 +327,68 @@ class Channel extends HTMLElement {
       <option value="blocks">Blocks</option>`;
     header.appendChild(viewSelector);
 
-    buttonArenaLink.classList.add("button");
-    buttonArenaLink.innerHTML = '<img src="img/arena-small.png">';
-    buttonArenaLink.onclick = function () {
-      window.open(
-        "https://are.na/" + data.owner_slug + "/" + data.slug,
-        "_blank"
-      );
-    };
-    header.appendChild(buttonArenaLink);
+
+    sortSelector.innerHTML = `<option value="desc">descending</option>
+      <option value="asc">ascending</option>`;
+    header.appendChild(sortSelector);
 
     contents.id = "channel-contents";
     this.shadow.appendChild(contents);
 
     if (this.firstRun) {
-      this.loadChannel(channelURL + "?page=" + page, contents);
-      page += 1;
+      this.loadChannel(channelURL + "?page=" + page + "&sort=position&direction=desc", contents);
+      pageView.innerText = `${page}/${pageCount}`;
+      // page += 1;
       this.firstRun = false;
     }
 
-    loadButton.classList.add("button");
-    loadButton.innerText = `Load page ${page}/${pageCount}`;
-    header.appendChild(loadButton);
+    var prevButton = document.createElement("img");
+    prevButton.src = "img/16x16/button-left.svg";
+    header.appendChild(prevButton);
 
-    loadButton.onclick = function () {
-      channelElement.loadChannel(channelURL + "?page=" + page, contents);
-      if (page < pageCount) {
+    // pageView.classList.add("button");
+    header.appendChild(pageView);
+
+    var nextButton = document.createElement("img");
+    nextButton.src = "img/16x16/button-right.svg";
+    header.appendChild(nextButton);
+
+    nextButton.onclick = function () {
+      if (page+1 <= pageCount) {
         page += 1;
-        loadButton.innerText = `Load page ${page}/${pageCount}`;
-      } else {
-        loadButton.innerText = "nothing more to load";
-        loadButton.onclick = function () {};
+        pageView.innerText = `${page}/${pageCount}`;
+        channelElement.loadChannel(channelURL + "?page=" + page + "&sort=position&direction=desc", contents);
       }
     };
 
+    prevButton.onclick = function () {
+      if (page-1 >= 1) {
+        page -= 1;
+        pageView.innerText = `${page}/${pageCount}`;
+        channelElement.loadChannel(channelURL + "?page=" + page + "&sort=position&direction=desc", contents);
+      }
+    };
+
+    // buttonArenaLink.classList.add("button");
+    // buttonArenaLink.innerHTML = '<img src="img/arena-small.png">';
+    // buttonArenaLink.onclick = function () {
+    //   window.open(
+    //     "https://are.na/" + data.owner_slug + "/" + data.slug,
+    //     "_blank"
+    //   );
+    // };
+    // footer.appendChild(buttonArenaLink);
+
     footer.id = "footer";
-    footer.innerHTML = `<span class="inset">${data.length} object(s)</span>
+    footer.innerHTML += `<span class="inset">${data.length} object(s)</span>
       <span class="inset">owner: ${data.owner_slug}</span>`;
     this.shadow.appendChild(footer);
+
+    // var loading = document.createElement("div");
+    // loading.id = "loading";
+    // loading.classList.add("button");
+    // loading.innerHTML = "Loading...";
+    // this.shadow.appendChild(loading);
   }
 }
 
