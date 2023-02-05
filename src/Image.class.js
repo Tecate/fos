@@ -59,6 +59,7 @@ class Image extends HTMLElement {
 
               img {
                 object-fit: scale-down;
+                display: none;
               }
 
               #status-bar {
@@ -111,6 +112,7 @@ class Image extends HTMLElement {
       var parentWindow = this.parentElement;
       image.onload = function() {
         loading.remove();
+        image.style.display = "block";
         parentWindow.bringInbounds(); 
       }
 
