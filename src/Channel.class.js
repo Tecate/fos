@@ -17,7 +17,6 @@ class Channel extends HTMLElement {
   }
 
   loadChannel(url, element) {
-    // element.innerHTML = ""; // clear previous page
     element.querySelectorAll('.channel-row').forEach(function(row) {
       row.style.visibility = "hidden";
     });

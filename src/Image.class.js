@@ -82,6 +82,14 @@ class Image extends HTMLElement {
               .button {
                 box-shadow: inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
               }
+
+              #loading {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 440px;
+                height: 440px;
+              }
           </style>`;
 
 
@@ -91,12 +99,18 @@ class Image extends HTMLElement {
       statusBar.id = "status-bar";
       this.shadow.appendChild(statusBar)
 
+      var loading = document.createElement("div");
+      loading.id = "loading";
+      loading.innerHTML = "Loading...";
+      this.shadow.appendChild(loading);
+
       var image = document.createElement("img");
       image.src = this._data.image.square.url;
       this.shadow.appendChild(image);
       
       var parentWindow = this.parentElement;
       image.onload = function() {
+        loading.remove();
         parentWindow.bringInbounds(); 
       }
 
