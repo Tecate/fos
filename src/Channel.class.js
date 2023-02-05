@@ -17,6 +17,15 @@ class Channel extends HTMLElement {
   }
 
   loadChannel(url, element) {
+    // element.innerHTML = ""; // clear previous page
+    element.querySelectorAll('.channel-row').forEach(function(row) {
+      row.style.visibility = "hidden";
+    });
+    var loading = document.createElement("div");
+    loading.id = "loading";
+    loading.innerHTML = "Loading...";
+    element.appendChild(loading);
+    
     fetch(url)
       .then((response) => {
         const contentType = response.headers.get("content-type");
@@ -29,7 +38,7 @@ class Channel extends HTMLElement {
         return response.json();
       })
       .then((data) => {
-        element.innerHTML = ""; // clear previous page
+        element.innerHTML = ""; // clear loading element
         this._data = data;
         var blockCount = this.blockCount;
         for (var i = 0; i < data.contents.length; i++) {
@@ -147,7 +156,7 @@ class Channel extends HTMLElement {
             row.innerHTML += ` <span class="title">Untitled</span>`;
           else
             row.innerHTML += ` <span class="title">${data.contents[i].title}</span>`;
-          // row.innerHTML += ` <button class="button-save"><img src="img/16x16/briefcase-1.png"></span>`;
+          row.innerHTML += ` <button class="button-save"><img src="img/16x16/briefcase-1.png"></span>`;
 
           element.appendChild(row);
         }
@@ -261,6 +270,7 @@ class Channel extends HTMLElement {
                 margin: 2px;
                 padding: 4px;
                 width: 350px;
+                min-height: 200px;
                 overflow-y: scroll;
                 box-shadow: rgb(255, 255, 255) -1px -1px 0px 0px inset, rgb(128, 128, 128) 1px 1px 0px 0px inset, rgb(223, 223, 223) -2px -2px 0px 0px inset, rgb(10, 10, 10) 2px 2px 0px 0px inset;
               }
@@ -291,15 +301,14 @@ class Channel extends HTMLElement {
               }
 
               #loading {
-                width: 80px;
-                height: 50px;
                 position: absolute;
                 top: 0px;
+                left: 0px;
                 right: 0px;
                 bottom: 0px;
-                left: 0px;
                 margin: auto;
-              }
+                width: 80px;
+                height: 50px;
           </style>
           <slot></slot>
       `;
@@ -322,14 +331,14 @@ class Channel extends HTMLElement {
     header.id = "channel-header";
     this.shadow.appendChild(header);
 
-    viewSelector.innerHTML = `<option value="both">Both</option>
-      <option value="channels">Channels</option>
-      <option value="blocks">Blocks</option>`;
-    header.appendChild(viewSelector);
+    // viewSelector.innerHTML = `<option value="both">Both</option>
+    //   <option value="channels">Channels</option>
+    //   <option value="blocks">Blocks</option>`;
+    // header.appendChild(viewSelector);
 
 
     sortSelector.innerHTML = `<option value="desc">descending</option>
-      <option value="asc">ascending</option>`;
+      <option value="position">position</option>`;
     header.appendChild(sortSelector);
 
     contents.id = "channel-contents";
@@ -383,12 +392,6 @@ class Channel extends HTMLElement {
     footer.innerHTML += `<span class="inset">${data.length} object(s)</span>
       <span class="inset">owner: ${data.owner_slug}</span>`;
     this.shadow.appendChild(footer);
-
-    // var loading = document.createElement("div");
-    // loading.id = "loading";
-    // loading.classList.add("button");
-    // loading.innerHTML = "Loading...";
-    // this.shadow.appendChild(loading);
   }
 }
 
