@@ -5,7 +5,8 @@ export function buildIcon(id, image, title) {
   iconImage.src = image;
   icon.appendChild(iconImage);
   if (title == undefined) title = id;
-  var iconTitle = document.createTextNode(title);
+  var iconTitle = document.createElement("span");
+  iconTitle.innerHTML = title;
   icon.appendChild(iconTitle);
   document.getElementById("desktop").appendChild(icon);
 }
