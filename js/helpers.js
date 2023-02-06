@@ -94,7 +94,7 @@ export function buildText(data, makeIcon) {
     var fosWindow = buildWindow({
       id: data.id,
       title: data.title,
-      fixedsize: true,
+      fixedsize: false,
     });
   
     // display using custom arena-link element
