@@ -64,21 +64,26 @@ class Link extends HTMLElement {
       var data = this._data;
       var windowParent = this;
 
-      // disabling this for now because it shits up the console
     //   console.log(data.source.url)
-    //   var frame = document.createElement("iframe");
-    //   frame.src = data.source.url;
-    //   this.shadow.appendChild(frame);
+      var frame = document.createElement("iframe");
+      frame.src = data.source.url;
+      this.shadow.appendChild(frame);
 
-    //   // detect click on iframe to raise window
-    //   window.addEventListener("blur", () => {
-    //     setTimeout(() => {
-    //       if (document.activeElement.tagName === "IFRAME") {
-    //         windowParent.bringFront();
-    //         console.log("clicked");
-    //       }
-    //     });
-    //   });
+      if(frame){
+        var iframeWindow = frame.contentWindow;
+        iframeWindow.addEventListener('focus', handleIframeFocused);
+        iframeWindow.addEventListener('blur', handleIframeBlurred);
+      }
+      
+      function handleIframeFocused(){
+        console.log('iframe focused');
+        // Additional logic that you need to implement here when focused
+      }
+      
+      function handleIframeBlurred(){
+        console.log('iframe blurred');
+        // Additional logic that you need to implement here when blurred
+      }
 
     }
   }

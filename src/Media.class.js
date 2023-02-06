@@ -63,7 +63,7 @@ class Media extends HTMLElement {
 
       var data = this._data;
       //disabling this for now because it shits up the console
-    //   this.shadow.innerHTML += data.embed.html;
+      this.shadow.innerHTML += data.embed.html;
 
 
     }
