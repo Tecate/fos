@@ -1,11 +1,13 @@
 import { buildIcon, buildWindow, buildImage, buildChannel, buildText, buildLink, buildMedia, buildAttachment } from "./helpers.js";
 
 // var channelURL = "https://api.are.na/v2/channels/783951"; // floats-my-boat
-var channelURL = "https://api.are.na/v2/channels/1691884"; // 1 of each block type
+// var channelURL = "https://api.are.na/v2/channels/1691884"; // 1 of each block type
+var channelURL = "https://api.are.na/v2/channels/1996143"; // arena.scum.systems - home
 var blockCount = 20;
 var urlParams = "?per=" + blockCount;
 var urlSort = "&sort=position&direction=desc"
-var combinedURL = channelURL + urlParams + urlSort;
+// var combinedURL = channelURL + urlParams + urlSort;
+var combinedURL = channelURL + urlParams;
 
 function buildDesktop(url) {
   fetch(url)
@@ -46,10 +48,20 @@ function buildDesktop(url) {
 
 buildDesktop(combinedURL);
 
-
+// close top window with w key
+document.addEventListener("keydown", function (e) {
+  if (e.key === "w") {
+    document
+      .querySelector(
+        `fos-window[name=${document.getElementById("desktop").windowStack[0]}] `
+      )
+      .close();
+  }
+});
 
 
 // create settings window
+/*
 buildIcon("settings", "img/coke32.gif", "SETTINGS");
 var fosWindow = buildWindow({
   id: "settings",
@@ -104,14 +116,4 @@ openAll.addEventListener("click", (e) => {
     if (w.name !== "settings") w.open();
   }
 });
-
-// close top window with w key
-document.addEventListener("keydown", function (e) {
-  if (e.key === "w") {
-    document
-      .querySelector(
-        `fos-window[name=${document.getElementById("desktop").windowStack[0]}] `
-      )
-      .close();
-  }
-});
+*/
