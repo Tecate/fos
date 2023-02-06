@@ -6,8 +6,8 @@ var channelURL = "https://api.are.na/v2/channels/1996143"; // arena.scum.systems
 var blockCount = 20;
 var urlParams = "?per=" + blockCount;
 var urlSort = "&sort=position&direction=desc"
-// var combinedURL = channelURL + urlParams + urlSort;
-var combinedURL = channelURL + urlParams;
+var combinedURL = channelURL + urlParams + urlSort;
+// var combinedURL = channelURL + urlParams;
 
 function buildDesktop(url) {
   fetch(url)

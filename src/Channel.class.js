@@ -313,6 +313,9 @@ class Channel extends HTMLElement {
               #page-view {
                 line-height: 25px;
                 padding: 0px 5px;
+                width: 30px;
+                text-align: center;
+                background: #fff;
               }
           </style>
           <slot></slot>
@@ -329,6 +332,7 @@ class Channel extends HTMLElement {
     var buttonArenaLink = document.createElement("div");
     var pageView = document.createElement("div");
     pageView.id = "page-view";
+    pageView.classList.add("inset");
     var contents = document.createElement("div");
     var footer = document.createElement("div");
 
