@@ -104,7 +104,17 @@ class Window extends HTMLElement {
 
   close() {
     this.isOpen = false;
-    this.style.visibility = "hidden";
+
+    // we have to remove windows that use iframes
+    // only remove window if it does not have a desktop icon
+    // removing windows causes them to spawn in a new location when opened again
+    // todo: save position
+    if (document.querySelector(`fos-icon[href=${this.name}] `) !== null) {
+      this.style.visibility = "hidden";
+    } else {
+      this.remove();
+    }
+
     var bar = document.querySelector(`fos-taskbarwindow[href=${this.name}] `);
     if (bar !== null)
       bar.remove();
