@@ -308,6 +308,12 @@ class Channel extends HTMLElement {
                 margin: auto;
                 width: 80px;
                 height: 50px;
+              }
+
+              #page-view {
+                line-height: 25px;
+                padding: 0px 5px;
+              }
           </style>
           <slot></slot>
       `;
@@ -322,6 +328,7 @@ class Channel extends HTMLElement {
     var sortSelector = document.createElement("select");
     var buttonArenaLink = document.createElement("div");
     var pageView = document.createElement("div");
+    pageView.id = "page-view";
     var contents = document.createElement("div");
     var footer = document.createElement("div");
 
@@ -336,9 +343,9 @@ class Channel extends HTMLElement {
     // header.appendChild(viewSelector);
 
 
-    sortSelector.innerHTML = `<option value="desc">descending</option>
-      <option value="position">position</option>`;
-    header.appendChild(sortSelector);
+    // sortSelector.innerHTML = `<option value="desc">descending</option>
+    //   <option value="position">position</option>`;
+    // header.appendChild(sortSelector);
 
     contents.id = "channel-contents";
     this.shadow.appendChild(contents);
